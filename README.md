@@ -5,7 +5,7 @@ A command line tool for managing the [Reaction Commerce](https://reactioncommerc
 ## Install
 
 ```sh
-npm install -g @reactioncommerce:reaction-cli
+npm install -g reaction-cli
 ```
 
 ## Usage
