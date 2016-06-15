@@ -1,6 +1,6 @@
 {
   "name": "reaction-cli",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A command line tool for working with the Reaction Commerce e-commerce platform.",
   "main": "./dist/main.js",
   "scripts": {
@@ -17,7 +17,9 @@
     "url": "git+https://github.com/reactioncommerce/reaction-cli.git"
   },
   "keywords": [
-    "reaction"
+    "reaction",
+    "reactioncommerce",
+    "reaction commerce"
   ],
   "author": "Reaction Commerce",
   "license": "MIT",
