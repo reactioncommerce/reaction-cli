@@ -22,7 +22,7 @@ export default function () {
   const f = JSON.parse(packageFile);
 
   if (f.name !== 'reaction') {
-    Log.error('Not in the base of a Reaction app. Exiting...');
+    Log.error('Not in a Reaction app. Exiting...');
     process.exit(1);
   }
 }
