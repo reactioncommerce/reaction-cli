@@ -3,7 +3,7 @@
 import program from 'commander';
 import updateNotifier from 'update-notifier';
 import { init, add, pull, reset, update } from './commands';
-import { Log } from './utils';
+import { checkApp, Log } from './utils';
 
 // Notify about updates
 const pkg = require('../package.json');
@@ -22,6 +22,7 @@ program
   .command('pull')
   .description('Pull Reaction updates from Github and install NPM packages')
   .action(() => {
+    checkApp();
     pull();
   });
 
@@ -29,6 +30,7 @@ program
   .command('update')
   .description('Update Atmosphere and NPM packages')
   .action(() => {
+    checkApp();
     update();
   });
 
@@ -36,6 +38,7 @@ program
   .command('reset')
   .description('Reset the database and (optionally) delete build files')
   .action(() => {
+    checkApp();
     reset();
   });
 
