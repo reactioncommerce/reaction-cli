@@ -3,7 +3,7 @@
 import program from 'commander';
 import updateNotifier from 'update-notifier';
 import { init, add, pull, reset, update } from './commands';
-import { checkApp, Log } from './utils';
+import { checkApp, checkMeteor, Log } from './utils';
 
 // Notify about updates
 const pkg = require('../package.json');
@@ -15,6 +15,7 @@ program
   .command('init')
   .description('Create a new Reaction app (will create a new folder)')
   .action(() => {
+    checkMeteor();
     init();
   });
 
@@ -23,6 +24,7 @@ program
   .description('Pull Reaction updates from Github and install NPM packages')
   .action(() => {
     checkApp();
+    checkMeteor();
     pull();
   });
 
@@ -31,6 +33,7 @@ program
   .description('Update Atmosphere and NPM packages')
   .action(() => {
     checkApp();
+    checkMeteor();
     update();
   });
 
@@ -39,6 +42,7 @@ program
   .description('Reset the database and (optionally) delete build files')
   .action(() => {
     checkApp();
+    checkMeteor();
     reset();
   });
 
