@@ -7,7 +7,8 @@
     "build": "rm -rf ./dist && babel src --out-dir ./dist",
     "lint": "eslint ./src",
     "lintfix": "eslint ./src --fix",
-    "prepublish": ". ./scripts/prepublish.sh"
+    "prepublish": ". ./scripts/prepublish.sh",
+    "watch": "watch 'npm build && npm unlink && npm link' src"
   },
   "bin": {
     "reaction": "./dist/main.js"
