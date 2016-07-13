@@ -43,7 +43,7 @@ const args = yargs.usage('$0 <command> [options]')
   .alias('h', 'help')
   .argv;
 
-// Default to 'reaction run' if no options are specified
+// Default to 'reaction run' if no subcommand is specified
 if (!args._.length && !args.h && !args.help) {
   checkApp();
   checkMeteor();
