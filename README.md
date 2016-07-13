@@ -15,18 +15,16 @@ This tool is under heavy development. More usage docs coming soon.
 ```sh
 $ reaction --help
 
-  Usage: reaction <command>
-
+  reaction <command> [options]
 
   Commands:
-
-    init     Create a new Reaction app (will create a new folder)
-    pull     Pull Reaction updates from Github and install NPM packages
-    update   Update Atmosphere and NPM packages
-    reset    Reset the database and (optionally) delete build files
+    init    Create a new Reaction app (will create a new folder)
+    run     Start Reaction in development mode
+    pull    Pull Reaction updates from Github and install NPM packages
+    update  Update Atmosphere and NPM packages
+    reset   Reset the database and (optionally) delete build files
 
   Options:
-
-    -h, --help     output usage information
-    -V, --version  output the version number
+    -v, --version  Show version number            
+    -h, --help     Show help
 ```
