@@ -1,9 +1,9 @@
 import { echo, exec } from 'shelljs';
 import { Log, info } from '../utils';
 
-export function init() {
+export function init(options) {
   const repoUrl = 'https://github.com/reactioncommerce/reaction';
-  const dirName = 'reaction';
+  const dirName = options.argv._[1] || 'reaction';
 
   Log.info('Cloning Reaction from Github...\n');
 
