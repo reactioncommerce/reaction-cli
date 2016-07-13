@@ -1,54 +1,48 @@
 #!/usr/bin/env node
 
-import program from 'commander';
+import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
-import { init, add, pull, reset, update } from './commands';
+import { init, add, pull, reset, run, update } from './commands';
 import { checkApp, checkMeteor, Log } from './utils';
 
 // Notify about updates
 const pkg = require('../package.json');
 updateNotifier({ pkg }).notify();
 
-program
-  .version(pkg.version)
-  .usage('<command>')
-  .command('init')
-  .description('Create a new Reaction app (will create a new folder)')
-  .action(() => {
-    checkMeteor();
-    init();
-  });
+const args = yargs.usage('$0 <command> [options]')
+  .version(() => pkg.version)
+  .alias('v', 'version')
+  .describe('v', 'Show the current version of Reaction CLI')
 
-program
-  .command('pull')
-  .description('Pull Reaction updates from Github and install NPM packages')
-  .action(() => {
+  .command('init', 'Create a new Reaction app (will create a new folder)', (options) => {
+    checkMeteor();
+    init(options);
+  })
+  .command('run', 'Start Reaction in development mode', (options) => {
+    checkApp();
+    checkMeteor();
+    run(options);
+  })
+  .command('pull', 'Pull Reaction updates from Github and install NPM packages', () => {
     checkApp();
     checkMeteor();
     pull();
-  });
-
-program
-  .command('update')
-  .description('Update Atmosphere and NPM packages')
-  .action(() => {
+  })
+  .command('update', 'Update Atmosphere and NPM packages', () => {
     checkApp();
     checkMeteor();
     update();
-  });
-
-program
-  .command('reset')
-  .description('Reset the database and (optionally) delete build files')
-  .action(() => {
+  })
+  .command('reset', 'Reset the database and (optionally) delete build files', () => {
     checkApp();
     checkMeteor();
     reset();
-  });
+  })
 
+  .help('h')
+  .alias('h', 'help')
+  .argv;
 
-program.parse(process.argv);
-
-if(!program.args.length) {
-  program.help();
+if (!args._.length && !args.h && !args.help) {
+  yargs.showHelp();
 }
