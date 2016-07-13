@@ -11,7 +11,8 @@
     "watch": "watch 'npm build && npm unlink && npm link' src"
   },
   "bin": {
-    "reaction": "./dist/main.js"
+    "reaction": "./dist/main.js",
+    "rc": "./dist/main.js"
   },
   "repository": {
     "type": "git",
