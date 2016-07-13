@@ -3,17 +3,17 @@ import { exec } from 'shelljs';
 import { Log, exists } from '../utils';
 
 export function run(options) {
-  const commands = options._;
-  const args = _.omit(options.argv, '_');
-
-  const devSettings = 'settings/dev.settings.json';
-  const prodSettings = 'settings/settings.json';
+  const commands = options.argv._;
+  const args = _.omit(options.argv, ['_', '$0']);
 
   let cmd = 'meteor';
 
-  if (_.includes(commands, 'debug')) {
+  if (!!commands.length && commands[0] === 'debug') {
     cmd += ' debug';
   }
+
+  const devSettings = 'settings/dev.settings.json';
+  const prodSettings = 'settings/settings.json';
 
   if (args.settings) {
     Log.info(`Using settings file at ${args.settings}\n`);

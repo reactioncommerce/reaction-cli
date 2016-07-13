@@ -23,6 +23,11 @@ const args = yargs.usage('$0 <command> [options]')
     checkMeteor();
     run(options);
   })
+  .command('debug', 'Start Reaction in debug mode', (options) => {
+    checkApp();
+    checkMeteor();
+    run(options);
+  })
   .command('pull', 'Pull Reaction updates from Github and install NPM packages', () => {
     checkApp();
     checkMeteor();
