@@ -16,11 +16,9 @@ export function test(options) {
     cmd += ' --once --full-app --headless --driver-package dispatch:mocha';
     Log.info('Running default test command:');
   } else {
-    _.forEach(_.omit(args, ['$0']), (val, key) => {
-      if (val) {
-        const dash = key.length > 1 ? '--' : '-';
-        cmd += ` ${dash + key} ${val}`;
-      }
+    _.forEach(testArgs, (val, key) => {
+      const dash = key.length > 1 ? '--' : '-';
+      cmd += ` ${dash + key} ${val}`;
     });
     Log.info('Running custom test command:');
   }
