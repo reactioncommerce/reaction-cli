@@ -11,16 +11,16 @@ export function test(options) {
   const testArgs = _.pickBy(_.omit(args, '$0'), (val) => val !== false);
   const hasArgs = Object.keys(testArgs).length > 0;
 
-  if (!hasArgs) {
-    cmd = 'SERVER_TEST_REPORTER="dot" ' + cmd;
-    cmd += ' --once --full-app --headless --driver-package dispatch:mocha';
-    Log.info('Running default test command:');
-  } else {
+  if (hasArgs) {
     _.forEach(testArgs, (val, key) => {
       const dash = key.length > 1 ? '--' : '-';
       cmd += ` ${dash + key} ${val}`;
     });
     Log.info('Running custom test command:');
+  } else {
+    cmd = 'SERVER_TEST_REPORTER="dot" ' + cmd;
+    cmd += ' --once --full-app --headless --driver-package dispatch:mocha';
+    Log.info('Running default test command:');
   }
 
   Log.info(chalk.green(' ' + cmd + '\n'));
