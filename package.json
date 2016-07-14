@@ -1,6 +1,6 @@
 {
   "name": "reaction-cli",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "A command line tool for working with the Reaction Commerce e-commerce platform.",
   "main": "./dist/main.js",
   "scripts": {
@@ -10,8 +10,8 @@
     "prepublish": ". ./scripts/prepublish.sh",
     "watch": "watch 'npm build && npm unlink && npm link' src"
   },
-  "engines" : {
-    "node" : ">=0.12.0"
+  "engines": {
+    "node": ">=0.12.0"
   },
   "bin": {
     "reaction": "./dist/main.js",

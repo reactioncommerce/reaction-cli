@@ -43,6 +43,11 @@ const args = yargs.usage('$0 <command> [options]')
     checkMeteor();
     update();
   })
+  .command('up', 'Update Atmosphere and NPM packages', () => {
+    checkApp();
+    checkMeteor();
+    update();
+  })
   .command('reset', 'Reset the database and (optionally) delete build files', () => {
     checkApp();
     checkMeteor();
