@@ -8,6 +8,7 @@ export function init(options) {
   Log.info('Cloning Reaction from Github...\n');
 
   exec(`git clone ${repoUrl} ${dirName}`);
+  exec(`cd ${dirName} && meteor npm install`);
 
   Log.success('Reaction successfully installed!');
 
@@ -15,6 +16,6 @@ export function init(options) {
 
   echo('');
   echo(info.bold(` cd ${dirName}`));
-  echo(info.bold(' meteor'));
+  echo(info.bold(' reaction'));
   echo('');
 }
