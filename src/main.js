@@ -14,10 +14,14 @@ const args = yargs.usage('$0 <command> [options]')
   .alias('v', 'version')
   .describe('v', 'Show the current version of Reaction CLI')
 
-  .command('init', 'Create a new Reaction app (will create a new folder)', (options) => {
+  .command('init', 'Create a new Reaction app (will create a new folder)', () => {
     checkMeteor();
-    init(options);
-  })
+    return yargs.option('b', {
+      alias: 'branch',
+      describe: 'The branch to clone from Github [default: master]',
+      default: 'master'
+    });
+  }, (argv) => init(argv))
   .command('run', 'Start Reaction in development mode', (options) => {
     checkApp();
     checkMeteor();
