@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import { exec } from 'shelljs';
 import { Log } from '../utils';
 
-export function test(options) {
+export function unittest(options) {
   const args = _.omit(options.argv, ['_', '$0']);
 
   let cmd = 'meteor test';
@@ -19,11 +19,12 @@ export function test(options) {
     Log.info('Running custom test command:');
   } else {
     cmd = 'SERVER_TEST_REPORTER="dot" ' + cmd;
-    cmd += ' --once --full-app --headless --driver-package dispatch:mocha';
-    Log.info('Running full-app test command:');
+    cmd += ' --once --headless --driver-package dispatch:mocha';
+    Log.info('Running unit tests command:');
   }
 
   Log.info(chalk.green(' ' + cmd + '\n'));
 
   exec(cmd);
 }
+

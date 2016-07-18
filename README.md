@@ -18,11 +18,13 @@ $ reaction --help
   reaction <command> [options]
 
   Commands:
-    init    Create a new Reaction app (will create a new folder)
-    run     Start Reaction in development mode
-    pull    Pull Reaction updates from Github and install NPM packages
-    update  Update Atmosphere and NPM packages
-    reset   Reset the database and (optionally) delete build files
+    init      Create a new Reaction app (will create a new folder)
+    run       Start Reaction in development mode
+    pull      Pull Reaction updates from Github and install NPM packages
+    update    Update Atmosphere and NPM packages
+    reset     Reset the database and (optionally) delete build files
+    test      Run integration tests
+    unittest  Run unit tests
 
   Options:
     -v, --version  Show version number            
