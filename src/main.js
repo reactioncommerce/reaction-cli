@@ -2,8 +2,8 @@
 
 import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
-import { init, add, pull, reset, run, test, update } from './commands';
-import { checkApp, checkMeteor, Log } from './utils';
+import { init, add, pull, reset, run, test, unittest, update } from './commands';
+import { checkApp, checkMeteor } from './utils';
 
 // Notify about updates
 const pkg = require('../package.json');
@@ -32,10 +32,15 @@ const args = yargs.usage('$0 <command> [options]')
     checkMeteor();
     run(options);
   })
-  .command('test', 'Run all app tests', (options) => {
+  .command('test', 'Run all integration tests', (options) => {
     checkApp();
     checkMeteor();
     test(options);
+  })
+  .command('unittest', 'Run all unit tests', (options) => {
+    checkApp();
+    checkMeteor();
+    unittest(options);
   })
   .command('pull', 'Pull Reaction updates from Github and install NPM packages', () => {
     checkApp();
