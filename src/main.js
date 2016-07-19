@@ -39,7 +39,7 @@ const args = yargs.usage('$0 <command> [options]')
     checkMeteor();
     run(options);
   })
-  .command('test', 'Run all app tests', (options) => {
+  .command('test', 'Run integration or unit tests', (options) => {
     checkApp();
     checkMeteor();
     test(options);

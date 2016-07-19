@@ -8,6 +8,7 @@ export function test(options) {
 
   let cmd = 'meteor test';
 
+  const subCommands = options.argv._;
   const testArgs = _.pickBy(_.omit(args, '$0'), (val) => val !== false);
   const hasArgs = Object.keys(testArgs).length > 0;
 
@@ -19,8 +20,13 @@ export function test(options) {
     Log.info('Running custom test command:');
   } else {
     cmd = 'SERVER_TEST_REPORTER="dot" ' + cmd;
-    cmd += ' --once --full-app --headless --driver-package dispatch:mocha';
-    Log.info('Running default test command:');
+    if (subCommands[1] === 'unit') {
+      cmd += ' --once --headless --driver-package dispatch:mocha';
+      Log.info('Running unit tests command:');
+    } else {
+      cmd += ' --once --full-app --headless --driver-package dispatch:mocha';
+      Log.info('Running full-app test command:');
+    }
   }
 
   Log.info(chalk.green(' ' + cmd + '\n'));
