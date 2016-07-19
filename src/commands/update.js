@@ -2,7 +2,7 @@ import { exec } from 'shelljs';
 import { Log } from '../utils';
 
 export function update() {
-  Log.info('Updating Atmosphere packages...');
+  Log.info('Updating Meteor and Atmosphere packages...');
   exec('meteor update');
 
   Log.info('Updating Node modules...');
