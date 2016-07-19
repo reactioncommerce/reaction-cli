@@ -1,6 +1,6 @@
 {
   "name": "reaction-cli",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "A command line tool for working with the Reaction Commerce e-commerce platform.",
   "main": "./dist/main.js",
   "scripts": {
@@ -49,6 +49,6 @@
     "lodash": "^4.13.1",
     "shelljs": "^0.7.0",
     "update-notifier": "^1.0.2",
-    "yargs": "^4.8.0"
+    "yargs": "^4.8.1"
   }
 }
