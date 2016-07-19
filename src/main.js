@@ -3,14 +3,21 @@
 import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
 import { init, add, pull, reset, run, test, update } from './commands';
-import { checkApp, checkMeteor, Log } from './utils';
+import { checkApp, checkMeteor, checkVersion, Log } from './utils';
 
 // Notify about updates
 const pkg = require('../package.json');
 updateNotifier({ pkg }).notify();
 
 const args = yargs.usage('$0 <command> [options]')
-  .version(() => pkg.version)
+  .version(() => {
+    const reactionVer = checkVersion();
+    if (reactionVer) {
+      Log.info(`Reaction: ${Log.magenta(reactionVer)}`);
+    }
+    Log.info(`Reaction CLI: ${Log.magenta(pkg.version)}`);
+    return '';
+  })
   .alias('v', 'version')
   .describe('v', 'Show the current version of Reaction CLI')
 

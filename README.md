@@ -25,6 +25,6 @@ $ reaction --help
     reset   Reset the database and (optionally) delete build files
 
   Options:
-    -v, --version  Show version number            
+    -v, --version  Show app and CLI version numbers            
     -h, --help     Show help
 ```
