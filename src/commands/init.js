@@ -6,15 +6,15 @@ export function init(argv) {
   const dirName = argv._[1] || 'reaction';
   const branch = argv.branch;
 
-  Log.info(`Cloning the ${branch} branch of Reaction from Github...\n`);
+  Log.info(`\nCloning the ${branch} branch of Reaction from Github...\n`);
   exec(`git clone -b ${branch} ${repoUrl} ${dirName}`);
 
-  Log.info('Installing NPM packages...');
+  Log.info('\nInstalling NPM packages...');
   exec(`cd ${dirName} && meteor npm install`);
 
   Log.success('Reaction successfully installed!');
 
-  Log.info('To start your new app, just run:');
+  Log.info('\nTo start your new app, just run:');
 
   echo('');
   echo(info.bold(` cd ${dirName}`));

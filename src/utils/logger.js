@@ -1,25 +1,21 @@
 import chalk from 'chalk';
 
-export const info = chalk.blue;
-export const success = chalk.green;
-export const warn = chalk.yellow;
-export const error = chalk.bold.red;
-
 /* eslint-disable no-console */
 
-const Log = {
+const loggers = {
   info(msg) {
-    console.log(info(`\n${msg}`));
+    console.log(chalk.blue(`${msg}`));
   },
   success(msg) {
-    console.log(success(`\n${msg}`));
+    console.log(chalk.green(`${msg}`));
   },
   warn(msg) {
-    console.log(warn(`\n${msg}`));
+    console.log(chalk.yellow(`${msg}`));
   },
   error(msg) {
-    console.log(error(`\n${msg}`));
+    console.log(chalk.bold.red(`${msg}`));
   }
 };
 
-export default Log;
+// extend chalk with custom log methods
+export default Object.assign(chalk, loggers);

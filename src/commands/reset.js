@@ -10,18 +10,18 @@ export function reset() {
     default: false
   }]).then((answers) => {
     if (answers.reset) {
-      Log.info('Resetting the database...');
+      Log.info('\nResetting the database...');
       exec('meteor reset');
 
-      Log.info('Deleting node_modules...');
+      Log.info('\nDeleting node_modules...');
       rm('-rf', 'node_modules');
 
-      Log.info('Reinstalling node_modules...');
+      Log.info('\nReinstalling node_modules...');
       exec('meteor npm install');
 
-      Log.success('Done!');
+      Log.success('Done!\n');
     } else {
-      Log.info('Resetting the database...');
+      Log.info('\nResetting the database...');
       exec('meteor reset');
       Log.success('Done!');
     }

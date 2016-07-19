@@ -16,13 +16,13 @@ export function run(options) {
   const prodSettings = 'settings/settings.json';
 
   if (args.settings) {
-    Log.info(`Using settings file at ${args.settings}\n`);
+    Log.info(`\nUsing settings file at ${Log.magenta(args.settings)}\n`);
     cmd += ` --settings ${args.settings}`;
   } else if (exists(prodSettings)) {
-    Log.info(`Using settings file at ${prodSettings}\n`);
+    Log.info(`\nUsing settings file at ${Log.magenta(prodSettings)}\n`);
     cmd += ` --settings ${prodSettings}`;
   } else if (exists(devSettings)) {
-    Log.info(`Using settings file at ${devSettings}\n`);
+    Log.info(`\nUsing settings file at ${Log.magenta(devSettings)}\n`);
     cmd += ` --settings ${devSettings}`;
   }
 
