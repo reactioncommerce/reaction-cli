@@ -1,3 +1,4 @@
+import { assign } from 'lodash';
 import chalk from 'chalk';
 
 /* eslint-disable no-console */
@@ -18,4 +19,4 @@ const loggers = {
 };
 
 // extend chalk with custom log methods
-export default Object.assign(chalk, loggers);
+export default assign(chalk, loggers);
