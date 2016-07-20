@@ -1,12 +1,18 @@
 import { echo, exec } from 'shelljs';
-import { Log, info } from '../utils';
+import { exists, Log } from '../utils';
 
 export function init(argv) {
   const repoUrl = 'https://github.com/reactioncommerce/reaction';
   const dirName = argv._[1] || 'reaction';
   const branch = argv.branch;
 
-  Log.info(`\nCloning the ${branch} branch of Reaction from Github...\n`);
+  if (exists(dirName)) {
+    Log.warn(`\nDirectory '${dirName}' already exists.`);
+    Log.warn('Use \'reaction init somename\' to install in a different directory.\n');
+    process.exit(1);
+  }
+
+  Log.info(`\nCloning the ${branch} branch of Reaction from Github...`);
   exec(`git clone -b ${branch} ${repoUrl} ${dirName}`);
 
   Log.info('\nInstalling NPM packages...');
