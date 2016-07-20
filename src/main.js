@@ -67,6 +67,7 @@ const args = yargs.usage('$0 <command> [options]')
 
   .help('h')
   .alias('h', 'help')
+  .showHelpOnFail(false)
   .argv;
 
 // Default to 'reaction run' if no subcommand is specified
