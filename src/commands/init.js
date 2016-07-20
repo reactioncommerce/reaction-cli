@@ -12,12 +12,11 @@ export function init(argv) {
   Log.info('\nInstalling NPM packages...');
   exec(`cd ${dirName} && meteor npm install`);
 
-  Log.success('Reaction successfully installed!');
+  Log.success('\nReaction successfully installed!');
 
-  Log.info('\nTo start your new app, just run:');
+  const { blue } = Log;
 
-  echo('');
-  echo(info.bold(` cd ${dirName}`));
-  echo(info.bold(' reaction'));
-  echo('');
+  Log.info('\nTo start your new app, just run: \n');
+  Log.info(blue.bold(` cd ${dirName}`));
+  Log.info(blue.bold(' reaction\n'));
 }
