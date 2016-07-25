@@ -9,6 +9,11 @@ export default function (callback) {
   if (!meteorInstalled) {
     Log.warn('\nOops! You don\'t have Meteor installed yet! \n');
 
+    if (process.platform === 'win32') {
+      Log.warn('\nPlease download and install Meteor from: https://install.meteor.com/windows\n');
+      process.exit(1);
+    }
+
     inquirer.prompt([{
       type: 'confirm',
       name: 'meteor',
