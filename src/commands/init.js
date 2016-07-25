@@ -1,4 +1,4 @@
-import { echo, exec } from 'shelljs';
+import { exec } from 'shelljs';
 import { exists, Log } from '../utils';
 
 export function init(argv) {
