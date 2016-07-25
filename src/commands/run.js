@@ -33,5 +33,8 @@ export function run(options) {
     }
   });
 
+  Log.info('Setting up plugin imports...\n');
+  exec('.reaction/docker/scripts/plugin-loader.sh');
+
   exec(cmd);
 }
