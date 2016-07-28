@@ -3,7 +3,7 @@
 import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
 import { init, add, pull, reset, run, test, update } from './commands';
-import { checkDeps, checkVersion, Log } from './utils';
+import { checkDeps, checkVersions, Log } from './utils';
 
 // Notify about updates
 const pkg = require('../package.json');
@@ -11,9 +11,11 @@ updateNotifier({ pkg }).notify();
 
 const args = yargs.usage('$0 <command> [options]')
   .version(() => {
-    const reactionVer = checkVersion();
-    if (reactionVer) {
-      Log.info(`Reaction: ${Log.magenta(reactionVer)}`);
+    const versions = checkVersions();
+    Log.info(`\nNode: ${Log.magenta(versions.node)}`);
+    Log.info(`NPM: ${Log.magenta(versions.npm)}`);
+    if (versions.reaction) {
+      Log.info(`Reaction: ${Log.magenta(versions.reaction)}`);
     }
     Log.info(`Reaction CLI: ${Log.magenta(pkg.version)}`);
     return '';
