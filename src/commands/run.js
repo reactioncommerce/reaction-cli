@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { exec } from 'shelljs';
-import { Log, exists } from '../utils';
+import { Log, exists, loadPlugins } from '../utils';
 
 export function run(options) {
   const commands = options.argv._;
@@ -34,7 +34,7 @@ export function run(options) {
   });
 
   Log.info('Setting up plugin imports...\n');
-  exec('.reaction/docker/scripts/plugin-loader.sh');
+  loadPlugins();
 
   exec(cmd);
 }

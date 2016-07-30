@@ -36,6 +36,26 @@ export function isEmptyOrMissing(searchPath) {
   return !file || !file.length;
 }
 
+
+/**
+ * Get an array of directory names in a given path
+ * @param {String} dir - path to a directory
+ * @return {Array} returns an array of directory names
+ */
+export function getDirectories(dir) {
+  try {
+    const files = fs.readdirSync(dir).filter((file) => {
+      return fs.statSync(path.join(dir, file)).isDirectory();
+    });
+    return files;
+  } catch(e) {
+    Log.error('Directory not found: ' + dir);
+    Log.error(e);
+    process.exit(1);
+  }
+}
+
+
 /**
  * Get an array of file names in a given directory
  * @param {String} dir - path to a directory
@@ -48,10 +68,8 @@ export function getFiles(dir) {
     });
     return files;
   } catch(e) {
-    Log.error('Directory not found.');
+    Log.error('Directory not found: ' + dir);
     Log.error(e);
     process.exit(1);
   }
-
-  return files;
 }
