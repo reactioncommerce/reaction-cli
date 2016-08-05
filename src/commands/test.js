@@ -1,10 +1,13 @@
 import _ from 'lodash';
 import chalk from 'chalk';
 import { exec } from 'shelljs';
-import { Log } from '../utils';
+import { Log, loadPlugins } from '../utils';
 
 export function test(options) {
   const args = _.omit(options.argv, ['_', '$0']);
+
+  Log.info('Setting up plugin imports...\n');
+  loadPlugins();
 
   let cmd = 'meteor test';
 
