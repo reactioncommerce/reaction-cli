@@ -1,6 +1,10 @@
 # reaction-cli
 
-A command line tool for managing the [Reaction Commerce](https://reactioncommerce.com) e-commerce application.
+A command line tool for managing your [Reaction Commerce](https://reactioncommerce.com) e-commerce application.
+
+[![bitHound Overall Score](https://www.bithound.io/github/reactioncommerce/reaction-cli/badges/score.svg)](https://www.bithound.io/github/reactioncommerce/reaction-cli)
+[![bitHound Dependencies](https://www.bithound.io/github/reactioncommerce/reaction-cli/badges/dependencies.svg)](https://www.bithound.io/github/reactioncommerce/reaction-cli/master/dependencies/npm)
+[![bitHound Dev Dependencies](https://www.bithound.io/github/reactioncommerce/reaction-cli/badges/devDependencies.svg)](https://www.bithound.io/github/reactioncommerce/reaction-cli/master/dependencies/npm)
 
 ## Install
 
