@@ -1,6 +1,6 @@
 {
   "name": "reaction-cli",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A command line tool for working with the Reaction Commerce e-commerce platform.",
   "main": "./dist/main.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "lint": "eslint ./src",
     "lintfix": "eslint ./src --fix",
     "prepublish": ". ./scripts/prepublish.sh",
+    "publish": "publish",
     "watch": "watch 'npm build && npm unlink && npm link' src"
   },
   "engines": {
@@ -41,6 +42,7 @@
     "babel-root-slash-import": "^1.0.0",
     "eslint": "^3.1.1",
     "eslint-plugin-babel": "^3.3.0",
+    "publish": "https://github.com/jshimko/node-publish.git#deps-updates",
     "watch": "^0.19.1"
   },
   "dependencies": {
