@@ -4,12 +4,12 @@ machine:
 
 dependencies:
   override:
-    - npm install -g snyk
-    - snyk auth $SNYK_TOKEN
+    - npm i -g snyk
+    - snyk wizard
 
 test:
   override:
-    - echo "No tests!"
+    - npm run test
 
 deployment:
   npm:
@@ -17,4 +17,5 @@ deployment:
     commands:
       - echo -e "$NPM_USER\n$NPM_PASS\n$NPM_EMAIL" | npm login
       - npm run publish
+      - snyk auth $SNYK_TOKEN
       - snyk monitor
