@@ -7,10 +7,9 @@
     "build": "rm -rf ./dist && babel src --out-dir ./dist",
     "lint": "eslint ./src",
     "lintfix": "eslint ./src --fix",
-    "prepublish": "npm run snyk-protect; . ./scripts/prepublish.sh",
+    "prepublish": ". ./scripts/prepublish.sh",
     "publish": "publish",
-    "snyk-protect": "snyk protect",
-    "test": "snyk test",
+    "test": "echo 'No tests!'",
     "watch": "watch 'npm build && npm unlink && npm link' src"
   },
   "engines": {
@@ -58,8 +57,6 @@
     "shelljs": "^0.7.3",
     "update-notifier": "^1.0.2",
     "uuid": "^2.0.2",
-    "yargs": "^4.8.1",
-    "snyk": "^1.18.0"
-  },
-  "snyk": true
+    "yargs": "^4.8.1"
+  }
 }
