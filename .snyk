@@ -1,0 +1,43 @@
+version: v1.5.2
+ignore: {}
+patch:
+  'npm:tough-cookie:20160722':
+    - babel-cli > chokidar > fsevents > node-pre-gyp > request > tough-cookie:
+        patched: '2016-07-31T16:30:47.079Z'
+      publish > npm > npm-registry-client > request > tough-cookie:
+        patched: '2016-08-12T16:37:51.582Z'
+    - publish > npm > request > tough-cookie:
+        patched: '2016-08-12T16:37:51.582Z'
+    - npm > node-gyp > request > tough-cookie:
+        patched: '2016-08-12T16:37:51.582Z'
+    - npm > npm-registry-client > request > tough-cookie:
+        patched: '2016-08-12T16:37:51.582Z'
+    - npm > request > tough-cookie:
+        patched: '2016-08-12T16:37:51.582Z'
+    - publish > npm > node-gyp > request > tough-cookie:
+        patched: '2016-08-12T16:37:51.582Z'
+  'npm:minimatch:20160620':
+    - publish > npm > fstream-npm > fstream-ignore > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'
+    - npm > fstream-npm > fstream-ignore > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'
+    - npm > read-installed > read-package-json > glob > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'
+    - npm > read-package-json > glob > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'
+    - npm > read-package-tree > read-package-json > glob > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'
+    - publish > npm > init-package-json > read-package-json > glob > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'
+    - publish > npm > read-package-json > glob > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'
+    - publish > npm > read-package-tree > read-package-json > glob > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'
+    - publish > npm > read-installed > read-package-json > glob > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'
+    - npm > init-package-json > read-package-json > glob > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'
+    - npm > init-package-json > glob > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'
+    - publish > npm > init-package-json > glob > minimatch:
+        patched: '2016-08-12T16:37:51.582Z'

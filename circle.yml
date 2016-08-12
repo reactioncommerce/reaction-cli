@@ -2,9 +2,14 @@ machine:
   node:
     version: 6.2.2
 
+dependencies:
+  override:
+    - npm install -g snyk
+    - snyk auth $SNYK_TOKEN
+
 test:
   override:
-    - echo "No tests yet!"
+    - npm run test
 
 deployment:
   npm:
@@ -12,3 +17,4 @@ deployment:
     commands:
       - echo -e "$NPM_USER\n$NPM_PASS\n$NPM_EMAIL" | npm login
       - npm run publish
+      - snyk monitor
