@@ -1,8 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import uuid from 'uuid';
-import { track } from './analytics';
-import { getUserHome, isEmptyOrMissing } from './fs';
+import { getUserHome, exists, isEmptyOrMissing } from './fs';
 import checkIfInReactionDir from './check_app';
 import Log from './logger';
 
@@ -10,8 +9,11 @@ import Log from './logger';
 /**
  * Default Configs
  */
-const idFile = path.resolve(`${getUserHome()}/.reaction/.id`);
-const globalConfigFile = path.resolve(`${getUserHome()}/.reaction/config.json`);
+const userHome = getUserHome();
+const globalConfigDir = path.resolve(`${userHome}/.reaction`);
+const localConfigDir = path.resolve('.reaction/');
+const idFile = path.resolve(`${userHome}/.reaction/.id`);
+const globalConfigFile = path.resolve(`${userHome}/.reaction/config.json`);
 const localConfigFile = path.resolve('.reaction/config.json');
 
 export const defaults = {
@@ -38,6 +40,15 @@ export const defaults = {
  * @return {Boolean} returns true if successful
  */
 export function initGlobalConfig() {
+  if (!exists(globalConfigDir)) {
+    try {
+      fs.mkdirsSync(globalConfigDir);
+    } catch (error) {
+      Log.error('Error creating Reaction CLI config directory');
+      process.exit(1);
+    }
+  }
+
   if (isEmptyOrMissing(idFile)) {
     try {
       fs.writeJSONSync(idFile, { id: uuid.v1() });
@@ -64,6 +75,14 @@ export function initGlobalConfig() {
  * @return {Boolean} returns true if successful
  */
 export function initLocalConfig() {
+  if (!exists(localConfigDir)) {
+    try {
+      fs.mkdirsSync(localConfigDir);
+    } catch (error) {
+      Log.error('Error creating Reaction CLI config directory');
+      process.exit(1);
+    }
+  }
   if (isEmptyOrMissing(localConfigFile)) {
     try {
       fs.writeJSONSync(localConfigFile, defaults.local);
