@@ -2,12 +2,14 @@
 
 import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
-import { init, add, pull, reset, run, test, update } from './commands';
-import { checkDeps, checkVersions, Log } from './utils';
+import { init, pull, reset, run, test, update } from './commands';
+import { checkDeps, checkVersions, Config, Log } from './utils';
 
 // Notify about updates
 const pkg = require('../package.json');
 updateNotifier({ pkg }).notify();
+
+Config.initGlobalConfig();
 
 const args = yargs.usage('$0 <command> [options]')
   .version(() => {

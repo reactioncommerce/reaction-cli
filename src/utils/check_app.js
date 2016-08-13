@@ -1,5 +1,6 @@
 import fs from 'fs';
 import Log from './logger';
+import { initLocalConfig } from './config';
 
 export default function () {
   const file = './package.json';
@@ -25,4 +26,6 @@ export default function () {
     Log.error('Not in a Reaction app. Exiting...');
     process.exit(1);
   }
+
+  initLocalConfig();
 }

@@ -1,3 +1,6 @@
+import * as Config from './config';
+
+export { Config };
 export * from './fs';
 export { default as Log } from './logger';
 export { default as checkIfInReactionDir } from './check_app';
