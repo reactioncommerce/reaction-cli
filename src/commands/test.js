@@ -3,15 +3,15 @@ import chalk from 'chalk';
 import { exec } from 'shelljs';
 import { Log, loadPlugins } from '../utils';
 
-export function test(options) {
-  const args = _.omit(options.argv, ['_', '$0']);
+export function test(yargs) {
+  const args = _.omit(yargs.argv, ['_', '$0']);
 
   Log.info('Setting up plugin imports...\n');
   loadPlugins();
 
   let cmd = 'meteor test';
 
-  const subCommands = options.argv._;
+  const subCommands = yargs.argv._;
   const testArgs = _.pickBy(_.omit(args, '$0'), (val) => val !== false);
   const hasArgs = Object.keys(testArgs).length > 0;
 
