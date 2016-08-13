@@ -55,8 +55,6 @@ export function initGlobalConfig() {
     }
   }
 
-  track();
-
   return true;
 }
 
