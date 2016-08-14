@@ -99,7 +99,7 @@ export function initLocalConfig() {
  * @return {Object} returns JSON content from the config
  */
 export function get(type) {
-  if (type !== 'global' || type !== 'local') {
+  if (type !== 'global' && type !== 'local') {
     Log.error('Must specify "global" or "local" config to retrieve');
     process.exit(1);
   }
@@ -151,7 +151,7 @@ export function getUserId() {
  * @return {Object} returns JSON content from the updated config
  */
 export function set(type, values) {
-  if (type !== 'global' || type !== 'local') {
+  if (type !== 'global' && type !== 'local') {
     Log.error('Must specify "global" or "local" config to retrieve');
     process.exit(1);
   }
@@ -198,7 +198,7 @@ export function set(type, values) {
  * @return {Boolean} returns true if successful
  */
 export function reset(type) {
-  if (type !== 'global' || type !== 'local') {
+  if (type !== 'global' && type !== 'local') {
     Log.error('Must specify "global" or "local" for config file reset');
     process.exit(1);
   }
