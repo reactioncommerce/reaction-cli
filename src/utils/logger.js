@@ -15,6 +15,9 @@ const loggers = {
   },
   error(msg) {
     console.log(chalk.bold.red(`${msg}`));
+  },
+  default(msg) {
+    console.log(msg);
   }
 };
 
