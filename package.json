@@ -1,6 +1,6 @@
 {
   "name": "reaction-cli",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "A command line tool for working with the Reaction Commerce e-commerce platform.",
   "main": "./dist/main.js",
   "scripts": {
