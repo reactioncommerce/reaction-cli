@@ -7,10 +7,11 @@ Usage:
   reaction config [command] [options]
 
     Commands:
+      set       Set a local or global reaction-cli config file value
       reset     Reset a local or global reaction-cli config file to default values
 
     Options:
-      --local   Local reaction-cli config if in an app directory
+      --local   Local reaction-cli config if in an app directory [Default]
       --global  Global reaction-cli config
 `;
 
@@ -21,12 +22,26 @@ function showHelp() {
 export function config(yargs) {
   const subCommands = yargs.argv._;
   const args = _.omit(yargs.argv, ['_', '$0']);
+  const type = args.global ? 'global' : 'local';
 
-  if (subCommands[1] === 'reset' && (args.local || args.global)) {
-    const type = args.local ? 'local' : 'global';
-    Log.info('Resetting Reaction CLI configs...');
+  const vals = _.omit(args, [
+    'global',
+    'local',
+    'v',
+    'version',
+    'h',
+    'help',
+    'git',
+    'plugins'
+  ]);
+
+  if (subCommands[1] === 'set') {
+    Config.set(type, vals);
+    Log.success('Success!\n');
+  } else if (subCommands[1] === 'reset') {
+    Log.info(`Resetting ${type} Reaction CLI config...`);
     Config.reset(type);
-    Log.success('Done!');
+    Log.success('Success!\n');
   } else {
     showHelp();
   }

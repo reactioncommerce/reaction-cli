@@ -108,7 +108,8 @@ export function get(type) {
 
   if (type === 'local') {
     config = localConfigFile;
-    initLocal();
+    checkIfInReactionDir();
+    initLocalConfig();
   } else {
     config = globalConfigFile;
   }
@@ -165,7 +166,8 @@ export function set(type, values) {
 
   if (type === 'local') {
     config = localConfigFile;
-    initLocal();
+    checkIfInReactionDir();
+    initLocalConfig();
   } else {
     config = globalConfigFile;
   }
@@ -179,10 +181,14 @@ export function set(type, values) {
     process.exit(1);
   }
 
+  if (typeof currentVals !== 'object') {
+    currentVals = defaults[type];
+  }
+
   const newVals = Object.assign({}, currentVals, values);
 
   try {
-    fs.writeJSONSync(config);
+    fs.writeJSONSync(config, newVals);
   } catch (error) {
     Log.error(`Error writing to config file: ${Log.magenta(config)}`);
     process.exit(1);
