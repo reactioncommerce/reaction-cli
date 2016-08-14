@@ -18,11 +18,9 @@ const localConfigFile = path.resolve('.reaction/config.json');
 
 export const defaults = {
   global: {
-    defaults: {
-      git: {
-        url: 'https://github.com/reactioncommerce/reaction.git',
-        branch: 'master'
-      }
+    git: {
+      url: 'https://github.com/reactioncommerce/reaction.git',
+      branch: 'master'
     }
   },
   local: {
