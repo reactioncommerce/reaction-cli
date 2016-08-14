@@ -116,7 +116,7 @@ export function get(type) {
   try {
     return fs.readJSONSync(config);
   } catch (error) {
-    Log.error('Error reading Reaction config file: ${Log.magenta(config)}');
+    Log.error(`Error reading Reaction config file: ${Log.magenta(config)}`);
     process.exit(1);
   }
 }
@@ -138,7 +138,7 @@ export function getUserId() {
   try {
     return fs.readJSONSync(idFile).id;
   } catch (error) {
-    Log.error('Error reading Reaction config file: ${Log.magenta(config)}');
+    Log.error(`Error reading Reaction config file: ${Log.magenta(config)}`);
     process.exit(1);
   }
 }
@@ -175,7 +175,7 @@ export function set(type, values) {
   try {
     currentVals = fs.readJSONSync(config);
   } catch (error) {
-    Log.error('Error reading Reaction config file: ${Log.magenta(config)}');
+    Log.error(`Error reading Reaction config file: ${Log.magenta(config)}`);
     process.exit(1);
   }
 
@@ -184,7 +184,7 @@ export function set(type, values) {
   try {
     fs.writeJSONSync(config);
   } catch (error) {
-    Log.error('Error writing to config file: ${Log.magenta(config)}');
+    Log.error(`Error writing to config file: ${Log.magenta(config)}`);
     process.exit(1);
   }
 
@@ -212,13 +212,13 @@ export function reset(type) {
     checkIfInReactionDir();
   } else {
     config = globalConfigFile;
-    defaultsValues = defaults.local;
+    defaultsValues = defaults.global;
   }
 
   try {
     fs.writeJSONSync(config, defaultsValues);
   } catch (error) {
-    Log.error('Error resetting Reaction config file at: ${Log.magenta(config)}');
+    Log.error(`Error resetting Reaction config file at: ${Log.magenta(config)}`);
     process.exit(1);
   }
 
