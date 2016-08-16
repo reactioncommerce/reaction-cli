@@ -36,3 +36,7 @@ $ reaction --help
     -v, --version  Show app and CLI version numbers            
     -h, --help     Show help
 ```
+## Tracking
+
+This app reports anonymous, aggregate usage data to help us improve and debug Reaction Commerce. View our [Privacy Policy](https://reactioncommerce.com/legal/privacy).
+
