@@ -14,8 +14,9 @@ export function test(yargs) {
   const subCommands = yargs.argv._;
   const testArgs = _.pickBy(_.omit(args, '$0'), (val) => val !== false);
   const hasArgs = Object.keys(testArgs).length > 0;
+  const onlyHasPort = Object.keys(testArgs).length === 1 && !!testArgs.p || !!testArgs.port;
 
-  if (hasArgs) {
+  if (hasArgs && !onlyHasPort) {
     _.forEach(testArgs, (val, key) => {
       const dash = key.length > 1 ? '--' : '-';
       cmd += ` ${dash + key} ${val}`;
@@ -29,6 +30,10 @@ export function test(yargs) {
     } else {
       cmd += ' --once --full-app --headless --driver-package dispatch:mocha';
       Log.info('Running full-app test command:');
+    }
+    if (onlyHasPort) {
+      const port = testArgs.port || testArgs.p;
+      cmd += ' --port ' + port.toString();
     }
   }
 
