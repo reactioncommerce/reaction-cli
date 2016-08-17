@@ -1,8 +1,29 @@
 import fs from 'fs';
+import os from 'os';
 import { exec } from 'shelljs';
 
 export default function () {
   let versions = {};
+
+  const osType = os.platform();
+
+  if (osType === 'darwin') {
+    const release = exec('sw_vers -productVersion', { silent: true }).stdout;
+    versions.os = {
+      platform: 'OS X',
+      release: release.replace(/\r?\n|\r/g, '')
+    };
+  } else if (osType === 'win32') {
+    versions.os = {
+      platform: 'Windows',
+      release: os.release()
+    };
+  } else {
+    versions.os = {
+      platform: osType,
+      release: os.release()
+    };
+  }
 
   // get Node version
   versions.node = process.version.substring(1);
