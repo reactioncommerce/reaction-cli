@@ -1,7 +1,7 @@
 {
   "name": "reaction-cli",
-  "version": "0.4.15",
-  "description": "A command line tool for working with the Reaction Commerce e-commerce platform.",
+  "version": "0.4.16",
+  "description": "A command line tool for working with the Reaction Commerce platform.",
   "main": "./dist/main.js",
   "scripts": {
     "build": "rm -rf ./dist && babel src --out-dir ./dist",
