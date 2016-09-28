@@ -13,7 +13,11 @@ export function init(argv) {
   }
 
   Log.info(`\nCloning the ${branch} branch of Reaction from Github...`);
-  exec(`git clone -b ${branch} ${repoUrl} ${dirName}`);
+
+  if (exec(`git clone -b ${branch} ${repoUrl} ${dirName}`).code !== 0) {
+    Log.error('\nError: Unable to clone from Github. Exiting.');
+    process.exit(1);
+  }
 
   Log.info('\nInstalling NPM packages...');
   exec(`cd ${dirName} && meteor npm install`);
