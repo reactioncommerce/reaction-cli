@@ -37,11 +37,10 @@
   "homepage": "https://github.com/reactioncommerce/reaction-cli",
   "devDependencies": {
     "babel-cli": "^6.14.0",
-    "babel-core": "^6.14.0",
-    "babel-eslint": "^6.1.2",
+    "babel-eslint": "^7.0.0",
     "babel-preset-es2015": "^6.14.0",
-    "babel-root-slash-import": "^1.1.0",
-    "eslint": "^3.3.1",
+    "babel-root-slash-import": "^3.1.0",
+    "eslint": "^3.6.1",
     "eslint-plugin-babel": "^3.3.0",
     "publish": "git+https://github.com/jshimko/node-publish.git#deps-updates",
     "watch": "^0.19.2"
