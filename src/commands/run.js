@@ -29,7 +29,11 @@ export function run(options) {
   _.forEach(_.omit(args, ['settings', 'raw-logs', 'rawLogs']), (val, key) => {
     if (val) {
       const dash = key.length > 1 ? '--' : '-';
-      cmd += ` ${dash + key} ${val}`;
+      if (val === true) {
+        cmd += ` ${dash + key}`;
+      } else {
+        cmd += ` ${dash + key} ${val}`;
+      }
     }
   });
 
