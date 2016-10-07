@@ -26,12 +26,14 @@ export function run(options) {
     cmd += ` --settings ${devSettings}`;
   }
 
-  _.forEach(_.omit(args, ['settings', '$0']), (val, key) => {
+  _.forEach(_.omit(args, ['settings', 'raw-logs', 'rawLogs']), (val, key) => {
     if (val) {
       const dash = key.length > 1 ? '--' : '-';
       cmd += ` ${dash + key} ${val}`;
     }
   });
+
+  cmd += ' --raw-logs';
 
   Log.info('Setting up plugin imports...\n');
   loadPlugins();
