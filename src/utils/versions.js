@@ -9,20 +9,14 @@ export default function () {
 
   if (osType === 'darwin') {
     const release = exec('sw_vers -productVersion', { silent: true }).stdout;
-    versions.os = {
-      platform: 'OS X',
-      release: release.replace(/\r?\n|\r/g, '')
-    };
+    versions.os = 'macOS';
+    versions.osVersion = release.replace(/\r?\n|\r/g, '');
   } else if (osType === 'win32') {
-    versions.os = {
-      platform: 'Windows',
-      release: os.release()
-    };
+    versions.os = 'Windows';
+    versions.osVersion = os.release();
   } else {
-    versions.os = {
-      platform: osType,
-      release: os.release()
-    };
+    versions.os = osType;
+    versions.osVersion = os.release();
   }
 
   // get Node version
