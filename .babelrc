@@ -1,4 +1,4 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["babel-root-slash-import"]
+  "presets": ["es2015", "stage-2"],
+  "plugins": ["babel-root-slash-import", "lodash"]
 }
