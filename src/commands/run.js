@@ -42,5 +42,5 @@ export function run(options) {
   Log.info('Setting up plugin imports...\n');
   loadPlugins();
 
-  exec(cmd);
+  exec(cmd, { maxBuffer: 1024 * 1000 });
 }
