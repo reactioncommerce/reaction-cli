@@ -17,7 +17,7 @@ export function track(cb) {
     const versions = getVersions();
     const properties = { command, ...argv, ...versions };
     const analytics = new Analytics(segmentKey, { flushAt: 2, flushAfter: 20 });
-    analytics.identify({ userId, traits: { ...versions }});
+    analytics.identify({ userId, traits: { ...versions } });
     analytics.track({ event: 'command', userId, properties }, cb);
   } else {
     cb();
