@@ -4,7 +4,15 @@ import { Log, exists, loadPlugins } from '../utils';
 
 export function run(options) {
   const commands = options.argv._;
-  const args = _.omit(options.argv, ['_', '$0']);
+  const args = _.omit(options.argv, [
+    '_',
+    '$0',
+    'debugPort',
+    'mobileServer',
+    'noLint',
+    'noReleaseCheck',
+    'allowIncompatibleUpdate'
+  ]);
 
   let cmd = 'meteor';
 
