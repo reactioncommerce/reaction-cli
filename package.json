@@ -8,7 +8,6 @@
     "lint": "eslint ./src",
     "lintfix": "eslint ./src --fix",
     "prepublish": ". ./scripts/prepublish.sh",
-    "publish": "publish",
     "test": "echo 'No tests!'",
     "watch": "watch 'npm build && npm unlink && npm link' src"
   },
@@ -45,7 +44,6 @@
     "babel-root-slash-import": "^3.1.0",
     "eslint": "^3.13.0",
     "eslint-plugin-babel": "^4.0.0",
-    "publish": "git+https://github.com/jshimko/node-publish.git#deps-updates",
     "watch": "^1.0.1"
   },
   "dependencies": {
