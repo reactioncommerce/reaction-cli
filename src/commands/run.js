@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import { exec } from 'shelljs';
-import { Log, exists, loadPlugins } from '../utils';
+import { Log, exists, loadPlugins, checkForReactionUpdate } from '../utils';
 
-export function run(options) {
+export async function run(options) {
+  await checkForReactionUpdate();
+
   const commands = options.argv._;
   const args = _.omit(options.argv, [
     '_',
