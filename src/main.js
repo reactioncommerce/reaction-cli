@@ -15,10 +15,17 @@ initialize(() => {
       const versions = checkVersions();
       Log.info(`\nNode: ${Log.magenta(versions.node)}`);
       Log.info(`NPM: ${Log.magenta(versions.npm)}`);
+
+      if (versions.docker) {
+        Log.info(`Docker: ${Log.magenta(versions.docker)}`);
+      }
+
+      Log.info(`Reaction CLI: ${Log.magenta(pkg.version)}`);
+
       if (versions.reaction) {
         Log.info(`Reaction: ${Log.magenta(versions.reaction)}`);
       }
-      Log.info(`Reaction CLI: ${Log.magenta(pkg.version)}`);
+
       return '';
     })
     .alias('v', 'version')

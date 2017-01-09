@@ -2,8 +2,9 @@ import fs from 'fs';
 import os from 'os';
 import { exec } from 'shelljs';
 
+
 export default function () {
-  let versions = {};
+  const versions = {};
 
   const osType = os.platform();
 
@@ -24,6 +25,10 @@ export default function () {
 
   // get NPM version
   versions.npm = exec('npm -v', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
+
+  // get Docker version
+  const dockerVer = exec('docker -v', { silent: true }).stdout.replace(/Docker version /g, '');
+  versions.docker = dockerVer ? dockerVer.substring(0, dockerVer.indexOf(',')) : null;
 
   // get reaction-cli version
   versions.cli = require('../../package.json').version;
