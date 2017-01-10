@@ -18,6 +18,8 @@ function resetNpm() {
 }
 
 export function reset(yargs) {
+  Log.args(yargs.argv);
+
   const args = yargs.argv;
 
   if (args.y) {

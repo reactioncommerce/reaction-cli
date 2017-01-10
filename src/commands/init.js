@@ -2,6 +2,8 @@ import { exec } from 'shelljs';
 import { exists, Log } from '../utils';
 
 export function init(argv) {
+  Log.args(argv);
+
   const repoUrl = 'https://github.com/reactioncommerce/reaction';
   const dirName = argv._[1] || 'reaction';
   const branch = argv.branch;

@@ -4,6 +4,8 @@ import { exec } from 'shelljs';
 import { Log, loadPlugins } from '../utils';
 
 export function test(yargs) {
+  Log.args(yargs.argv);
+
   const args = _.omit(yargs.argv, ['_', '$0']);
 
   Log.info('Setting up plugin imports...\n');

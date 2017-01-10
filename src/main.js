@@ -58,16 +58,16 @@ initialize(() => {
       checkDeps(['app', 'meteor'], () => test(options));
     })
 
-    .command('pull', 'Pull Reaction updates from Github and install NPM packages', () => {
-      checkDeps(['app', 'meteor'], () => pull());
+    .command('pull', 'Pull Reaction updates from Github and install NPM packages', (options) => {
+      checkDeps(['app', 'meteor'], () => pull(options));
     })
 
-    .command('update', 'Update Atmosphere and NPM packages', () => {
-      checkDeps(['app', 'meteor'], () => update());
+    .command('update', 'Update Atmosphere and NPM packages', (options) => {
+      checkDeps(['app', 'meteor'], () => update(options));
     })
 
-    .command('up', 'Update Atmosphere and NPM packages', () => {
-      checkDeps(['app', 'meteor'], () => update());
+    .command('up', 'Update Atmosphere and NPM packages', (options) => {
+      checkDeps(['app', 'meteor'], () => update(options));
     })
 
     .command('reset', 'Reset the database and (optionally) delete build files', (options) => {

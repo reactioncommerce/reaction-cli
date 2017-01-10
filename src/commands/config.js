@@ -20,6 +20,8 @@ function showHelp() {
 }
 
 export function config(yargs) {
+  Log.args(yargs.argv);
+
   const subCommands = yargs.argv._;
   const args = _.omit(yargs.argv, ['_', '$0']);
   const type = args.global ? 'global' : 'local';

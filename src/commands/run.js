@@ -2,11 +2,13 @@ import _ from 'lodash';
 import { exec } from 'shelljs';
 import { Log, exists, loadPlugins, checkForReactionUpdate } from '../utils';
 
-export async function run(options) {
+export async function run(yargs) {
+  Log.args(yargs.argv);
+
   await checkForReactionUpdate();
 
-  const commands = options.argv._;
-  const args = _.omit(options.argv, [
+  const commands = yargs.argv._;
+  const args = _.omit(yargs.argv, [
     '_',
     '$0',
     'debugPort',
