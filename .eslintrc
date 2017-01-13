@@ -41,6 +41,7 @@
     "no-shadow": 2, // http://eslint.org/docs/rules/no-shadow
     "no-shadow-restricted-names": 2, // http://eslint.org/docs/rules/no-shadow-restricted-names
     "no-const-assign": 2, // http://eslint.org/docs/rules/no-const-assign
+    "prefer-const": [2, { "ignoreReadBeforeAssign": false }], // http://eslint.org/docs/rules/prefer-const
     "no-use-before-define": [2, "nofunc"], // http://eslint.org/docs/rules/no-use-before-define
     "no-unused-vars": [2, { // http://eslint.org/docs/rules/no-unused-vars
       "vars": "local",
