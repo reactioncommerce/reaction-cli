@@ -1,7 +1,9 @@
-export { config } from './config';
-export { init } from './init';
-export { pull } from './pull';
-export { reset } from './reset';
-export { run } from './run';
-export { test } from './test';
-export { update } from './update';
+export * from './build';
+export * from './config';
+export * from './init';
+export * from './pull';
+export * from './plugins';
+export * from './reset';
+export * from './run';
+export * from './test';
+export * from './update';

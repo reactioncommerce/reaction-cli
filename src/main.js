@@ -3,7 +3,7 @@
 import 'babel-polyfill';
 import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
-import { init, config, pull, reset, run, test, update, build } from './commands';
+import { init, config, pull, reset, run, test, update, plugins, build } from './commands';
 import { checkDeps, getVersions, initialize, Log } from './utils';
 
 // Notify about reaction-cli updates
@@ -72,6 +72,10 @@ initialize(() => {
 
     .command('reset', 'Reset the database and (optionally) delete build files', (options) => {
       checkDeps(['app', 'meteor'], () => reset(options));
+    })
+
+    .command('build', 'Build a production image of the app', (options) => {
+      checkDeps(['app'], () => build(options));
     })
 
     .help('h')
