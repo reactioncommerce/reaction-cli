@@ -29,14 +29,14 @@ $ reaction --help
     debug       Start Reaction in debug mode
     test [unit] Run integration or unit tests
     pull        Pull Reaction updates from Github and install NPM packages
-    update,up   Update Atmosphere and NPM packages
+    update, up  Update Atmosphere and NPM packages
     reset       Reset the database and (optionally) delete build files
+    build       Build a production Docker image
 
   Options:
-    -v, --version  Show app and CLI version numbers            
+    -v, --version  Show app and CLI version numbers
     -h, --help     Show help
 ```
 ## Tracking
 
 This app reports anonymous, aggregate usage data to help us improve and debug Reaction Commerce. View our [Privacy Policy](https://reactioncommerce.com/legal/privacy).
-

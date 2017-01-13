@@ -78,7 +78,7 @@ initialize(() => {
       checkDeps(['app'], () => plugins(options));
     })
 
-    .command('build', 'Build a production image of the app', (options) => {
+    .command('build', 'Build a production Docker image', (options) => {
       checkDeps(['app'], () => build(options));
     })
 
