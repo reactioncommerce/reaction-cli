@@ -74,6 +74,10 @@ initialize(() => {
       checkDeps(['app', 'meteor'], () => reset(options));
     })
 
+    .command('plugins', 'Manage your Reaction plugins', (options) => {
+      checkDeps(['app'], () => plugins(options));
+    })
+
     .command('build', 'Build a production image of the app', (options) => {
       checkDeps(['app'], () => build(options));
     })
