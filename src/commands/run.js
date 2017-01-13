@@ -51,6 +51,8 @@ export async function run(yargs) {
 
   cmd += ' --raw-logs';
 
+  Log.debug(`Command: ${cmd}`);
+
   Log.info('Setting up plugin imports...\n');
   loadPlugins();
 
