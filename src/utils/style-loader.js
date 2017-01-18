@@ -21,24 +21,29 @@ const importFileMessage = `
  * @return {Boolean} returns true if no error
  */
 function generateImportsFile(file, imports) {
-  // create/reset imports file
-  try {
-    fs.writeFileSync(file, '');
-    fs.writeFileSync(file, importFileMessage);
-  } catch (e) {
-    Log.error(`Failed to reset plugins file at ${file}`);
-    process.exit(1);
-  }
-
-  // populate plugins file with imports
-  imports.forEach((importPath) => {
+  // Don't create a file if there is nothing to import.
+  // This prevents the need to have to include all
+  // css preprocessors since CSS / LESS is predominately used
+  if (imports.length) {
+    // create/reset imports file
     try {
-      fs.appendFileSync(file, `@import "${importPath}";\n`);
+      fs.writeFileSync(file, '');
+      fs.writeFileSync(file, importFileMessage);
     } catch (e) {
-      Log.error(`Failed to write to plugins file at ${importPath}`);
+      Log.error(`Failed to reset plugins file at ${file}`);
       process.exit(1);
     }
-  });
+
+    // populate plugins file with imports
+    imports.forEach((importPath) => {
+      try {
+        fs.appendFileSync(file, `@import "${importPath}";\n`);
+      } catch (e) {
+        Log.error(`Failed to write to plugins file at ${importPath}`);
+        process.exit(1);
+      }
+    });
+  }
 }
 
 
@@ -129,6 +134,6 @@ export default function () {
   // create style import files on client and write import statements
   generateImportsFile(appRoot + '/client/plugins.css', cssImports);
   generateImportsFile(appRoot + '/client/plugins.less', lessImports);
-  generateImportsFile(appRoot + '/client/plugins.stylus', stylusImports);
+  generateImportsFile(appRoot + '/client/plugins.styl', stylusImports);
   generateImportsFile(appRoot + '/client/plugins.scss', scssImports);
 }
