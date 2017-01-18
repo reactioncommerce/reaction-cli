@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { exec } from 'shelljs';
-import { Log, exists, loadPlugins, checkForReactionUpdate } from '../utils';
+import { Log, exists, loadPlugins, loadStyles, checkForReactionUpdate } from '../utils';
 
 export async function run(yargs) {
   Log.args(yargs.argv);
@@ -55,6 +55,9 @@ export async function run(yargs) {
 
   Log.info('Setting up plugin imports...\n');
   loadPlugins();
+
+  Log.info('Setting up style imports...\n');
+  loadStyles();
 
   exec(cmd, { maxBuffer: 1024 * 1000 });
 }

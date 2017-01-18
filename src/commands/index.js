@@ -3,6 +3,7 @@ export * from './config';
 export * from './init';
 export * from './pull';
 export * from './plugins';
+export * from './styles';
 export * from './reset';
 export * from './run';
 export * from './test';

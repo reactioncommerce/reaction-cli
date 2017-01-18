@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import chalk from 'chalk';
 import { exec } from 'shelljs';
-import { Log, loadPlugins } from '../utils';
+import { Log, loadPlugins, loadStyles } from '../utils';
 
 export function test(yargs) {
   Log.args(yargs.argv);
@@ -10,6 +10,9 @@ export function test(yargs) {
 
   Log.info('Setting up plugin imports...\n');
   loadPlugins();
+
+  Log.info('Setting up style imports...\n');
+  loadStyles();
 
   let cmd = 'meteor test';
 

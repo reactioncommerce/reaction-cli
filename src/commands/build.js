@@ -1,5 +1,5 @@
 import { exec, which } from 'shelljs';
-import { Log, loadPlugins } from '../utils';
+import { Log, loadPlugins, loadStyles } from '../utils';
 
 export function build(yargs) {
   Log.args(yargs.argv);
@@ -29,6 +29,9 @@ https://docs.docker.com/engine/installation/
 
   Log.info('\nSetting up plugin imports...\n');
   loadPlugins();
+
+  Log.info('\nSetting up style imports...\n');
+  loadStyles();
 
   Log.info('Starting Docker build...\n');
   exec(`docker build -t ${commands[1]} .`);
