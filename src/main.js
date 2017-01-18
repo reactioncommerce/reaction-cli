@@ -3,7 +3,7 @@
 import 'babel-polyfill';
 import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
-import { init, config, pull, reset, run, test, update, plugins, build } from './commands';
+import { init, config, pull, reset, run, test, update, plugins, styles, build } from './commands';
 import { checkDeps, getVersions, initialize, Log } from './utils';
 
 // Notify about reaction-cli updates
@@ -76,6 +76,10 @@ initialize(() => {
 
     .command('plugins', 'Manage your Reaction plugins', (options) => {
       checkDeps(['app'], () => plugins(options));
+    })
+
+    .command('styles', 'Manage your Reaction styles (css, less, stylus, scss)', (options) => {
+      checkDeps(['app'], () => styles(options));
     })
 
     .command('build', 'Build a production Docker image', (options) => {
