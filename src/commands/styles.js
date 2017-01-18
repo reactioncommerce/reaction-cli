@@ -1,4 +1,4 @@
-import { Log, loadPlugins } from '../utils';
+import { Log, loadStyles } from '../utils';
 
 export function styles(yargs) {
   Log.args(yargs.argv);
@@ -14,7 +14,7 @@ export function styles(yargs) {
 
   if (commands[1] === 'load') {
     Log.info('\nSetting up style imports...\n');
-    loadPlugins();
+    loadStyles();
     return Log.success('Done!\n');
   }
 }
