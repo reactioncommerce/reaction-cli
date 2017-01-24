@@ -39,7 +39,6 @@
     "babel-cli": "^6.22.2",
     "babel-eslint": "^7.1.1",
     "babel-plugin-lodash": "^3.2.11",
-    "babel-preset-babili": "0.0.10",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-2": "^6.22.0",
     "babel-root-slash-import": "^3.1.0",
