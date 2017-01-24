@@ -29,10 +29,10 @@ export default function () {
 
   // get Yarn version (if found)
   if (!!which('yarn')) {
-    const yarnVer = exec('yarn version', { silent: true }).stdout.match(/v[0-9]+(\.[0-9]+)*/);
+    const yarnVer = exec('yarn version', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
 
-    if (Array.isArray(yarnVer) && /v[0-9]+(\.[0-9]+)*/.test(yarnVer[0])) {
-      versions.yarn = yarnVer[0].replace('v', '');
+    if (/[0-9]+(\.[0-9]+)*/.test(yarnVer)) {
+      versions.yarn = yarnVer;
     }
   }
 

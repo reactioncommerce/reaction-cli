@@ -19,6 +19,10 @@ initialize(() => {
       Log.info(`\nNode: ${Log.magenta(versions.node)}`);
       Log.info(`NPM: ${Log.magenta(versions.npm)}`);
 
+      if (versions.yarn) {
+        Log.info(`Yarn: ${Log.magenta(versions.yarn)}`);
+      }
+
       if (versions.docker) {
         Log.info(`Docker: ${Log.magenta(versions.docker)}`);
       }
