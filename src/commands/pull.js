@@ -1,4 +1,4 @@
-import { exec } from 'shelljs';
+import { exec, which } from 'shelljs';
 import { Log } from '../utils';
 
 export function pull(yargs) {
@@ -8,7 +8,11 @@ export function pull(yargs) {
   exec('git pull');
 
   Log.info('\nInstalling Node modules...');
-  exec('meteor npm install');
+  if (!!which('yarn')) {
+    exec('yarn install');
+  } else {
+    exec('meteor npm install');
+  }
 
   Log.success('Done!');
 }

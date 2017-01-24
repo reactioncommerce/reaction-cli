@@ -1,4 +1,4 @@
-import { exec } from 'shelljs';
+import { exec, which } from 'shelljs';
 import { Log } from '../utils';
 
 export function update(yargs) {
@@ -8,7 +8,11 @@ export function update(yargs) {
   exec('meteor update');
 
   Log.info('\nUpdating Node modules...');
-  exec('meteor npm update');
+  if (!!which('yarn')) {
+    exec('yarn update');
+  } else {
+    exec('meteor npm update');
+  }
 
   Log.success('Done!');
 }
