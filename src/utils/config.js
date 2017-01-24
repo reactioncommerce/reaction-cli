@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import uuid from 'uuid';
+import _ from 'lodash';
 import { getUserHome, exists, isEmptyOrMissing } from './fs';
 import checkIfInReactionDir from './check_app';
 import Log from './logger';
@@ -98,9 +99,15 @@ export function initLocalConfig() {
  * @param  {String} type - local or global [default]
  * @return {Object} returns JSON content from the config
  */
-export function get(type) {
+export function get(type, setting) {
+
   if (type !== 'global' && type !== 'local') {
-    Log.error('Must specify "global" or "local" config to retrieve');
+    Log.error('\nMust specify "global" or "local" config to retrieve');
+    process.exit(1);
+  }
+
+  if (typeof setting !== 'string') {
+    Log.error('\nMust specify a config setting to get');
     process.exit(1);
   }
 
@@ -115,7 +122,7 @@ export function get(type) {
   }
 
   try {
-    return fs.readJSONSync(config);
+    return _.get(fs.readJSONSync(config), setting);
   } catch (error) {
     Log.error(`Error reading Reaction config file: ${Log.magenta(config)}`);
     process.exit(1);
@@ -151,14 +158,14 @@ export function getUserId() {
  * @param  {Object} values - object of values that map to config file values
  * @return {Object} returns JSON content from the updated config
  */
-export function set(type, values) {
+export function set(type, setting, value) {
   if (type !== 'global' && type !== 'local') {
     Log.error('Must specify "global" or "local" config to retrieve');
     process.exit(1);
   }
 
-  if (typeof values !== 'object') {
-    Log.error('Must specify a values object to update the config');
+  if (typeof value === 'undefined') {
+    Log.error('Must provide a setting value to Config.set()');
     process.exit(1);
   }
 
@@ -185,7 +192,7 @@ export function set(type, values) {
     currentVals = defaults[type];
   }
 
-  const newVals = Object.assign({}, currentVals, values);
+  const newVals = _.set(currentVals, setting, value);
 
   try {
     fs.writeJSONSync(config, newVals);
