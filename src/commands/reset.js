@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { exec, rm } from 'shelljs';
+import { exec, rm, which } from 'shelljs';
 import { Log } from '../utils';
 
 
@@ -13,7 +13,11 @@ function resetNpm() {
   Log.info('\nDeleting node_modules...');
   rm('-rf', 'node_modules');
   Log.info('\nReinstalling node_modules...');
-  exec('meteor npm install');
+  if (!!which('yarn')) {
+    exec('yarn install');
+  } else {
+    exec('meteor npm install');
+  }
   Log.success('Done!\n');
 }
 
