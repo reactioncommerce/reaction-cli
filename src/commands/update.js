@@ -9,7 +9,7 @@ export function update(yargs) {
 
   Log.info('\nUpdating Node modules...');
   if (!!which('yarn')) {
-    exec('yarn update');
+    exec('yarn upgrade');
   } else {
     exec('meteor npm update');
   }
