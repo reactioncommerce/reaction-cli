@@ -1,6 +1,7 @@
 import fs from 'fs';
 import os from 'os';
-import { exec } from 'shelljs';
+import { exec, which } from 'shelljs';
+import Log from './logger';
 
 
 export default function () {
@@ -26,6 +27,12 @@ export default function () {
   // get NPM version
   versions.npm = exec('npm -v', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
 
+  // get Yarn version (if found)
+  if (!!which('yarn')) {
+    const yarnVer = exec('yarn version', { silent: true }).stdout.match(/v[0-9]+(\.[0-9]+)*/)[0];
+    versions.yarn = yarnVer.replace('v', '');
+  }
+
   // get Docker version
   const dockerVer = exec('docker -v', { silent: true }).stdout.replace(/Docker version /g, '');
   versions.docker = dockerVer ? dockerVer.substring(0, dockerVer.indexOf(',')) : null;
@@ -45,6 +52,8 @@ export default function () {
   } catch(e) {
     versions.reaction = null;
   }
+
+  Log.debug(versions);
 
   return versions;
 }
