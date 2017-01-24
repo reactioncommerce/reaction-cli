@@ -95,42 +95,6 @@ export function initLocalConfig() {
 
 
 /**
- * Get a Reaction config
- * @param  {String} type - local or global [default]
- * @return {Object} returns JSON content from the config
- */
-export function get(type, setting) {
-
-  if (type !== 'global' && type !== 'local') {
-    Log.error('\nMust specify "global" or "local" config to retrieve');
-    process.exit(1);
-  }
-
-  if (typeof setting !== 'string') {
-    Log.error('\nMust specify a config setting to get');
-    process.exit(1);
-  }
-
-  let config;
-
-  if (type === 'local') {
-    config = localConfigFile;
-    checkIfInReactionDir();
-    initLocalConfig();
-  } else {
-    config = globalConfigFile;
-  }
-
-  try {
-    return _.get(fs.readJSONSync(config), setting);
-  } catch (error) {
-    Log.error(`Error reading Reaction config file: ${Log.magenta(config)}`);
-    process.exit(1);
-  }
-}
-
-
-/**
  * Get a user ID
  * @return {String} user ID
  */
@@ -154,8 +118,46 @@ export function getUserId() {
 
 /**
  * Get a Reaction config
- * @param  {String} type - local or global [default]
- * @param  {Object} values - object of values that map to config file values
+ * @param  {String} type - specify global or local config
+ * @param  {String} setting - a '.' delimited string representing the settings obj path
+ * @return {Any} returns the value if found, else undefined
+ */
+export function get(type, setting) {
+
+  if (type !== 'global' && type !== 'local') {
+    Log.error('\nMust specify "global" or "local" config to retrieve');
+    process.exit(1);
+  }
+
+  if (typeof setting !== 'string') {
+    Log.error('\nMust specify a String value for the config setting to get');
+    process.exit(1);
+  }
+
+  let config;
+
+  if (type === 'local') {
+    config = localConfigFile;
+    checkIfInReactionDir();
+    initLocalConfig();
+  } else {
+    config = globalConfigFile;
+  }
+
+  try {
+    return _.get(fs.readJSONSync(config), setting);
+  } catch (error) {
+    Log.error(`Error reading Reaction config file: ${Log.magenta(config)}`);
+    process.exit(1);
+  }
+}
+
+
+/**
+ * Get a Reaction config
+ * @param  {String} type - specify global or local config
+ * @param  {String} setting - a '.' delimited string representing the settings obj path
+ * @param  {Any}    value - the value to set
  * @return {Object} returns JSON content from the updated config
  */
 export function set(type, setting, value) {
