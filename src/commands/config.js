@@ -26,19 +26,16 @@ export function config(yargs) {
   const args = _.omit(yargs.argv, ['_', '$0']);
   const type = args.global ? 'global' : 'local';
 
-  const vals = _.omit(args, [
-    'global',
-    'local',
-    'v',
-    'version',
-    'h',
-    'help',
-    'git',
-    'plugins'
-  ]);
-
-  if (subCommands[1] === 'set') {
-    Config.set(type, vals);
+  if (subCommands[1] === 'set' && !!subCommands[2] && !!subCommands[3]) {
+    Config.set(type, subCommands[2], subCommands[3]);
+    Log.success('Success!\n');
+  } else if (subCommands[1] === 'get' && !!subCommands[2]) {
+    Log.info(`Getting ${type} config...\n`);
+    const conf = Config.get(type, subCommands[2]);
+    Log.default(conf);
+  } else if (subCommands[1] === 'unset' && !!subCommands[2]) {
+    Log.info(`Unsetting ${type} config...\n`);
+    Config.unset(type, subCommands[2]);
     Log.success('Success!\n');
   } else if (subCommands[1] === 'reset') {
     Log.info(`Resetting ${type} Reaction CLI config...`);

@@ -154,7 +154,7 @@ export function get(type, setting) {
 
 
 /**
- * Get a Reaction config
+ * Set a Reaction config
  * @param  {String} type - specify global or local config
  * @param  {String} setting - a '.' delimited string representing the settings obj path
  * @param  {Any}    value - the value to set
@@ -204,6 +204,60 @@ export function set(type, setting, value) {
   }
 
   return newVals;
+}
+
+
+/**
+ * Unset a Reaction config
+ * @param  {String} type - specify global or local config
+ * @param  {String} setting - a '.' delimited string representing the settings obj path
+ * @param  {Any}    value - the value to set
+ * @return {Object} returns JSON content from the updated config
+ */
+export function unset(type, setting) {
+  if (type !== 'global' && type !== 'local') {
+    Log.error('Must specify "global" or "local" config to retrieve');
+    process.exit(1);
+  }
+
+  if (typeof setting === 'undefined') {
+    Log.error('Must provide a setting value to Config.unset()');
+    process.exit(1);
+  }
+
+  let config;
+
+  if (type === 'local') {
+    config = localConfigFile;
+    checkIfInReactionDir();
+    initLocalConfig();
+  } else {
+    config = globalConfigFile;
+  }
+
+  let values;
+
+  try {
+    values = fs.readJSONSync(config);
+  } catch (error) {
+    Log.error(`Error reading Reaction config file: ${Log.magenta(config)}`);
+    process.exit(1);
+  }
+
+  if (typeof values !== 'object') {
+    values = defaults[type];
+  }
+
+  _.unset(values, setting);
+
+  try {
+    fs.writeJSONSync(config, values);
+  } catch (error) {
+    Log.error(`Error writing to config file: ${Log.magenta(config)}`);
+    process.exit(1);
+  }
+
+  return true;
 }
 
 
