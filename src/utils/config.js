@@ -194,7 +194,15 @@ export function set(type, setting, value) {
     currentVals = defaults[type];
   }
 
-  const newVals = _.set(currentVals, setting, value);
+  let newVal = value;
+
+  if (value === 'true') {
+    newVal = true;
+  } else if (value === 'false') {
+    newVal = false;
+  }
+
+  const newVals = _.set(currentVals, setting, newVal);
 
   try {
     fs.writeJSONSync(config, newVals);
