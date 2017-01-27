@@ -1,6 +1,6 @@
 import inquirer from 'inquirer';
-import { exec, rm, which } from 'shelljs';
-import { Log } from '../utils';
+import { exec, rm } from 'shelljs';
+import { Log, yarnOrNpm } from '../utils';
 
 
 function resetMeteor() {
@@ -13,11 +13,7 @@ function resetNpm() {
   Log.info('\nDeleting node_modules...');
   rm('-rf', 'node_modules');
   Log.info('\nReinstalling node_modules...');
-  if (!!which('yarn')) {
-    exec('yarn install');
-  } else {
-    exec('meteor npm install');
-  }
+  exec(`${yarnOrNpm()} install`);
   Log.success('Done!\n');
 }
 
@@ -38,11 +34,9 @@ export function reset(yargs) {
       message: '\nResetting the database! Also delete node_modules?',
       default: false
     }]).then((answers) => {
+      resetMeteor();
       if (answers.reset) {
-        resetMeteor();
         resetNpm();
-      } else {
-        resetMeteor();
       }
     });
   }

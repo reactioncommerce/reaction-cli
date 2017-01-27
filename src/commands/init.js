@@ -1,5 +1,5 @@
-import { exec, which } from 'shelljs';
-import { exists, Log } from '../utils';
+import { exec } from 'shelljs';
+import { exists, Log, yarnOrNpm } from '../utils';
 
 export function init(argv) {
   Log.args(argv);
@@ -22,14 +22,7 @@ export function init(argv) {
   }
 
   Log.info('\nInstalling NPM packages...');
-
-  exec(`cd ${dirName}`);
-
-  if (!!which('yarn')) {
-    exec(`cd ${dirName} && yarn install`);
-  } else {
-    exec(`cd ${dirName} && meteor npm install`);
-  }
+  exec(`cd ${dirName} && ${yarnOrNpm()} install`);
 
   Log.success('\nReaction successfully installed!');
 

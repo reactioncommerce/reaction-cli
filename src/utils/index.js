@@ -11,3 +11,4 @@ export { default as Log } from './logger';
 export { default as loadPlugins } from './plugin-loader';
 export { default as loadStyles } from './style-loader';
 export { default as getVersions } from './versions';
+export * from './yarn_check';
