@@ -3,7 +3,7 @@ import inquirer from 'inquirer';
 import { Config } from './';
 
 export function hasYarn() {
-  return !!which('yarn');
+  return !!which('meteor yarn');
 }
 
 export function hasNpm() {
@@ -11,7 +11,7 @@ export function hasNpm() {
 }
 
 export function yarnOrNpm() {
-  return Config.get('global', 'yarn') ? 'yarn' : 'meteor npm';
+  return Config.get('global', 'yarn') ? 'yarn' : 'npm';
 }
 
 export function checkYarn(callback) {

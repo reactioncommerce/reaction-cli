@@ -22,7 +22,7 @@ export function init(argv) {
   }
 
   Log.info('\nInstalling NPM packages...');
-  exec(`cd ${dirName} && ${yarnOrNpm()} install`);
+  exec(`cd ${dirName} && meteor ${yarnOrNpm()} install`);
 
   Log.success('\nReaction successfully installed!');
 

@@ -13,7 +13,7 @@ function resetNpm() {
   Log.info('\nDeleting node_modules...');
   rm('-rf', 'node_modules');
   Log.info('\nReinstalling node_modules...');
-  exec(`${yarnOrNpm()} install`);
+  exec(`meteor ${yarnOrNpm()} install`);
   Log.success('Done!\n');
 }
 
