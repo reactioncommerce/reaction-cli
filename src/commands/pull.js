@@ -8,7 +8,11 @@ export function pull(yargs) {
   exec('git pull');
 
   Log.info('\nInstalling Node modules...');
-  exec(`meteor ${yarnOrNpm()} install`);
+
+  if (exec(`meteor ${yarnOrNpm()} install`).code !== 0) {
+    Log.error('\nError: Node modules were not successfully installed.');
+    process.exit(1);
+  }
 
   Log.success('Done!');
 }

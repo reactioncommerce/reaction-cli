@@ -22,7 +22,10 @@ export function init(argv) {
   }
 
   Log.info('\nInstalling NPM packages...');
-  exec(`cd ${dirName} && meteor ${yarnOrNpm()} install`);
+  if (exec(`cd ${dirName} && meteor ${yarnOrNpm()} install`).code !== 0) {
+    Log.error('\nError: Node modules were not successfully installed. Exiting.');
+    process.exit(1);
+  }
 
   Log.success('\nReaction successfully installed!');
 

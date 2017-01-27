@@ -10,9 +10,15 @@ export function update(yargs) {
   Log.info('\nUpdating Node modules...');
 
   if (yarnOrNpm() === 'yarn') {
-    exec('meteor yarn upgrade');
+    if (exec('meteor yarn upgrade').code !== 0) {
+      Log.error('\nError: Node modules were not successfully installed.');
+      process.exit(1);
+    }
   } else {
-    exec('meteor npm update');
+    if (exec('meteor npm update').code !== 0) {
+      Log.error('\nError: Node modules were not successfully installed.');
+      process.exit(1);
+    }
   }
 
   Log.success('Done!');
