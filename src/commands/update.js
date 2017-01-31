@@ -1,5 +1,5 @@
 import { exec } from 'shelljs';
-import { Log, yarnOrNpm } from '../utils';
+import { Log, upgradeModules } from '../utils';
 
 export function update(yargs) {
   Log.args(yargs.argv);
@@ -8,18 +8,7 @@ export function update(yargs) {
   exec('meteor update');
 
   Log.info('\nUpdating Node modules...');
-
-  if (yarnOrNpm() === 'yarn') {
-    if (exec('meteor yarn upgrade').code !== 0) {
-      Log.error('\nError: Node modules were not successfully installed.');
-      process.exit(1);
-    }
-  } else {
-    if (exec('meteor npm update').code !== 0) {
-      Log.error('\nError: Node modules were not successfully installed.');
-      process.exit(1);
-    }
-  }
+  upgradeModules();
 
   Log.success('Done!');
 }

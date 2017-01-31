@@ -8,6 +8,7 @@ export { Config };
 export * from './fs';
 export { default as initialize } from './initialize';
 export { default as Log } from './logger';
+export * from './node_modules';
 export { default as loadPlugins } from './plugin-loader';
 export { default as loadStyles } from './style-loader';
 export { default as getVersions } from './versions';

@@ -1,9 +1,9 @@
-import { which } from 'shelljs';
 import inquirer from 'inquirer';
+import { exec } from 'shelljs';
 import { Config } from './';
 
 export function hasYarn() {
-  return !!which('meteor yarn');
+  return /[0-9]+(\.[0-9]+)*/.test(exec('meteor yarn version', { silent: true }).stdout.replace(/\r?\n|\r/g, ''));
 }
 
 export function hasNpm() {

@@ -28,12 +28,10 @@ export default function () {
   versions.npm = exec('npm -v', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
 
   // get Yarn version (if found)
-  if (!!which('yarn')) {
-    const yarnVer = exec('yarn version', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
+  const yarnVer = exec('meteor yarn version', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
 
-    if (/[0-9]+(\.[0-9]+)*/.test(yarnVer)) {
-      versions.yarn = yarnVer;
-    }
+  if (/[0-9]+(\.[0-9]+)*/.test(yarnVer)) {
+    versions.yarn = yarnVer;
   }
 
   // get Docker version

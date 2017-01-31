@@ -1,5 +1,5 @@
 import { exec } from 'shelljs';
-import { exists, Log, yarnOrNpm } from '../utils';
+import { exists, Log, initInstallModules } from '../utils';
 
 export function init(argv) {
   Log.args(argv);
@@ -22,10 +22,7 @@ export function init(argv) {
   }
 
   Log.info('\nInstalling NPM packages...');
-  if (exec(`cd ${dirName} && meteor ${yarnOrNpm()} install`).code !== 0) {
-    Log.error('\nError: Node modules were not successfully installed. Exiting.');
-    process.exit(1);
-  }
+  initInstallModules(dirName);
 
   Log.success('\nReaction successfully installed!');
 
