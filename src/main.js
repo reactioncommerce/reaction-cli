@@ -90,9 +90,9 @@ initialize(() => {
       checkDeps(['app'], () => build(options));
     })
 
-    .command('register', 'Register an account on Launchdock', (options) => register(options))
+    .command('register', 'Register an account with Reaction', (options) => register(options))
 
-    .command('login', 'Login to Launchdock', (options) => login(options))
+    .command('login', 'Login to Reaction', (options) => login(options))
 
     .help('h')
     .alias('h', 'help')
