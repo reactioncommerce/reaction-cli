@@ -1,6 +1,6 @@
 import fs from 'fs';
 import os from 'os';
-import { exec, which } from 'shelljs';
+import { exec } from 'shelljs';
 import Log from './logger';
 
 

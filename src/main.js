@@ -3,7 +3,7 @@
 import 'babel-polyfill';
 import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
-import { init, config, pull, reset, run, test, update, plugins, styles, build } from './commands';
+import { init, config, pull, reset, run, test, update, plugins, styles, build, login, register } from './commands';
 import { checkDeps, getVersions, initialize, Log } from './utils';
 
 // Notify about reaction-cli updates
@@ -89,6 +89,10 @@ initialize(() => {
     .command('build', 'Build a production Docker image', (options) => {
       checkDeps(['app'], () => build(options));
     })
+
+    .command('register', 'Register an account on Launchdock', (options) => register(options))
+
+    .command('login', 'Login to Launchdock', (options) => login(options))
 
     .help('h')
     .alias('h', 'help')
