@@ -30,37 +30,41 @@ export class GraphQL {
     return fetch(this.url, opts).then((res) => res.json());
   }
 
-  login(email, password) {
-    if (!email || !password) {
+  login({ username, password }) {
+    if (!username || !password) {
       Log.error('\nEmail and password required');
       process.exit(1);
     }
 
     return this.fetch(`
-      mutation loginWithPassword ($email: String!, $password: HashedPassword!) {
-        loginWithPassword (email: $email, password: $password) {
+      mutation loginWithPassword ($username: String!, $password: HashedPassword!) {
+        loginWithPassword (username: $username, password: $password) {
           id
           token
           tokenExpires
         }
       }
-    `, { email, password: hashPassword(password) });
+    `, { username, password: hashPassword(password) });
   }
 
-  register(email, password) {
-    if (!email || !password) {
-      Log.error('\nEmail, password, and password confirmation required');
+  register({ token, username, password }) {
+    if (!token) {
+      Log.error('\nAn invite token is required');
+      process.exit(1);
+    }
+
+    if (!username || !password) {
+      Log.error('\nUsername, password, and password confirmation required');
       process.exit(1);
     }
 
     return this.fetch(`
-      mutation createUser ($email: String!, $password: HashedPassword!) {
-        createUser (email: $email, password: $password) {
-          id
-          token
-          tokenExpires
+      mutation acceptInvite($username: String!, $password: String!, $token: String!) {
+        acceptInvite(username: $username, password: $password, token: $token) {
+          _id
+          email
         }
       }
-    `, { email, password: hashPassword(password) });
+    `, { token, username, password: hashPassword(password) });
   }
 }

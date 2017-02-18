@@ -7,8 +7,12 @@ export function register(yargs) {
 
   inquirer.prompt([{
     type: 'input',
-    name: 'email',
-    message: 'Email:'
+    name: 'token',
+    message: 'Invite Token:'
+  }, {
+    type: 'input',
+    name: 'username',
+    message: 'Username:'
   }, {
     type: 'password',
     name: 'password',
@@ -18,9 +22,11 @@ export function register(yargs) {
     name: 'passwordAgain',
     message: 'Password again:'
   }]).then((answers) => {
+    const { token, username, password } = answers;
+
     const gql = new GraphQL();
 
-    gql.register(answers.email, answers.password)
+    gql.register({ token, username, password })
       .then((res) => {
         if (!!res.errors) {
           res.errors.forEach((err) => {
@@ -28,7 +34,10 @@ export function register(yargs) {
           });
           process.exit(1);
         }
-        Config.set('global', 'launchdock', res.data.createUser);
+
+        const config = Object.assign({}, res.data.acceptInvite, { username });
+
+        Config.set('global', 'launchdock', config);
       })
       .catch((e) => Log.error(e));
   });
