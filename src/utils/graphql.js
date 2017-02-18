@@ -10,7 +10,7 @@ export class GraphQL {
     if (!!endpoint && typeof endpoint !== 'string') {
       throw new TypeError('Please provide a GraphQL endpoint string');
     }
-    this.url = endpoint || process.env.LAUNCHDOCK_GRAPHQL_ENDPOINT || 'https://dev.launchdock.io/graphql';
+    this.url = endpoint || process.env.LAUNCHDOCK_GRAPHQL_ENDPOINT || 'https://api.getreaction.io/graphql';
   }
 
   fetch(query, variables = {}, opts = {}) {
