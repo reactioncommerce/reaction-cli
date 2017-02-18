@@ -7,16 +7,18 @@ export function login(yargs) {
 
   inquirer.prompt([{
     type: 'input',
-    name: 'email',
-    message: 'Email:'
+    name: 'username',
+    message: 'Username:'
   }, {
     type: 'password',
     name: 'password',
     message: 'Password:'
   }]).then((answers) => {
+    const { username, password } = answers;
+
     const gql = new GraphQL();
 
-    gql.login(answers.email, answers.password)
+    gql.login({ username, password })
       .then((res) => {
         if (!!res.errors) {
           res.errors.forEach((err) => {
@@ -24,7 +26,10 @@ export function login(yargs) {
           });
           process.exit(1);
         }
-        Config.set('global', 'launchdock', res.data.loginWithPassword);
+
+        const config = Object.assign({}, res.data.loginWithPassword, { username });
+
+        Config.set('global', 'launchdock', config);
       })
       .catch((e) => Log.error(e));
   });
