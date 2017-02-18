@@ -34,5 +34,8 @@ https://docs.docker.com/engine/installation/
   loadStyles();
 
   Log.info('Starting Docker build...\n');
-  exec(`docker build -t ${commands[1]} .`);
+  if (exec(`docker build -t ${commands[1]} .`).code !== 0) {
+    Log.error('\nError: Docker build failed. Exiting.');
+    process.exit(1);
+  }
 }
