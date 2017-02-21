@@ -10,3 +10,4 @@ export * from './register';
 export * from './run';
 export * from './test';
 export * from './update';
+export * from './whoami';

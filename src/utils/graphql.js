@@ -6,12 +6,21 @@ import hashPassword from './hash_password';
 
 
 export class GraphQL {
-  constructor(endpoint) {
+  constructor(options = {}) {
+    const { endpoint, token } = options;
+
     if (!!endpoint && typeof endpoint !== 'string') {
-      throw new TypeError('Please provide a GraphQL endpoint string');
+      throw new TypeError('GraphQL endpoint must be a String');
     }
-    this.url = endpoint || process.env.LAUNCHDOCK_GRAPHQL_ENDPOINT || 'https://api.getreaction.io/graphql';
+
+    if (!!token && typeof token !== 'string') {
+      throw new TypeError('Launchdock token must be a String');
+    }
+
+    this.url = process.env.LAUNCHDOCK_GRAPHQL_ENDPOINT || endpoint || 'https://api.getreaction.io/graphql';
+    this.token = process.env.LAUNCHDOCK_TOKEN || token || Config.get('global', 'launchdock.token');
   }
+
 
   fetch(query, variables = {}, opts = {}) {
     if (typeof query !== 'string') {
@@ -27,8 +36,13 @@ export class GraphQL {
       }
     });
 
+    if (this.token) {
+      opts.headers.Authorization = this.token;
+    }
+
     return fetch(this.url, opts).then((res) => res.json());
   }
+
 
   login({ username, password }) {
     if (!username || !password) {
@@ -51,6 +65,7 @@ export class GraphQL {
     `, { username, password: hashPassword(password) });
   }
 
+
   register({ token, username, password }) {
     if (!token) {
       Log.error('\nAn invite token is required');
@@ -70,5 +85,18 @@ export class GraphQL {
         }
       }
     `, { token, username, password });
+  }
+
+
+  whoami() {
+    return this.fetch(`
+      query {
+        currentUser {
+          _id
+          email
+          username
+        }
+      }
+    `);
   }
 }
