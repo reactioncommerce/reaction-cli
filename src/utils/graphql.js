@@ -39,9 +39,13 @@ export class GraphQL {
     return this.fetch(`
       mutation loginWithPassword ($username: String!, $password: HashedPassword!) {
         loginWithPassword (username: $username, password: $password) {
-          id
           token
           tokenExpires
+          user {
+            _id
+            username
+            email
+          }
         }
       }
     `, { username, password: hashPassword(password) });
@@ -65,6 +69,6 @@ export class GraphQL {
           email
         }
       }
-    `, { token, username, password: hashPassword(password) });
+    `, { token, username, password });
   }
 }

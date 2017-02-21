@@ -27,9 +27,11 @@ export function login(yargs) {
           process.exit(1);
         }
 
-        const config = Object.assign({}, res.data.loginWithPassword, { username });
+        const { user: { _id, email }, token, tokenExpires } = res.data.loginWithPassword;
 
-        Config.set('global', 'launchdock', config);
+        Config.set('global', 'launchdock', { _id, username, email, token, tokenExpires });
+
+        Log.success(`\nLogged in as ${username}`);
       })
       .catch((e) => Log.error(e));
   });
