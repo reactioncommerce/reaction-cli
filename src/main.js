@@ -3,7 +3,7 @@
 import 'babel-polyfill';
 import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
-import { init, config, pull, reset, run, test, update, plugins, styles, build, login, register, whoami } from './commands';
+import { init, config, pull, reset, run, test, update, plugins, styles, keys, build, login, register, whoami } from './commands';
 import { checkDeps, getVersions, initialize, Log } from './utils';
 
 // Notify about reaction-cli updates
@@ -95,6 +95,8 @@ initialize(() => {
     .command('login', 'Login to Reaction', (options) => login(options))
 
     .command('whoami', 'Check which account you are logged in as', (options) => whoami(options))
+
+    .command('keys', 'Manage your SSH keys', (options) => keys(options))
 
     .help('h')
     .alias('h', 'help')

@@ -1,6 +1,7 @@
 export * from './build';
 export * from './config';
 export * from './init';
+export * from './keys';
 export * from './login';
 export * from './pull';
 export * from './plugins';
