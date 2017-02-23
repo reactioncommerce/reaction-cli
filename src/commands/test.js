@@ -44,5 +44,8 @@ export function test(yargs) {
 
   Log.info(chalk.green(' ' + cmd + '\n'));
 
-  exec(cmd);
+  if (exec(cmd).code !== 0) {
+    Log.error('Tests failed.');
+    process.exit(1);
+  }
 }
