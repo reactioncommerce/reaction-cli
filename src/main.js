@@ -6,6 +6,13 @@ import updateNotifier from 'update-notifier';
 import { init, config, pull, reset, run, test, update, plugins, styles, keys, build, login, register, whoami } from './commands';
 import { checkDeps, getVersions, initialize, Log } from './utils';
 
+if (process.env.REACTION_CLI_DEBUG) {
+  /* eslint-disable no-console */
+  console.time('Reaction CLI runtime');
+  process.on('exit', () => console.timeEnd('Reaction CLI runtime'));
+  /* eslint-enable no-console */
+}
+
 // Notify about reaction-cli updates
 const pkg = require('../package.json');
 updateNotifier({ pkg }).notify();
