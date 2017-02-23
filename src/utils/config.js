@@ -219,7 +219,6 @@ export function set(type, setting, value) {
  * Unset a Reaction config
  * @param  {String} type - specify global or local config
  * @param  {String} setting - a '.' delimited string representing the settings obj path
- * @param  {Any}    value - the value to set
  * @return {Object} returns JSON content from the updated config
  */
 export function unset(type, setting) {
