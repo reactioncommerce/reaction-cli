@@ -3,8 +3,24 @@
 import 'babel-polyfill';
 import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
-import { init, config, pull, reset, run, test, update, plugins, styles, keys, build, login, register, whoami } from './commands';
 import { checkDeps, getVersions, initialize, Log } from './utils';
+import {
+  apps,
+  build,
+  config,
+  init,
+  keys,
+  login,
+  plugins,
+  pull,
+  register,
+  reset,
+  run,
+  styles,
+  test,
+  update,
+  whoami
+} from './commands';
 
 if (process.env.REACTION_CLI_DEBUG) {
   /* eslint-disable no-console */
@@ -104,6 +120,8 @@ initialize(() => {
     .command('whoami', 'Check which account you are logged in as', (options) => whoami(options))
 
     .command('keys', 'Manage your SSH keys', (options) => keys(options))
+
+    .command('apps', 'Manage your apps deployments', (options) => apps(options))
 
     .help('h')
     .alias('h', 'help')
