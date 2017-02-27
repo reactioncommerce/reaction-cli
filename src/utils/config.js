@@ -120,9 +120,10 @@ export function getUserId() {
  * Get a Reaction config
  * @param  {String} type - specify global or local config
  * @param  {String} setting - a '.' delimited string representing the settings obj path
+ * @param  {Any} defaultValue - a value to return if one is not found in the config
  * @return {Any} returns the value if found, else undefined
  */
-export function get(type, setting) {
+export function get(type, setting, defaultValue) {
 
   if (type !== 'global' && type !== 'local') {
     Log.error('\nMust specify "global" or "local" config to retrieve');
@@ -139,17 +140,19 @@ export function get(type, setting) {
   if (type === 'local') {
     config = localConfigFile;
     checkIfInReactionDir();
-    initLocalConfig();
   } else {
     config = globalConfigFile;
   }
 
+  let value;
   try {
-    return _.get(fs.readJSONSync(config), setting);
+    value = _.get(fs.readJSONSync(config), setting);
   } catch (error) {
     Log.error(`Error reading Reaction config file: ${Log.magenta(config)}`);
     process.exit(1);
   }
+
+  return value || defaultValue;
 }
 
 
