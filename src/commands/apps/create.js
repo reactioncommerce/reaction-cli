@@ -12,6 +12,7 @@ export default async function appCreate({ name, image }) {
         name
         image
         deploymentId
+        defaultUrl
       }
     }
   `, { name, image });
@@ -23,10 +24,9 @@ export default async function appCreate({ name, image }) {
     process.exit(1);
   }
 
-  Log.info(`Created new app: ${Log.magenta(result.data.appCreate.name)}\n`);
-
   if (!image) {
-    Log.info('Creating git remote for custom deployment...\n');
+    Log.info('\nCreating git remote for custom deployment...\n');
+    Log.info(`To deploy this repo, run: ${Log.magenta(`reaction deploy --name ${name}`)}`);
 
     const remote = `ssh://git@launchdock-builder.getreaction.io:2222/${result.data.appCreate.deploymentId}.git`;
 
@@ -34,9 +34,12 @@ export default async function appCreate({ name, image }) {
       Log.error('Failed to create git remote');
       process.exit(1);
     }
-
-    Log.success('Done!');
   }
+
+  Log.info(`\nCreated new app: ${Log.magenta(result.data.appCreate.name)}`);
+  Log.info(`URL: ${Log.magenta(result.data.appCreate.defaultUrl)}\n`);
+
+  Log.success('Done!');
 
   return listApps();
 }

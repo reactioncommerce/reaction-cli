@@ -10,6 +10,7 @@ export default async function appsList() {
         deploymentId
         name
         image
+        defaultUrl
       }
     }
   `);
