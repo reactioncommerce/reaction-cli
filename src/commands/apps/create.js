@@ -1,5 +1,5 @@
 import { exec } from 'shelljs';
-import { GraphQL, Log, exists } from '../../utils';
+import { GraphQL, Log } from '../../utils';
 import listApps from './list';
 
 export default async function createApp({ name, image }) {
@@ -30,7 +30,7 @@ export default async function createApp({ name, image }) {
 
     const remote = `ssh://git@launchdock-builder.getreaction.io:2222/${result.data.createApp.deploymentId}.git`;
 
-    if (exec(`git remote add launchdock ${remote}`).code !== 0) {
+    if (exec(`git remote add launchdock-${name} ${remote}`).code !== 0) {
       Log.error('Failed to create git remote');
       process.exit(1);
     }
