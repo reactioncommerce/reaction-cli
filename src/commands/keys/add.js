@@ -2,7 +2,7 @@ import fs from 'fs';
 import { Config, GraphQL, Log, exists } from '../../utils';
 
 
-export default async function addKey(publicKeyPath) {
+export default async function keyCreate(publicKeyPath) {
   if (!exists(publicKeyPath)) {
     return Log.error(`Public key not found at ${publicKeyPath}`);
   }
@@ -17,8 +17,8 @@ export default async function addKey(publicKeyPath) {
   const gql = new GraphQL();
 
   const result = await gql.fetch(`
-    mutation createKey($id: ID! $publicKey: String! ) {
-      createKey(id: $id, publicKey: $publicKey) {
+    mutation keyCreate($id: ID! $publicKey: String! ) {
+      keyCreate(id: $id, publicKey: $publicKey) {
         id
       }
     }
@@ -31,7 +31,7 @@ export default async function addKey(publicKeyPath) {
     process.exit(1);
   }
 
-  Log.info(`Added new public key: ${Log.magenta(result.data.createKey.id)}`);
+  Log.info(`Added new public key: ${Log.magenta(result.data.keyCreate.id)}`);
 
   const updatedKeys = await gql.fetch(`
     query {

@@ -1,7 +1,7 @@
 import { Log } from '../../utils';
 import listKeys from './list';
-import addKey from './add';
-import deleteKey from './delete';
+import keyCreate from './add';
+import keyDelete from './delete';
 
 const helpMessage = `
 Usage:
@@ -32,7 +32,7 @@ export async function keys(yargs) {
 
     const publicKeyPath = subCommands[2];
 
-    return addKey(publicKeyPath);
+    return keyCreate(publicKeyPath);
   }
 
 
@@ -50,6 +50,6 @@ export async function keys(yargs) {
 
     const publicKeyId = subCommands[2];
 
-    return deleteKey(publicKeyId);
+    return keyDelete(publicKeyId);
   }
 }

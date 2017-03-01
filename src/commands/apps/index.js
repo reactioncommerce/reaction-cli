@@ -1,9 +1,9 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
 import { Config, Log } from '../../utils';
-import listApps from './list';
-import createApp from './create';
-import deleteApp from './delete';
+import appsList from './list';
+import appCreate from './create';
+import appDelete from './delete';
 
 const helpMessage = `
 Usage:
@@ -21,6 +21,7 @@ export async function apps(yargs) {
 
   const subCommands = yargs.argv._;
   const args = _.omit(yargs.argv, ['_', '$0']);
+  const { name, image } = args;
 
   if (!subCommands[1]) {
     return Log.default(helpMessage);
@@ -28,7 +29,6 @@ export async function apps(yargs) {
 
   // create
   if (subCommands[1] === 'create') {
-    const { name, image } = args;
 
     if (!name) {
       return Log.error('Error: App name required');
@@ -64,12 +64,12 @@ export async function apps(yargs) {
       }
     }
 
-    return createApp({ name, image });
+    return appCreate({ name, image });
   }
 
   // list
   if (subCommands[1] === 'list') {
-    const allApps = await listApps();
+    const allApps = await appsList();
 
     if (allApps.length !== 0) {
       Log.info('\nApps:\n');
@@ -79,12 +79,10 @@ export async function apps(yargs) {
 
   // delete
   if (subCommands[1] === 'delete') {
-    const appName = subCommands[2];
-
-    if (!appName) {
+    if (!name) {
       return Log.error('App name required');
     }
 
-    return deleteApp(appName);
+    return appDelete({ name });
   }
 }

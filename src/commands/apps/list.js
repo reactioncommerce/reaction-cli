@@ -1,6 +1,6 @@
 import { Config, GraphQL, Log } from '../../utils';
 
-export default async function listKeys() {
+export default async function appsList() {
   const gql = new GraphQL();
 
   const result = await gql.fetch(`

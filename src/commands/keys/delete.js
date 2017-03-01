@@ -1,11 +1,11 @@
 import { Config, GraphQL, Log } from '../../utils';
 
-export default async function deleteKey(publicKeyId) {
+export default async function keyDelete(publicKeyId) {
   const gql = new GraphQL();
 
   const res = await gql.fetch(`
-    mutation deleteKey($id: ID!) {
-      deleteKey(id: $id) {
+    mutation keyDelete($id: ID!) {
+      keyDelete(id: $id) {
         success
       }
     }
