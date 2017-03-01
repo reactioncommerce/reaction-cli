@@ -69,7 +69,7 @@ export async function deploy(yargs) {
 
     Log.success('\nDone!\n');
 
-    Log.info(`Updated ${Log.magenta(name)} with image ${Log.magenta(options.image)}\n`) ;
+    Log.info(`Updated ${Log.magenta(name)} with image ${Log.magenta(options.image)}\n`);
     Log.info('Your app will be ready as soon as the image finishes starting up.\n');
     Log.info(`App URL: ${Log.magenta(defaultUrl)}\n`);
 
