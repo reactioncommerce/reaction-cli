@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import _ from 'lodash';
 import { Config, Log } from '../../utils';
 import listApps from './list';
@@ -44,15 +44,13 @@ export async function apps(yargs) {
 
       let packageFile;
       try {
-        packageFile = fs.readFileSync('./package.json', 'utf8');
+        packageFile = fs.readJSONSync('./package.json');
       } catch(e) {
         notInReactionDir();
         process.exit(1);
       }
 
-      const f = JSON.parse(packageFile);
-
-      if (f.name !== 'reaction') {
+      if (packageFile.name !== 'reaction') {
         notInReactionDir();
         process.exit(1);
       }
