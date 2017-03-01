@@ -8,6 +8,7 @@ import {
   apps,
   build,
   config,
+  deploy,
   init,
   keys,
   login,
@@ -122,6 +123,8 @@ initialize(() => {
     .command('keys', 'Manage your SSH keys', (options) => keys(options))
 
     .command('apps', 'Manage your apps deployments', (options) => apps(options))
+
+    .command('deploy', 'Deploy an app', (options) => deploy(options))
 
     .help('h')
     .alias('h', 'help')
