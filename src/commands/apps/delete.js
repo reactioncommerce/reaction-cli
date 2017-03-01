@@ -1,15 +1,9 @@
 import _ from 'lodash';
 import { Config, GraphQL, Log } from '../../utils';
-import listApps from './list';
 
-export default async function deleteKey({ appName }) {
-  const apps = Config.get('global', 'launchdock.apps');
-
-  if (!apps) {
-    return Log.error('\nApp deployment not found');
-  }
-
-  const app = _.find(apps, (a) => a.name === appName);
+export default async function appDelete({ name }) {
+  const apps = Config.get('global', 'launchdock.apps', []);
+  const app = _.filter(apps, (a) => a.name === name)[0];
 
   if (!app) {
     return Log.error('\nApp deployment not found');
@@ -18,8 +12,8 @@ export default async function deleteKey({ appName }) {
   const gql = new GraphQL();
 
   const res = await gql.fetch(`
-    mutation deleteApp($_id: ID!) {
-      deleteKey(_id: $_id) {
+    mutation appDelete($_id: ID!) {
+      appDelete(_id: $_id) {
         success
       }
     }
@@ -32,5 +26,5 @@ export default async function deleteKey({ appName }) {
     process.exit(1);
   }
 
-  return listApps();
+  Config.set('global', 'launchdock.apps', _.reject(apps, (a) => a.name === name));
 }
