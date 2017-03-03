@@ -5,7 +5,7 @@ import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
 import { checkDeps, getVersions, initialize, Log } from './utils';
 import {
-  app,
+  apps,
   build,
   config,
   deploy,
@@ -122,7 +122,7 @@ initialize(() => {
 
     .command('keys', 'Manage your SSH keys', (options) => keys(options))
 
-    .command('app', 'Manage your apps deployments', (options) => app(options))
+    .command('apps', 'Manage your apps deployments', (options) => apps(options))
 
     .command('deploy', 'Deploy an app', (options) => deploy(options))
 
