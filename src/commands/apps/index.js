@@ -16,7 +16,7 @@ Usage:
       delete    Remove an existing app deployment from Launchdock
 `;
 
-export async function apps(yargs) {
+export async function app(yargs) {
   Log.args(yargs.argv);
 
   const subCommands = yargs.argv._;
