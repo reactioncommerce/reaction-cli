@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { exec } from 'shelljs';
-import { Log, exists, loadPlugins, loadStyles, checkForReactionUpdate } from '../utils';
+import { Log, exists, loadPlugins, loadStyles, checkForReactionUpdate, setRegistryEnv } from '../utils';
 
 export async function run(yargs) {
   Log.args(yargs.argv);
@@ -38,7 +38,7 @@ export async function run(yargs) {
     cmd += ` --settings ${devSettings}`;
   }
 
-  _.forEach(_.omit(args, ['settings', 'raw-logs', 'rawLogs']), (val, key) => {
+  _.forEach(_.omit(args, ['settings', 'registry', 'raw-logs', 'rawLogs']), (val, key) => {
     if (val) {
       const dash = key.length > 1 ? '--' : '-';
       if (val === true) {
@@ -48,6 +48,10 @@ export async function run(yargs) {
       }
     }
   });
+
+  if (args.registry) {
+    setRegistryEnv(args.registry);
+  }
 
   cmd += ' --raw-logs';
 
