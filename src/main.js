@@ -9,6 +9,7 @@ import {
   build,
   config,
   deploy,
+  env,
   init,
   keys,
   login,
@@ -126,7 +127,10 @@ initialize(() => {
 
     .command('deploy', 'Deploy an app', (options) => deploy(options))
 
+    .command('env', 'Manage environment variables for an app deployment', (options) => env(options))
+
     .alias('a', 'app')
+    .alias('e', 'env')
     .alias('n', 'name')
     .alias('i', 'image')
     .alias('s', 'settings')
