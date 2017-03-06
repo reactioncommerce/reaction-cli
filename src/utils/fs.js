@@ -68,8 +68,37 @@ export function getFiles(dir) {
     });
     return files;
   } catch(e) {
-    Log.error('Directory not found: ' + dir);
-    Log.error(e);
+    Log.error(e, `Directory not found: ${Log.magenta(dir)}`);
+    process.exit(1);
+  }
+}
+
+
+/**
+ * Read and return the contents of a JSON file at a given path
+ * @param {String} file - path to a JSON file
+ * @return {Object} returns the JSON content of the file
+ */
+export function getJSONFromFile(file) {
+  try {
+    return fs.readJSONSync(file);
+  } catch (error) {
+    Log.error(error, `Error reading JSON file: ${Log.magenta(file)}`);
+    process.exit(1);
+  }
+}
+
+
+/**
+ * Read and return the contents of a JSON file at a given path
+ * @param {String} file - path to a JSON file
+ * @return {Object} returns the JSON content of the file
+ */
+export function getStringFromFile(file) {
+  try {
+    return fs.readFileSync(file, 'utf8');
+  } catch (error) {
+    Log.error(error, `Error reading file: ${Log.magenta(file)}`);
     process.exit(1);
   }
 }
@@ -82,4 +111,3 @@ export function getFiles(dir) {
 export function getUserHome() {
   return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
 }
-
