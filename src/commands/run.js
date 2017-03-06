@@ -38,7 +38,7 @@ export async function run(yargs) {
     cmd += ` --settings ${devSettings}`;
   }
 
-  _.forEach(_.omit(args, ['settings', 'registry', 'raw-logs', 'rawLogs']), (val, key) => {
+  _.forEach(_.omit(args, ['settings', 's', 'registry', 'r', 'raw-logs', 'rawLogs']), (val, key) => {
     if (val) {
       const dash = key.length > 1 ? '--' : '-';
       if (val === true) {

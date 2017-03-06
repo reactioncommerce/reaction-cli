@@ -126,6 +126,12 @@ initialize(() => {
 
     .command('deploy', 'Deploy an app', (options) => deploy(options))
 
+    .alias('a', 'app')
+    .alias('n', 'name')
+    .alias('i', 'image')
+    .alias('s', 'settings')
+    .alias('r', 'registry')
+
     .help('h')
     .alias('h', 'help')
     .showHelpOnFail(false)
