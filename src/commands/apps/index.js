@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
-import { Config, Log } from '../../utils';
+import { Config, Log, getStringFromFile } from '../../utils';
 import appsList from './list';
 import appCreate from './create';
 import appDelete from './delete';
@@ -66,7 +66,17 @@ export async function apps(yargs) {
       }
     }
 
-    return appCreate({ name, image });
+    const env = {};
+
+    if (args.settings) {
+      env.METEOR_SETTINGS = getStringFromFile(args.settings);
+    }
+
+    if (args.registry) {
+      env.REACTION_REGISTRY = getStringFromFile(args.registry);
+    }
+
+    return appCreate({ name, image, env });
   }
 
   // list

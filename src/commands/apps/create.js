@@ -2,12 +2,12 @@ import { exec } from 'shelljs';
 import { GraphQL, Log } from '../../utils';
 import listApps from './list';
 
-export default async function appCreate({ name, image }) {
+export default async function appCreate({ name, image, env }) {
   const gql = new GraphQL();
 
   const result = await gql.fetch(`
-    mutation appCreate($name: String! $image: String ) {
-      appCreate(name: $name, image: $image) {
+    mutation appCreate($name: String! $image: String, $env: JSON ) {
+      appCreate(name: $name, image: $image, env: $env) {
         _id
         name
         image
@@ -15,7 +15,7 @@ export default async function appCreate({ name, image }) {
         defaultUrl
       }
     }
-  `, { name, image });
+  `, { name, image, env });
 
   if (!!result.errors) {
     result.errors.forEach((err) => {
