@@ -59,7 +59,9 @@ export async function apps(yargs) {
 
       if (!keys.length) {
         Log.error('\nAn SSH public key is required to do custom deployments\n');
-        Log.info(`To publish a new key: ${Log.magenta('reaction keys add /path/to/key.pub')}\n`);
+        Log.info(`To add a key to your account: ${Log.magenta('reaction keys add /path/to/key.pub')}\n`);
+        const keypairHelpUrl = 'https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/';
+        Log.info(`More info about creating a key pair: ${Log.magenta(keypairHelpUrl)}\n`);
         process.exit(1);
       }
     }
