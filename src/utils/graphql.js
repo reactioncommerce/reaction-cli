@@ -40,6 +40,10 @@ export class GraphQL {
       opts.headers['meteor-login-token'] = this.token;
     }
 
+    Log.debug(`GraphQL url: ${this.url}`);
+    Log.debug('GraphQL fetch options:');
+    Log.debug(opts);
+
     return fetch(this.url, opts).then((res) => res.json()).catch((e) => Log.error(e));
   }
 
