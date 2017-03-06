@@ -35,7 +35,7 @@ export function register(yargs) {
           process.exit(1);
         }
 
-        const { _id, email } = res.data.acceptInvite;
+        const { _id, email } = res.data.inviteAccept;
 
         Config.set('global', 'launchdock', { _id, username, email });
 

@@ -82,8 +82,8 @@ export class GraphQL {
     }
 
     return this.fetch(`
-      mutation acceptInvite($username: String!, $password: String!, $token: String!) {
-        acceptInvite(username: $username, password: $password, token: $token) {
+      mutation inviteAccept($username: String!, $password: String!, $token: String!) {
+        inviteAccept(username: $username, password: $password, token: $token) {
           _id
           email
         }
