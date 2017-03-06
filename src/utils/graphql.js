@@ -37,7 +37,7 @@ export class GraphQL {
     });
 
     if (this.token) {
-      opts.headers.Authorization = this.token;
+      opts.headers['meteor-login-token'] = this.token;
     }
 
     return fetch(this.url, opts).then((res) => res.json());
