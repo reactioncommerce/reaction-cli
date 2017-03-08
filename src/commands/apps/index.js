@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
+import Table from 'cli-table2';
 import { Config, Log, getStringFromFile } from '../../utils';
 import appsList from './list';
 import appCreate from './create';
@@ -84,8 +85,19 @@ export async function apps(yargs) {
     const allApps = await appsList();
 
     if (allApps.length !== 0) {
-      Log.info('\nApps:\n');
-      allApps.forEach((app) => Log.info(` ${Log.magenta(app.name)}`));
+      const { blue, magenta } = Log;
+      const table = new Table({ head: [blue('App ID'), blue('Name'), blue('Image'), blue('URL')] });
+
+      Log.info('\nApps List\n');
+
+      allApps.forEach((app) => {
+        const row = [];
+        _.forEach(_.omit(app, ['deploymentId']), (val) => row.push(magenta(val || '')));
+        table.push(row);
+      });
+
+      Log.info(table.toString());
+      Log.info('');
     }
   }
 
