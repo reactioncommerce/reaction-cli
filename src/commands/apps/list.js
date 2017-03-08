@@ -23,8 +23,6 @@ export default async function appsList() {
   }
 
   if (result.data.apps.length === 0) {
-    Log.info('\nNo apps found.\n');
-    Log.info(`Run ${Log.magenta('reaction apps create <appname>')} to create one.\n`);
     Config.unset('global', 'launchdock.apps');
   } else {
     Config.set('global', 'launchdock.apps', result.data.apps);

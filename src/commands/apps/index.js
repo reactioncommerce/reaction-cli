@@ -98,6 +98,9 @@ export async function apps(yargs) {
 
       Log.info(table.toString());
       Log.info('');
+    } else {
+      Log.info('\nNo apps found.\n');
+      Log.info(`Run ${Log.magenta('reaction apps create <appname>')} to create one.\n`);
     }
   }
 

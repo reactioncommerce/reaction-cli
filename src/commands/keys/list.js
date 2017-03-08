@@ -21,14 +21,10 @@ export default async function listKeys() {
   }
 
   if (result.data.sshKeys.length === 0) {
-    Log.info('\nNo SSH keys found.\n');
-    Log.info(`Run ${Log.magenta('reaction keys add /path/to/key.pub')} to upload one.\n`);
-    return Config.unset('global', 'launchdock.keys');
+    Config.unset('global', 'launchdock.keys');
+  } else {
+    Config.set('global', 'launchdock.keys', result.data.sshKeys);
   }
-
-  result.data.sshKeys.forEach((k) => Log.info(k.id));
-
-  Config.set('global', 'launchdock.keys', result.data.sshKeys);
 
   return result.data.sshKeys;
 }

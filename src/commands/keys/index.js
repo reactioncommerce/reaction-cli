@@ -38,7 +38,15 @@ export async function keys(yargs) {
 
   // list
   if (subCommands[1] === 'list') {
-    return listKeys();
+    const sshKeys = await listKeys();
+
+    if (sshKeys.length === 0) {
+      Log.info('\nNo SSH keys found.\n');
+      Log.info(`Run ${Log.magenta('reaction keys add /path/to/key.pub')} to upload one.\n`);
+      process.exit(0);
+    }
+
+    sshKeys.forEach((k) => Log.info(k.id));
   }
 
 
