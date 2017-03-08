@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { exec } from 'shelljs';
 import { Config, GraphQL, Log } from '../../utils';
 
 export default async function appDelete({ name }) {
@@ -25,6 +26,8 @@ export default async function appDelete({ name }) {
     });
     process.exit(1);
   }
+
+  exec(`git remote remove launchdock-${name}`, { silent: true });
 
   Config.set('global', 'launchdock.apps', _.reject(apps, (a) => a.name === name));
 }
