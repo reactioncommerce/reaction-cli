@@ -7,6 +7,7 @@ export * from './init';
 export * from './keys';
 export * from './login';
 export * from './pull';
+export * from './open';
 export * from './plugins';
 export * from './styles';
 export * from './reset';

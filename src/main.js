@@ -13,6 +13,7 @@ import {
   init,
   keys,
   login,
+  open,
   plugins,
   pull,
   register,
@@ -128,6 +129,8 @@ initialize(() => {
     .command('deploy', 'Deploy an app', (options) => deploy(options))
 
     .command('env', 'Manage environment variables for an app deployment', (options) => env(options))
+
+    .command('open', 'Open an app deployment in your browser', (options) => open(options))
 
     .alias('a', 'app')
     .alias('e', 'env')
