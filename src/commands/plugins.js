@@ -19,4 +19,9 @@ export function plugins(yargs) {
     loadStyles();
     return Log.success('Done!\n');
   }
+  else {
+    Log.error('\nOops! wrong subcommand.\n');
+    Log.error('To load plugins, try running:\n');
+    Log.warn(Log.yellow(' reaction plugins load\n'));
+  }
 }
