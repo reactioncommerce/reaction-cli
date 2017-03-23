@@ -1,5 +1,14 @@
 import { Log, loadPlugins, loadStyles } from '../utils';
 
+const helpMessage = `
+Usage:
+
+  reaction plugins [command]
+
+    Commands:
+      load     Set up the imports of your internal Reaction plugins
+`;
+
 export function plugins(yargs) {
   Log.args(yargs.argv);
 
@@ -19,4 +28,7 @@ export function plugins(yargs) {
     loadStyles();
     return Log.success('Done!\n');
   }
+
+  Log.error('\nInvalid subcommand');
+  Log.default(helpMessage);
 }
