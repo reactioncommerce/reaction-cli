@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import _ from 'lodash';
 import Log from './logger';
 import { exists, getDirectories } from './fs';
 
@@ -59,7 +60,8 @@ function getImportPaths(baseDirPath) {
   };
 
   // get all plugin directories at provided base path
-  const pluginDirs = getDirectories(baseDirPath);
+  // (ignore directories starting with a dot '.')
+  const pluginDirs = _.reject(getDirectories(baseDirPath), (d) => d.charAt(0) === '.');
 
   const clientImportPaths = [];
   const serverImportPaths = [];
