@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
+import { exec } from 'shelljs';
 import Log from './logger';
 import { exists, getDirectories } from './fs';
 
@@ -72,6 +73,7 @@ function getImportPaths(baseDirPath) {
     const clientImport = baseDirPath + plugin + '/client/index.js';
     const serverImport = baseDirPath + plugin + '/server/index.js';
     const registryImport = baseDirPath + plugin + '/register.js';
+    const packageDotJson = baseDirPath + plugin + '/package.json';
 
     // import the client files if they exist
     if (exists(clientImport)) {
@@ -86,6 +88,16 @@ function getImportPaths(baseDirPath) {
     // import plugin registry files
     if (exists(registryImport)) {
       registryImportPaths.push(getImportPath(registryImport));
+    }
+
+    // run npm install if package.json exists
+    if (exists(packageDotJson)) {
+      Log.info(`\nInstalling dependencies for ${plugin}...`);
+
+      if (exec(`cd ${baseDirPath}${plugin} && meteor npm i`).code !== 0) {
+        Log.error(`Failed to install npm dependencies for plugin: ${plugin}`);
+        process.exit(1);
+      }
     }
   });
 
@@ -126,6 +138,6 @@ export default function () {
   const appRoot = path.resolve('.').split('.meteor')[0];
 
   // create import files on client and server and write import statements
-  generateImportsFile(appRoot + '/client/plugins.js', clientImports);
-  generateImportsFile(appRoot + '/server/plugins.js', serverImports);
+  generateImportsFile(`${appRoot}/client/plugins.js`, clientImports);
+  generateImportsFile(`${appRoot}/server/plugins.js`, serverImports);
 }
