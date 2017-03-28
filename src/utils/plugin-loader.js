@@ -92,7 +92,7 @@ function getImportPaths(baseDirPath) {
 
     // run npm install if package.json exists
     if (exists(packageDotJson)) {
-      Log.info(`\nInstalling dependencies for ${plugin}...`);
+      Log.info(`Installing dependencies for ${plugin}...\n`);
 
       if (exec(`cd ${baseDirPath}${plugin} && meteor npm i`).code !== 0) {
         Log.error(`Failed to install npm dependencies for plugin: ${plugin}`);
