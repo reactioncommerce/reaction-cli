@@ -58,8 +58,8 @@ initialize(() => {
       if (versions.reaction) {
         Log.info(`Reaction: ${Log.magenta(versions.reaction)}`);
 
-        if (versions.branchName) {
-          Log.info(`Reaction Branch: ${Log.magenta(versions.branchName)}`);
+        if (versions.reactionBranch) {
+          Log.info(`Reaction Branch: ${Log.magenta(versions.reactionBranch)}`);
         }
       }
 
