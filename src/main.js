@@ -70,7 +70,7 @@ initialize(() => {
         describe: 'The branch to clone from Github [default: master]',
         default: 'master'
       });
-    }, (argv) => init(argv))
+    }, (argv) => checkDeps(['meteor'], () => init(argv)))
 
     .command('config', 'Get/set config values', (options) => {
       config(options);
