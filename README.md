@@ -10,13 +10,15 @@ A command line tool for [Reaction Commerce](https://reactioncommerce.com)
 
 ## Install
 
+Before you can use Reaction or `reaction-cli`, you'll need to make sure you [install the base requirements for your operating system](https://docs.reactioncommerce.com/reaction-docs/master/requirements).
+
+After that, you can now install `reaction-cli` with...
+
 ```sh
 npm install -g reaction-cli
 ```
 
 ## Usage
-
-This tool is under heavy development. More usage docs coming soon.
 
 ```sh
 $ reaction --help
@@ -32,11 +34,20 @@ $ reaction --help
     update, up  Update Atmosphere and NPM packages
     reset       Reset the database and (optionally) delete build files
     build       Build a production Docker image
+    register  Register an account with Reaction
+    login     Login to Reaction
+    whoami    Check which account you are logged in as
+    keys      Manage your SSH keys
+    apps      Manage your apps deployments
+    deploy    Deploy an app
+    env       Manage environment variables for an app deployment
+    open      Open an app deployment in your browser
 
   Options:
     -v, --version  Show app and CLI version numbers
     -h, --help     Show help
 ```
+
 ## Tracking
 
 This app reports anonymous, aggregate usage data to help us improve and debug Reaction Commerce. View our [Privacy Policy](https://reactioncommerce.com/legal/privacy).
