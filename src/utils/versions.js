@@ -1,7 +1,6 @@
 import fs from 'fs';
 import os from 'os';
 import { exec } from 'shelljs';
-import Log from './logger';
 
 
 export default function () {
@@ -32,7 +31,7 @@ export default function () {
   versions.docker = dockerVer ? dockerVer.substring(0, dockerVer.indexOf(',')) : null;
 
   // get Reaction git branch name
-  const branchName = exec('git rev-parse --abbrev-ref HEAD', { silent: true });
+  const branchName = exec('git rev-parse --abbrev-ref HEAD', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
   versions.branchName = branchName.indexOf('fatal') === -1 ? branchName : null;
 
   // get reaction-cli version
