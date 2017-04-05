@@ -31,8 +31,8 @@ export default function () {
   versions.docker = dockerVer ? dockerVer.substring(0, dockerVer.indexOf(',')) : null;
 
   // get Reaction git branch name
-  const branchName = exec('git rev-parse --abbrev-ref HEAD', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
-  versions.branchName = branchName.indexOf('fatal') === -1 ? branchName : null;
+  const reactionBranch = exec('git rev-parse --abbrev-ref HEAD', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
+  versions.reactionBranch = reactionBranch.indexOf('fatal') === -1 ? reactionBranch : null;
 
   // get reaction-cli version
   versions.cli = require('../../package.json').version;
