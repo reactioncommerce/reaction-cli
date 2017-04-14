@@ -11,6 +11,9 @@ export default async function appsList() {
         name
         image
         defaultUrl
+        user {
+          username
+        }
       }
     }
   `);

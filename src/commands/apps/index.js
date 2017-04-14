@@ -86,13 +86,28 @@ export async function apps(yargs) {
 
     if (allApps.length !== 0) {
       const { blue, magenta } = Log;
-      const table = new Table({ head: [blue('App ID'), blue('Name'), blue('Image'), blue('URL')] });
+
+      const table = new Table({
+        head: [
+          blue('App ID'),
+          blue('Name'),
+          blue('Image'),
+          blue('URL'),
+          blue('Created By')
+        ]
+      });
 
       Log.info('\nApps List\n');
 
       allApps.forEach((app) => {
         const row = [];
-        _.forEach(_.omit(app, ['deploymentId']), (val) => row.push(magenta(val || '')));
+        _.forEach(_.omit(app, ['deploymentId']), (val, key) => {
+          if (key === 'user') {
+            row.push(magenta(val.username));
+          } else {
+            row.push(magenta(val || ''));
+          }
+        });
         table.push(row);
       });
 
