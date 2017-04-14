@@ -1,4 +1,4 @@
-import { GraphQL, Log } from '../utils';
+import { Config, GraphQL, Log } from '../utils';
 
 
 export function whoami(yargs) {
@@ -26,6 +26,11 @@ export function whoami(yargs) {
     Log.info(`Username: ${Log.magenta(username)}`);
     Log.info(`Email: ${Log.magenta(email)}`);
     Log.debug(`User ID: ${_id}`);
+
+    if (yargs.argv.token) {
+      const token = Config.get('global', 'launchdock.token');
+      Log.info(`Token: ${Log.magenta(typeof token === 'string' ? token : '***no token found***')}`);
+    }
   })
   .catch((e) => Log.error(e));
 }
