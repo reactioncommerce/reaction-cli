@@ -92,7 +92,8 @@ export async function apps(yargs) {
           blue('App ID'),
           blue('Name'),
           blue('Image'),
-          blue('URL'),
+          blue('Default URL'),
+          blue('Domains'),
           blue('Created By')
         ]
       });
@@ -102,7 +103,9 @@ export async function apps(yargs) {
       allApps.forEach((app) => {
         const row = [];
         _.forEach(_.omit(app, ['deploymentId']), (val, key) => {
-          if (key === 'user') {
+          if (key === 'domains' && Array.isArray(val) && val.length > 1) {
+            row.push(magenta(val.length > 1 ? val.join('\n') : val));
+          } else if (key === 'user') {
             row.push(magenta(val.username));
           } else {
             row.push(magenta(val || ''));

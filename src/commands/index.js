@@ -2,6 +2,7 @@ export * from './apps';
 export * from './build';
 export * from './config';
 export * from './deploy';
+export * from './domains';
 export * from './env';
 export * from './init';
 export * from './keys';

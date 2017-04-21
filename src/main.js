@@ -9,6 +9,7 @@ import {
   build,
   config,
   deploy,
+  domains,
   env,
   init,
   keys,
@@ -134,9 +135,12 @@ initialize(() => {
 
     .command('env', 'Manage environment variables for an app deployment', (options) => env(options))
 
+    .command('domains', 'Add a custom domain name to a deployment', (options) => domains(options))
+
     .command('open', 'Open an app deployment in your browser', (options) => open(options))
 
     .alias('a', 'app')
+    .alias('d', 'domain')
     .alias('e', 'env')
     .alias('n', 'name')
     .alias('i', 'image')
