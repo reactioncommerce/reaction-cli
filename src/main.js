@@ -26,7 +26,7 @@ import {
   whoami
 } from './commands';
 
-if (process.env.REACTION_CLI_DEBUG) {
+if (process.env.REACTION_CLI_DEBUG === 'true') {
   /* eslint-disable no-console */
   console.time('Reaction CLI runtime');
   process.on('exit', () => console.timeEnd('Reaction CLI runtime'));
