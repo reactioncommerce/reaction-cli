@@ -63,6 +63,9 @@ export class GraphQL {
             _id
             username
             email
+            org {
+              name
+            }
           }
         }
       }
@@ -99,6 +102,9 @@ export class GraphQL {
           _id
           email
           username
+          org {
+            name
+          }
         }
       }
     `);
