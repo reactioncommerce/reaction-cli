@@ -26,6 +26,12 @@ export default function () {
   // get NPM version
   versions.npm = exec('npm -v', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
 
+  // get Meteor's Node version
+  versions.meteorNode = exec('meteor node -v', { silent: true }).stdout.replace(/\r?\n|\r|v/g, '');
+
+  // get Meteor's NPM version
+  versions.meteorNpm = exec('meteor npm -v', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
+
   // get Docker version
   const dockerVer = exec('docker -v', { silent: true }).stdout.replace(/Docker version /g, '');
   versions.docker = dockerVer ? dockerVer.substring(0, dockerVer.indexOf(',')) : null;

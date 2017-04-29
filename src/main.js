@@ -46,12 +46,16 @@ initialize(() => {
       Log.info(`\nNode: ${Log.magenta(versions.node)}`);
       Log.info(`NPM: ${Log.magenta(versions.npm)}`);
 
-      if (versions.yarn) {
-        Log.info(`Yarn: ${Log.magenta(versions.yarn)}`);
+      if (versions.meteorNode) {
+        Log.info(`Meteor Node: ${Log.magenta(versions.meteorNode)}`);
       }
 
-      if (versions.docker) {
-        Log.info(`Docker: ${Log.magenta(versions.docker)}`);
+      if (versions.meteorNode) {
+        Log.info(`Meteor NPM: ${Log.magenta(versions.meteorNpm)}`);
+      }
+
+      if (versions.yarn) {
+        Log.info(`Yarn: ${Log.magenta(versions.yarn)}`);
       }
 
       Log.info(`Reaction CLI: ${Log.magenta(pkg.version)}`);
@@ -60,8 +64,12 @@ initialize(() => {
         Log.info(`Reaction: ${Log.magenta(versions.reaction)}`);
 
         if (versions.reactionBranch) {
-          Log.info(`Reaction Branch: ${Log.magenta(versions.reactionBranch)}`);
+          Log.info(`Reaction branch: ${Log.magenta(versions.reactionBranch)}`);
         }
+      }
+
+      if (versions.docker) {
+        Log.info(`Docker: ${Log.magenta(versions.docker)}`);
       }
 
       return '';
