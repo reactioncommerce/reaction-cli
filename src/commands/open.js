@@ -6,17 +6,16 @@ import { Config, Log } from '../utils';
 const helpMessage = `
 Usage:
 
-  reaction open --name <appname>
-
-    Options:
-      --name, -n   The name of the app deployment to open in your browser
+  reaction open <appname>
 `;
 
 
 export function open(yargs) {
   Log.args(yargs.argv);
 
-  const { name, help } = yargs.argv;
+  const name = yargs.argv._[1];
+
+  const { help } = yargs.argv;
 
   if (!name || help) {
     Log.default(helpMessage);
