@@ -30,4 +30,6 @@ export default async function appDelete({ name }) {
   exec(`git remote remove launchdock-${name}`, { silent: true });
 
   Config.set('global', 'launchdock.apps', _.reject(apps, (a) => a.name === name));
+
+  Log.success(`\nApp '${name}' successfully deleted.\n`);
 }
