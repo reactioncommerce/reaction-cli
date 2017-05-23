@@ -22,7 +22,7 @@ export async function apps(yargs) {
 
   const subCommands = yargs.argv._;
   const args = _.omit(yargs.argv, ['_', '$0']);
-  const { name, image } = args;
+  const { name, remote } = args;
 
   if (!subCommands[1]) {
     return Log.default(helpMessage);
@@ -35,12 +35,14 @@ export async function apps(yargs) {
       return Log.error('Error: App name required');
     }
 
-    if (!image) {
+    if (remote !== false) {
       const notInReactionDir = () => {
         Log.error('\nNot in a Reaction app directory.\n');
         Log.info(`To create a new local project, run: ${Log.magenta('reaction init')}\n`);
-        Log.info('Or to create a deployment with a prebuilt Docker image, use the --image flag\n');
-        Log.info(`Example: ${Log.magenta(`reaction apps create --name ${name} --image myorg/myapp:latest`)}\n`);
+        Log.info('Or to create a deployment from a prebuilt Docker image, use the --no-remote flag\n');
+        Log.info('Example:');
+        Log.info(` ${Log.magenta(`reaction apps create --name ${name} --no-remote`)}\n`);
+        Log.info(` ${Log.magenta(`reaction deploy --app ${name} --image reactioncommerce/reaction:latest`)}\n`);
       };
 
       let packageFile;
@@ -77,7 +79,7 @@ export async function apps(yargs) {
       env.REACTION_REGISTRY = getStringFromFile(args.registry);
     }
 
-    return appCreate({ name, image, env });
+    return appCreate({ name, env, remote });
   }
 
   // list

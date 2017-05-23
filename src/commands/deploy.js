@@ -9,39 +9,39 @@ Usage:
   reaction deploy [options]
 
     Options:
-      --name    The name of the app to deploy
-      --image   The Docker image to deploy (optional)
+      --app, -a    The name of the app to deploy (required)
+      --image, -i  The Docker image to deploy
 `;
 
 export async function deploy(yargs) {
   Log.args(yargs.argv);
 
   const args = _.omit(yargs.argv, ['_', '$0']);
-  const { name, image } = args;
+  const { app, image } = args;
 
-  if (!name && !image) {
+  if (!app && !image) {
     return Log.default(helpMessage);
   }
 
-  if (!name) {
-    return Log.error('Error: App name required (--name myapp)');
+  if (!app) {
+    return Log.error('Error: App name required (--app myapp)');
   }
 
   const apps = Config.get('global', 'launchdock.apps', []);
-  const app = _.filter(apps, (a) => a.name === name)[0];
+  const appToDeploy = _.filter(apps, (a) => a.name === app)[0];
 
-  if (!app) {
+  if (!appToDeploy) {
     const msg = 'App not found. Run \'reaction apps list\' to see your active apps';
     logger.error(msg);
     throw new Error(msg);
   }
 
-  if (image || app.image) {
+  if (image || appToDeploy.image) {
     // docker pull deployment
 
     const options = {
-      _id: app._id,
-      image: image || app.image
+      _id: appToDeploy._id,
+      image: image || appToDeploy.image
     };
 
     const gql = new GraphQL();
@@ -69,7 +69,7 @@ export async function deploy(yargs) {
 
     Log.success('\nDone!\n');
 
-    Log.info(`Updated ${Log.magenta(name)} with image ${Log.magenta(options.image)}\n`);
+    Log.info(`Updated ${Log.magenta(app)} with image ${Log.magenta(options.image)}\n`);
     Log.info('Your app will be ready as soon as the image finishes starting up.\n');
     Log.info(`App URL: ${Log.magenta(defaultUrl)}\n`);
 
