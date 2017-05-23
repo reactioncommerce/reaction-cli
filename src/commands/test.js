@@ -1,3 +1,4 @@
+import os from 'os';
 import _ from 'lodash';
 import chalk from 'chalk';
 import { exec } from 'shelljs';
@@ -28,7 +29,9 @@ export function test(yargs) {
     });
     Log.info('Running custom test command:');
   } else {
-    cmd = 'SERVER_TEST_REPORTER="dot" ' + cmd;
+    if (os.platform() !== 'win32') {
+      cmd = 'SERVER_TEST_REPORTER="dot" ' + cmd;
+    }
     if (subCommands[1] === 'unit') {
       cmd += ' --once --headless --driver-package dispatch:mocha';
       Log.info('Running unit tests command:');
