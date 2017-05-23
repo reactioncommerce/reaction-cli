@@ -71,6 +71,17 @@ export async function apps(yargs) {
 
     const env = {};
 
+    // convert any supplied env vars into an object
+    if (Array.isArray(args.e)) {
+      args.e.forEach((val) => {
+        const conf = val.split('=');
+        env[conf[0]] = conf[1];
+      });
+    } else if (typeof args.e === 'string') {
+      const conf = args.e.split('=');
+      env[conf[0]] = conf[1];
+    }
+
     if (args.settings) {
       env.METEOR_SETTINGS = getStringFromFile(args.settings);
     }
