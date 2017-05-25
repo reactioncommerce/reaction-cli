@@ -5,7 +5,13 @@ import { Log, installModules } from '../utils';
 
 function resetMeteor() {
   Log.info('\nResetting the database...');
-  exec('meteor reset');
+  const { code } = exec('meteor reset');
+
+  if (code !== 0) {
+    Log.error('Database reset failed');
+    process.exit(1);
+  }
+
   Log.success('Done!');
 }
 
