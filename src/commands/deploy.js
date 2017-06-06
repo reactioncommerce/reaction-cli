@@ -10,6 +10,7 @@ Usage:
 
     Options:
       --app, -a    The name of the app to deploy (required)
+      --env, -e    Set/update an environment varible before deployment
       --image, -i  The Docker image to deploy
 `;
 
@@ -80,7 +81,7 @@ export async function deploy(yargs) {
       Log.error('\nNot in a Reaction app directory.\n');
       Log.info(`To create a new local project, run: ${Log.magenta('reaction init')}\n`);
       Log.info('Or to create a deployment with a prebuilt Docker image, use the --image flag\n');
-      Log.info(`Example: ${Log.magenta(`reaction apps create --name ${name} --image myorg/myapp:latest`)}\n`);
+      Log.info(`Example: ${Log.magenta(`reaction apps create --name ${app} --image myorg/myapp:latest`)}\n`);
     };
 
     let packageFile;
@@ -104,7 +105,7 @@ export async function deploy(yargs) {
       process.exit(1);
     }
 
-    if (exec(`git push launchdock-${name}`).exit !== 0) {
+    if (exec(`git push launchdock-${app}`).exit !== 0) {
       Log.error('Deployment failed');
       process.exit(1);
     }
