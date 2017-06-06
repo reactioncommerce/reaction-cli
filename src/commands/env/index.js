@@ -17,6 +17,8 @@ Usage:
     Options:
       --app       The name of the app to reference [Required]
       --env-file  Load a specified env file
+      --registry  Path to a reaction.json registry file
+      --settings  Path to a Meteor settings.json file
 `;
 
 export async function env(yargs) {
