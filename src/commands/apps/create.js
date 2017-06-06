@@ -33,10 +33,10 @@ export default async function appCreate({ name, env, remote }) {
       Log.error('Failed to create git remote');
       process.exit(1);
     }
+  } else {
+    Log.info(`\nCreated new app: ${Log.magenta(result.data.appCreate.name)}`);
+    Log.info(`\nTo deploy, you can run:\n\n ${Log.magenta(`reaction deploy --app ${name} --image <your-image>`)}\n`);
   }
-
-  Log.info(`\nCreated new app: ${Log.magenta(result.data.appCreate.name)}`);
-  Log.info(`\nTo deploy, you can run:\n\n ${Log.magenta(`reaction deploy --app ${name} --image <your-image>`)}\n`);
 
   Log.success('Done!');
 
