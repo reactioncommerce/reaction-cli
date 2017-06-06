@@ -7,7 +7,7 @@
     "build": "rimraf ./dist && babel src --out-dir ./dist",
     "lint": "eslint ./src",
     "lintfix": "eslint ./src --fix",
-    "prepublish": ". ./scripts/prepublish.sh",
+    "prepublish": "npm run build",
     "test": "echo 'No tests!'",
     "watch": "watch 'npm build && npm unlink && npm link' src"
   },
