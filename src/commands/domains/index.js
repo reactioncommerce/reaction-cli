@@ -9,7 +9,7 @@ Usage:
 
     Commands:
       add       Add a new custom domain for an app deployment
-      remove    Remove a custom domain for an app deployment
+      delete    Remove a custom domain for an app deployment
 
     Options:
       --app, -a      The name of the app to update [Required]
@@ -36,8 +36,8 @@ export async function domains(yargs) {
     return domainAdd({ name: app, domain });
   }
 
-  // remove
-  if (subCommands[1] === 'remove') {
+  // delete
+  if (subCommands[1] === 'delete') {
     return domainDelete({ name: app, domain });
   }
 }
