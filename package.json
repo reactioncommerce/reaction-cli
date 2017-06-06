@@ -1,6 +1,6 @@
 {
   "name": "reaction-cli",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "A command line tool for Reaction Commerce",
   "main": "./dist/main.js",
   "scripts": {
@@ -54,11 +54,11 @@
     "fs-extra": "^3.0.1",
     "inquirer": "^3.0.6",
     "lodash": "^4.17.4",
-    "node-fetch": "^1.7.0",
+    "node-fetch": "^1.7.1",
     "opn": "^5.0.0",
     "semver": "^5.3.0",
     "shelljs": "^0.7.7",
-    "update-notifier": "^2.1.0",
+    "update-notifier": "^2.2.0",
     "uuid": "^3.0.1",
     "yargs": "^8.0.1"
   }
