@@ -16,6 +16,8 @@ After that, you can now install `reaction-cli` with...
 
 ```sh
 npm install -g reaction-cli
+# or
+yarn global reaction-cli
 ```
 
 ## Usage
@@ -47,6 +49,28 @@ $ reaction --help
     -v, --version  Show app and CLI version numbers
     -h, --help     Show help
 ```
+
+## Development
+
+**Install**
+
+```sh
+git clone https://github.com/reactioncommerce/reaction-cli.git
+
+cd reaction-cli
+
+yarn
+```
+
+**Developing**
+
+To start a live reloading watcher that recompiles the code on file changes:
+
+```sh
+yarn run watch
+```
+
+Keep in mind that if you previously installed `reaction-cli` from npm, you will need to uninstall it before that command will work.  This is because it runs `npm link` every time and that adds a symlink to the executable that goes in the same place as the npm install (which will throw an error).
 
 ## Tracking
 
