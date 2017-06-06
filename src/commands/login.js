@@ -4,6 +4,17 @@ import appsList from './apps/list';
 import keysList from './keys/list';
 
 
+const helpMessage = `
+Usage:
+
+  reaction login [options]
+
+    Options:
+      --user    Your Reaction username
+      --pass    Your Reaction password
+`;
+
+
 function doLogin(user, pass) {
   const gql = new GraphQL();
 
@@ -33,6 +44,10 @@ export function login(yargs) {
   Log.args(yargs.argv);
 
   const args = yargs.argv;
+
+  if (args.help) {
+    return Log.default(helpMessage);
+  }
 
   if (args.user && args.pass) {
     return doLogin(args.user, args.pass);
