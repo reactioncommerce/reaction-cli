@@ -4,7 +4,7 @@
   "description": "A command line tool for Reaction Commerce",
   "main": "./dist/main.js",
   "scripts": {
-    "build": "rm -rf ./dist && babel src --out-dir ./dist",
+    "build": "rimraf ./dist && babel src --out-dir ./dist",
     "lint": "eslint ./src",
     "lintfix": "eslint ./src --fix",
     "prepublish": ". ./scripts/prepublish.sh",
@@ -44,6 +44,7 @@
     "babel-root-slash-import": "^3.1.0",
     "eslint": "^3.19.0",
     "eslint-plugin-babel": "^4.1.1",
+    "rimraf": "^2.6.1",
     "watch": "^1.0.2"
   },
   "dependencies": {
