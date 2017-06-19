@@ -1,14 +1,17 @@
 import fs from 'fs';
 import fetch from 'node-fetch';
 import semver from 'semver';
+import getLatest from 'latest-semver';
 import Log from './logger';
 
 // get the latest release version from Github releases
 export async function getLatestReactionRelease() {
   try {
     const res = await fetch('https://api.github.com/repos/reactioncommerce/reaction/releases');
-    const json = await res.json();
-    return json[0].tag_name.replace(/v/g, '');
+    const releases = await res.json();
+    const tags = [];
+    releases.forEach((r) => tags.push(r.tag_name));
+    return getLatest(tags);
   } catch (err) {
     return null;
   }
