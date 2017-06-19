@@ -1,6 +1,6 @@
 {
   "name": "reaction-cli",
-  "version": "0.9.3",
+  "version": "0.10.0",
   "description": "A command line tool for Reaction Commerce",
   "main": "./dist/main.js",
   "scripts": {
