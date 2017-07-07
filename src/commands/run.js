@@ -15,7 +15,8 @@ export async function run(yargs) {
     'mobileServer',
     'noLint',
     'noReleaseCheck',
-    'allowIncompatibleUpdate'
+    'allowIncompatibleUpdate',
+    'allowSuperuser'
   ]);
 
   let cmd = 'meteor';
