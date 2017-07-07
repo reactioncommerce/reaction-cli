@@ -10,6 +10,10 @@ const cmd = yargs.argv.$0;
 const args = process.argv.splice(2, process.argv.length).join(' ');
 
 export function track(cb) {
+  if (!!process.env.CIRCLECI || !!process.env.REACTION_DOCKER_BUILD) {
+    return cb();
+  }
+
   if (!!segmentKey) {
     const userId = getUserId();
     const command = `${cmd} ${args}`.trim();
