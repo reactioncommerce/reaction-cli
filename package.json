@@ -9,7 +9,7 @@
     "lintfix": "eslint ./src --fix",
     "prepublish": "npm run build",
     "test": "echo 'No tests!'",
-    "watch": "watch 'npm build && npm unlink && npm link' src"
+    "watch": "watch 'npm link' src"
   },
   "engines": {
     "node": ">=4.0.0"
