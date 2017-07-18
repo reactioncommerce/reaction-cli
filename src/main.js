@@ -26,6 +26,13 @@ import {
   whoami
 } from './commands';
 
+// do something with any unhandled rejections
+// from async/await functions without a try/catch
+process.on('unhandledRejection', (err) => {
+  Log.error(err);
+  process.exit(1);
+});
+
 if (process.env.REACTION_CLI_DEBUG === 'true') {
   /* eslint-disable no-console */
   console.time('Reaction CLI runtime');
