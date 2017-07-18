@@ -17,7 +17,7 @@ After that, you can now install `reaction-cli` with...
 ```sh
 npm install -g reaction-cli
 # or
-yarn global reaction-cli
+yarn global add reaction-cli
 ```
 
 ## Usage
@@ -29,25 +29,30 @@ $ reaction --help
 
   Commands:
     init        Create a new Reaction app (will create a new folder)
+    config      Get/set config values
     run         Start Reaction in development mode
     debug       Start Reaction in debug mode
-    test [unit] Run integration or unit tests
+    test        Run integration or unit tests
     pull        Pull Reaction updates from Github and install NPM packages
-    update, up  Update Atmosphere and NPM packages
+    update      Update Atmosphere and NPM packages
+    up          Update Atmosphere and NPM packages
     reset       Reset the database and (optionally) delete build files
+    plugins     Manage your Reaction plugins
+    styles      Manage your Reaction styles (css, less, stylus, scss)
     build       Build a production Docker image
-    register  Register an account with Reaction
-    login     Login to Reaction
-    whoami    Check which account you are logged in as
-    keys      Manage your SSH keys
-    apps      Manage your apps deployments
-    deploy    Deploy an app
-    env       Manage environment variables for an app deployment
-    open      Open an app deployment in your browser
+    register    Register an account with Reaction
+    login       Login to Reaction
+    whoami      Check which account you are logged in as
+    keys        Manage your SSH keys
+    apps        Manage your apps deployments
+    deploy      Deploy an app
+    env         Manage environment variables for an app deployment
+    domains     Add a custom domain name to a deployment
+    open        Open an app deployment in your browser
 
   Options:
-    -v, --version  Show app and CLI version numbers
-    -h, --help     Show help
+    -v, --version  Show version number                                   [boolean]
+    -h, --help     Show help                                             [boolean]
 ```
 
 ## Development
