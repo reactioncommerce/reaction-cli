@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import Analytics from 'analytics-node';
 import yargs from 'yargs';
-import { getUserId } from './config';
+import { getUserId, get } from './config';
 import { getGeoDetail } from './geo';
 import getVersions from './versions';
 
-const segmentKey = require('../../config.json').segment;
+const segmentKey = get('cli', 'segment');
 
 const cmd = yargs.argv.$0;
 const args = process.argv.splice(2, process.argv.length).join(' ');
