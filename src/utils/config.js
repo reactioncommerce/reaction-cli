@@ -16,6 +16,7 @@ const localConfigDir = path.resolve('.reaction/');
 const idFile = path.resolve(`${userHome}/.reaction/.id`);
 const globalConfigFile = path.resolve(`${userHome}/.reaction/config.json`);
 const localConfigFile = path.resolve('.reaction/config.json');
+const cliConfigFile = path.resolve(__dirname, '../../config.json');
 
 export const defaults = {
   global: {
@@ -125,8 +126,8 @@ export function getUserId() {
  */
 export function get(type, setting, defaultValue) {
 
-  if (type !== 'global' && type !== 'local') {
-    Log.error('\nMust specify "global" or "local" config to retrieve');
+  if (type !== 'global' && type !== 'local' && type !== 'cli' && type !== 'id') {
+    Log.error('\nMust specify "global", "local", "cli", or "id" config to retrieve');
     process.exit(1);
   }
 
@@ -140,8 +141,12 @@ export function get(type, setting, defaultValue) {
   if (type === 'local') {
     config = localConfigFile;
     checkIfInReactionDir();
-  } else {
+  } else if (type === 'global') {
     config = globalConfigFile;
+  } else if (type === 'cli') {
+    config = cliConfigFile;
+  } else if (type === 'id') {
+    config = idFile;
   }
 
   let value;
@@ -164,8 +169,8 @@ export function get(type, setting, defaultValue) {
  * @return {Object} returns JSON content from the updated config
  */
 export function set(type, setting, value) {
-  if (type !== 'global' && type !== 'local') {
-    Log.error('Must specify "global" or "local" config to retrieve');
+  if (type !== 'global' && type !== 'local' && type !== 'id') {
+    Log.error('Must specify "global", "local" config to retrieve');
     process.exit(1);
   }
 
@@ -180,8 +185,10 @@ export function set(type, setting, value) {
     config = localConfigFile;
     checkIfInReactionDir();
     initLocalConfig();
-  } else {
+  } else if (type === 'global') {
     config = globalConfigFile;
+  } else if (type === 'id') {
+    config = idFile;
   }
 
   let currentVals;
