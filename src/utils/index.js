@@ -6,6 +6,7 @@ export { default as checkMeteor } from './check_meteor';
 export * from './check_release';
 export { Config };
 export * from './fs';
+export { default as Gitlab } from './gitlab';
 export * from './graphql';
 export { default as initialize } from './initialize';
 export { default as Log } from './logger';
