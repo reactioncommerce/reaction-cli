@@ -39,21 +39,23 @@ $ reaction --help
     reset       Reset the database and (optionally) delete build files
     plugins     Manage your Reaction plugins
     styles      Manage your Reaction styles (css, less, stylus, scss)
-    build       Build a production Docker image
-    register    Register an account with Reaction
-    login       Login to Reaction
-    whoami      Check which account you are logged in as
-    keys        Manage your SSH keys
-    apps        Manage your apps deployments
-    deploy      Deploy an app
-    env         Manage environment variables for an app deployment
-    domains     Add a custom domain name to a deployment
-    open        Open an app deployment in your browser
+    build       * Build a production Docker image
+    register    * Register an account with Reaction
+    login       * Login to Reaction
+    whoami      * Check which account you are logged in as
+    keys        * Manage your SSH keys
+    apps        * Manage your apps deployments
+    deploy      * Deploy an app
+    env         * Manage environment variables for an app deployment
+    domains     * Add a custom domain name to a deployment
+    open        * Open an app deployment in your browser
 
   Options:
     -v, --version  Show version number                                   [boolean]
     -h, --help     Show help                                             [boolean]
 ```
+
+Note: Commands marked with `*` require logging into the managed platform. Learn more: https://reactioncommerce.com/features#get-a-demo
 
 ## Development
 
