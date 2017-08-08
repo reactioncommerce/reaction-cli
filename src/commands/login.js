@@ -1,5 +1,8 @@
 import inquirer from 'inquirer';
-import { Gitlab, Config, Log } from '../utils';
+import { Config, GraphQL, Log } from '../utils';
+import appsList from './apps/list';
+import keysList from './keys/list';
+
 
 const helpMessage = `
 Usage:
@@ -12,26 +15,28 @@ Usage:
 `;
 
 
-export function doLogin(username, password) {
-  const gitlab = new Gitlab();
+function doLogin(user, pass) {
+  const gql = new GraphQL();
 
-  gitlab.login(username, password)
-    .then((res) => {
-      if (res.error) {
-        Log.error(res.error);
+  gql.login({ username: user, password: pass })
+    .then(async (res) => {
+      if (!!res.errors) {
+        res.errors.forEach((err) => {
+          Log.error(err.message);
+        });
         process.exit(1);
       }
 
-      Config.set('global', 'launchdock', {
-        id: res.id,
-        username: res.username,
-        email: res.email,
-        token: res.private_token,
-        profile: res.web_url
-      });
+      const { user: { _id, email, org: { name } }, token, tokenExpires } = res.data.loginWithPassword;
 
-      Log.success(`\nLogged in as ${username}\n`);
-    }).catch((e) => Log.error(e));
+      Config.set('global', 'launchdock', { _id, username: user, email, token, tokenExpires, org: name });
+
+      await appsList();
+      await keysList();
+
+      Log.success(`\nLogged in as ${user}\n`);
+    })
+    .catch((e) => Log.error(e));
 }
 
 

@@ -1,5 +1,4 @@
 import inquirer from 'inquirer';
-import { doLogin } from './login';
 import { Config, GraphQL, Log } from '../utils';
 
 
@@ -15,10 +14,6 @@ export function register(yargs) {
     name: 'username',
     message: 'Username:'
   }, {
-    type: 'input',
-    name: 'name',
-    message: 'Full Name:'
-  }, {
     type: 'password',
     name: 'password',
     message: 'Password:'
@@ -27,11 +22,11 @@ export function register(yargs) {
     name: 'passwordAgain',
     message: 'Password again:'
   }]).then((answers) => {
-    const { inviteToken, name, username, password } = answers;
+    const { inviteToken, username, password } = answers;
 
     const gql = new GraphQL();
 
-    gql.register({ token: inviteToken, name, username, password })
+    gql.register({ token: inviteToken, username, password })
       .then((res) => {
         if (!!res.errors) {
           res.errors.forEach((err) => {
@@ -40,11 +35,25 @@ export function register(yargs) {
           process.exit(1);
         }
 
-        const { id, email, org } = res.data.inviteAccept;
+        const { _id, email } = res.data.inviteAccept;
 
-        Config.set('global', 'launchdock', { id, username, email, org });
+        Config.set('global', 'launchdock', { _id, username, email });
 
-        doLogin(username, password);
+        gql.login({ username, password }).then((result) => {
+          if (!!result.errors) {
+            result.errors.forEach((err) => {
+              Log.error(err.message);
+            });
+            process.exit(1);
+          }
+
+          const { token, tokenExpires } = result.data.loginWithPassword;
+          const org = result.data.loginWithPassword.user.org.name;
+
+          Config.set('global', 'launchdock', { _id, username, email, token, tokenExpires, org });
+
+          Log.success(`\nLogged in as ${username}`);
+        });
       })
       .catch((e) => Log.error(e));
   });
