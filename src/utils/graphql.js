@@ -17,7 +17,7 @@ export class GraphQL {
       throw new TypeError('Launchdock token must be a String');
     }
 
-    this.url = process.env.LAUNCHDOCK_GRAPHQL_ENDPOINT || endpoint || Config.get('cli', 'launchdock.graphqlUrl');
+    this.url = process.env.LAUNCHDOCK_GRAPHQL_ENDPOINT || endpoint || 'https://api.launchdock.io/graphql';
     this.token = process.env.LAUNCHDOCK_TOKEN || token || Config.get('global', 'launchdock.token');
   }
 
@@ -73,29 +73,25 @@ export class GraphQL {
   }
 
 
-  register({ token, name, username, password }) {
+  register({ token, username, password }) {
     if (!token) {
       Log.error('\nAn invite token is required');
       process.exit(1);
     }
 
-    if (!username || !name || !password) {
+    if (!username || !password) {
       Log.error('\nUsername, password, and password confirmation required');
       process.exit(1);
     }
 
     return this.fetch(`
-      mutation inviteAccept($username: String!, $name: String!, $password: String!, $token: String!) {
-        inviteAccept(username: $username, name: $name, password: $password, token: $token) {
-          id
+      mutation inviteAccept($username: String!, $password: String!, $token: String!) {
+        inviteAccept(username: $username, password: $password, token: $token) {
+          _id
           email
-          org {
-            id
-            name
-          }
         }
       }
-    `, { token, name, username, password });
+    `, { token, username, password });
   }
 
 
