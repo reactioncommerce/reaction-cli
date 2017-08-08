@@ -17,7 +17,7 @@ export class GraphQL {
       throw new TypeError('Launchdock token must be a String');
     }
 
-    this.url = process.env.LAUNCHDOCK_GRAPHQL_ENDPOINT || endpoint || 'https://api.launchdock.io/graphql';
+    this.url = process.env.LAUNCHDOCK_GRAPHQL_ENDPOINT || endpoint || Config.get('cli', 'launchdock.graphqlUrl');
     this.token = process.env.LAUNCHDOCK_TOKEN || token || Config.get('global', 'launchdock.token');
   }
 
