@@ -73,9 +73,14 @@ export class GraphQL {
   }
 
 
-  register({ token, username, password }) {
+  register({ token, name, username, password }) {
     if (!token) {
       Log.error('\nAn invite token is required');
+      process.exit(1);
+    }
+
+    if (!name) {
+      Log.error('\nFull name is required');
       process.exit(1);
     }
 
@@ -85,13 +90,13 @@ export class GraphQL {
     }
 
     return this.fetch(`
-      mutation inviteAccept($username: String!, $password: String!, $token: String!) {
-        inviteAccept(username: $username, password: $password, token: $token) {
+      mutation inviteAccept($username: String!, $password: String!, $name: String!, $token: String!) {
+        inviteAccept(username: $username, password: $password, name: $name, token: $token) {
           _id
           email
         }
       }
-    `, { token, username, password });
+    `, { token, name, username, password });
   }
 
 

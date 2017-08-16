@@ -11,6 +11,10 @@ export function register(yargs) {
     message: 'Invite Token:'
   }, {
     type: 'input',
+    name: 'name',
+    message: 'Full name:'
+  }, {
+    type: 'input',
     name: 'username',
     message: 'Username:'
   }, {
@@ -22,11 +26,11 @@ export function register(yargs) {
     name: 'passwordAgain',
     message: 'Password again:'
   }]).then((answers) => {
-    const { inviteToken, username, password } = answers;
+    const { inviteToken, username, password, name } = answers;
 
     const gql = new GraphQL();
 
-    gql.register({ token: inviteToken, username, password })
+    gql.register({ token: inviteToken, name, username, password })
       .then((res) => {
         if (!!res.errors) {
           res.errors.forEach((err) => {
@@ -36,8 +40,6 @@ export function register(yargs) {
         }
 
         const { _id, email } = res.data.inviteAccept;
-
-        Config.set('global', 'launchdock', { _id, username, email });
 
         gql.login({ username, password }).then((result) => {
           if (!!result.errors) {
@@ -50,7 +52,7 @@ export function register(yargs) {
           const { token, tokenExpires } = result.data.loginWithPassword;
           const org = result.data.loginWithPassword.user.org.name;
 
-          Config.set('global', 'launchdock', { _id, username, email, token, tokenExpires, org });
+          Config.set('global', 'launchdock', { _id, name, username, email, token, tokenExpires, org });
 
           Log.success(`\nLogged in as ${username}`);
         });
