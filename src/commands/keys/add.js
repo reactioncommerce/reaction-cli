@@ -11,18 +11,21 @@ export default async function keyCreate(publicKeyPath) {
   try {
     publicKey = fs.readFileSync(publicKeyPath, 'utf8');
   } catch (e) {
-    return Log.error('Error reading public key');
+    Log.error('Error reading public key');
+    process.exit(1);
   }
 
   const gql = new GraphQL();
 
   const result = await gql.fetch(`
-    mutation keyCreate($id: ID! $publicKey: String! ) {
-      keyCreate(id: $id, publicKey: $publicKey) {
-        id
+    mutation keyCreate($title: String!, $key: String!) {
+      keyCreate(title: $title, key: $key) {
+        _id
+        title
+        key
       }
     }
-  `, { id: publicKeyPath.replace(/^.*?([^\\\/]*)$/, '$1'), publicKey });
+  `, { title: publicKeyPath.replace(/^.*?([^\\\/]*)$/, '$1'), key: publicKey });
 
   if (!!result.errors) {
     result.errors.forEach((err) => {
@@ -31,14 +34,14 @@ export default async function keyCreate(publicKeyPath) {
     process.exit(1);
   }
 
-  Log.info(`Added new public key: ${Log.magenta(result.data.keyCreate.id)}`);
+  Log.info(`Added new public key: ${Log.magenta(result.data.keyCreate.title)}`);
 
   const updatedKeys = await gql.fetch(`
     query {
       sshKeys {
-        id
-        publicKey
-        fingerprint
+        _id
+        title
+        key
       }
     }
   `);

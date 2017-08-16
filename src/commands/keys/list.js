@@ -6,9 +6,9 @@ export default async function listKeys() {
   const result = await gql.fetch(`
     query {
       sshKeys {
-        id
-        publicKey
-    		fingerprint
+        _id
+        title
+        key
       }
     }
   `);

@@ -46,7 +46,7 @@ export async function keys(yargs) {
       process.exit(0);
     }
 
-    sshKeys.forEach((k) => Log.info(k.id));
+    sshKeys.forEach((k) => Log.info(k.title));
   }
 
 
@@ -56,8 +56,8 @@ export async function keys(yargs) {
       return Log.error('Public key name required');
     }
 
-    const publicKeyId = subCommands[2];
+    const publicKeyTitle = subCommands[2];
 
-    return keyDelete(publicKeyId);
+    return keyDelete(publicKeyTitle);
   }
 }

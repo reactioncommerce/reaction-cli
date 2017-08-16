@@ -1,15 +1,23 @@
+import _ from 'lodash';
 import { Config, GraphQL, Log } from '../../utils';
 
-export default async function keyDelete(publicKeyId) {
+export default async function keyDelete(publicKeyTitle) {
+  const keys = Config.get('global', 'launchdock.keys', []);
+  const key = _.filter(keys, (k) => k.title === publicKeyTitle)[0];
+
+  if (!key) {
+    return Log.error('\nKey not found');
+  }
+
   const gql = new GraphQL();
 
   const res = await gql.fetch(`
-    mutation keyDelete($id: ID!) {
-      keyDelete(id: $id) {
+    mutation keyDelete($_id: ID!) {
+      keyDelete(_id: $_id) {
         success
       }
     }
-  `, { id: publicKeyId });
+  `, { _id: key._id });
 
   if (!!res.errors) {
     res.errors.forEach((err) => {
@@ -21,9 +29,9 @@ export default async function keyDelete(publicKeyId) {
   const updatedKeys = await gql.fetch(`
     query {
       sshKeys {
-        id
-        publicKey
-        fingerprint
+        _id
+        title
+        key
       }
     }
   `);
@@ -40,6 +48,8 @@ export default async function keyDelete(publicKeyId) {
   }
 
   Config.set('global', 'launchdock.keys', updatedKeys.data.sshKeys);
+
+  Log.success('Success!');
 
   return updatedKeys.data.sshKeys;
 }
