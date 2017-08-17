@@ -33,7 +33,7 @@ export async function deploy(yargs) {
 
   if (!appToDeploy) {
     const msg = 'App not found. Run \'reaction apps list\' to see your active apps';
-    logger.error(msg);
+    Log.error(msg);
     throw new Error(msg);
   }
 
@@ -70,7 +70,7 @@ export async function deploy(yargs) {
     Log.success('\nDone!\n');
 
     Log.info(`Updated ${Log.magenta(app)} with image ${Log.magenta(options.image)}\n`);
-    Log.info('Your app will be ready as soon as the image finishes starting up.\n');
+    Log.info('You will receive a notification email as soon as the deployment finishes.\n');
     Log.info(`App URL: ${Log.magenta(defaultUrl)}\n`);
 
   } else {
@@ -104,16 +104,14 @@ export async function deploy(yargs) {
       process.exit(1);
     }
 
-    if (exec(`git push launchdock-${app}`).exit !== 0) {
+    if (exec(`git push launchdock-${app}`).code !== 0) {
       Log.error('Deployment failed');
       process.exit(1);
     }
 
-    Log.success('\nDone!\n');
-
     Log.info('Your app will be ready as soon as it finishes starting up.\n');
-    Log.info(`App URL: ${Log.magenta(defaultUrl)}\n`);
+    Log.info(`App URL: ${Log.magenta(appToDeploy.defaultUrl)}\n`);
 
-    Log.success('Done!');
+    Log.success('Done!\n');
   }
 }
