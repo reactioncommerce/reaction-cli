@@ -7,11 +7,13 @@ export default async function appsList() {
     query {
       apps {
         _id
-        deploymentId
         name
         image
         defaultUrl
         domains
+        git {
+          ssh_url_to_repo
+        }
         user {
           username
         }

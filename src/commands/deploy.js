@@ -53,7 +53,6 @@ export async function deploy(yargs) {
           _id
           name
           image
-          deploymentId
           defaultUrl
         }
       }
