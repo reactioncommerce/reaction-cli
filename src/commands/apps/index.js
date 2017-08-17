@@ -115,7 +115,7 @@ export async function apps(yargs) {
 
       allApps.forEach((app) => {
         const row = [];
-        _.forEach(_.omit(app, ['deploymentId']), (val, key) => {
+        _.forEach(_.omit(app, ['git']), (val, key) => {
           if (key === 'domains' && Array.isArray(val) && val.length > 1) {
             row.push(magenta(val.length > 1 ? val.join('\n') : val));
           } else if (key === 'user') {

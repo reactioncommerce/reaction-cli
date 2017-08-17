@@ -27,7 +27,7 @@ export default async function appCreate({ name, env, remote }) {
 
   if (remote !== false) {
     Log.info('\nCreating git remote for custom deployment...\n');
-    Log.info(`To deploy this repo, run: ${Log.magenta(`reaction deploy --app ${name}`)}`);
+    Log.info(`To deploy this repo, run: ${Log.magenta(`reaction deploy --app ${name}`)}\n`);
 
     const gitRemote = result.data.appCreate.git.ssh_url_to_repo;
 
