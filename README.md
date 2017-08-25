@@ -17,7 +17,7 @@ After that, you can now install `reaction-cli` with...
 ```sh
 npm install -g reaction-cli
 # or
-yarn global reaction-cli
+yarn global add reaction-cli
 ```
 
 ## Usage
@@ -32,23 +32,28 @@ $ reaction --help
     run         Start Reaction in development mode
     debug       Start Reaction in debug mode
     test [unit] Run integration or unit tests
-    pull        Pull Reaction updates from Github and install NPM packages
+    pull        Pull Reaction updates from Github and reinstall NPM packages
     update, up  Update Atmosphere and NPM packages
     reset       Reset the database and (optionally) delete build files
     build       Build a production Docker image
-    register  Register an account with Reaction
-    login     Login to Reaction
-    whoami    Check which account you are logged in as
-    keys      Manage your SSH keys
-    apps      Manage your apps deployments
-    deploy    Deploy an app
-    env       Manage environment variables for an app deployment
-    open      Open an app deployment in your browser
+
+    [Managed Platform Commands]
+    register    * Register an account with Reaction
+    login       * Login to Reaction
+    apps        * Manage your app deployments
+    deploy      * Deploy an app
+    domains     * Add a custom domain name to a deployment
+    env         * Manage environment variables for an app deployment
+    keys        * Manage your SSH keys
+    open        * Open an app deployment in your browser
+    whoami      * Check which account you are logged in as
 
   Options:
     -v, --version  Show app and CLI version numbers
-    -h, --help     Show help
+    -h, --help     Show reaction-cli help
 ```
+
+Note: Commands marked with `*` require being logged into the managed platform. Learn more: https://reactioncommerce.com/features#get-a-demo
 
 ## Development
 
