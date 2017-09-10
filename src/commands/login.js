@@ -27,9 +27,9 @@ function doLogin(user, pass) {
         process.exit(1);
       }
 
-      const { user: { _id, email, org: { name } }, token, tokenExpires } = res.data.loginWithPassword;
+      const { user: { _id, email }, token, tokenExpires } = res.data.loginWithPassword;
 
-      Config.set('global', 'launchdock', { _id, username: user, email, token, tokenExpires, org: name });
+      Config.set('global', 'launchdock', { _id, username: user, email, token, tokenExpires });
 
       await appsList();
       await keysList();

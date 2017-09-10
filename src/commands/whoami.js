@@ -20,12 +20,11 @@ export function whoami(yargs) {
       return;
     }
 
-    const { _id, username, email, org: { name } } = res.data.currentUser;
+    const { _id, username, email } = res.data.currentUser;
 
     Log.info('\nCurrently logged in as:\n');
     Log.info(`Username: ${Log.magenta(username)}`);
     Log.info(`Email: ${Log.magenta(email)}`);
-    Log.info(`Organization: ${Log.magenta(name)}`);
     Log.debug(`User ID: ${_id}`);
 
     if (yargs.argv.token) {

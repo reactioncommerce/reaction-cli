@@ -50,9 +50,8 @@ export function register(yargs) {
           }
 
           const { token, tokenExpires } = result.data.loginWithPassword;
-          const org = result.data.loginWithPassword.user.org.name;
 
-          Config.set('global', 'launchdock', { _id, name, username, email, token, tokenExpires, org });
+          Config.set('global', 'launchdock', { _id, name, username, email, token, tokenExpires });
 
           Log.success(`\nLogged in as ${username}`);
         });
