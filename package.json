@@ -44,7 +44,7 @@
     "babel-root-slash-import": "^3.1.0",
     "eslint": "^4.6.1",
     "eslint-plugin-babel": "^4.1.2",
-    "rimraf": "^2.6.1",
+    "rimraf": "^2.6.2",
     "watch": "^1.0.2"
   },
   "dependencies": {
