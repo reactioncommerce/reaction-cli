@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
 import { exec } from 'shelljs';
-import { Config, GraphQL, Log } from '../utils';
+import { Config, GraphQL, Log, getStringFromFile } from '../utils';
 
 const helpMessage = `
 Usage:
@@ -37,42 +37,73 @@ export async function deploy(yargs) {
     throw new Error(msg);
   }
 
+  const values = {};
+
+  // convert any supplied env vars into an object
+  if (Array.isArray(args.e)) {
+    args.e.forEach((val) => {
+      const conf = val.split('=');
+      values[conf[0]] = conf[1];
+    });
+  } else if (typeof args.e === 'string') {
+    const conf = args.e.split('=');
+    values[conf[0]] = conf[1];
+  }
+
+  // read in a settings file if provided
+  if (args.settings) {
+    values.METEOR_SETTINGS = getStringFromFile(args.settings);
+  }
+
+  // read in a Reaction registry file if provided
+  if (args.registry) {
+    values.REACTION_REGISTRY = getStringFromFile(args.registry);
+  }
+
+  const options = { _id: appToDeploy._id };
+
+  if (Object.keys(values).length > 0) {
+    options.env = values;
+  }
+
+  const gql = new GraphQL();
+
   if (image || appToDeploy.image) {
     // docker pull deployment
+    Log.warn('Prebuilt Docker image deployment is currently unavailable.');
+    Log.warn('Contact support for more info.');
 
-    const options = {
-      _id: appToDeploy._id,
-      image: image || appToDeploy.image
-    };
+    process.exit(1);
 
-    const gql = new GraphQL();
-
-    const result = await gql.fetch(`
-      mutation appPull($_id: ID!, $image: String! ) {
-        appPull(_id: $_id, image: $image) {
-          _id
-          name
-          image
-          defaultUrl
-        }
-      }
-    `, options);
-
-    if (!!result.errors) {
-      result.errors.forEach((err) => {
-        Log.error(err.message);
-      });
-      process.exit(1);
-    }
-
-    const { defaultUrl } = result.data.appPull;
-
-    Log.success('\nDone!\n');
-
-    Log.info(`Updated ${Log.magenta(app)} with image ${Log.magenta(options.image)}\n`);
-    Log.info('You will receive a notification email as soon as the deployment finishes.\n');
-    Log.info(`App URL: ${Log.magenta(defaultUrl)}\n`);
-
+    // TODO: allow deployment of prebuilt images
+    //
+    // options.image = image || appToDeploy.image;
+    //
+    // const result = await gql.fetch(`
+    //   mutation appPull($_id: ID!, $image: String! $env: JSON) {
+    //     appPull(_id: $_id, image: $image, env: $env) {
+    //       _id
+    //       name
+    //       image
+    //       defaultUrl
+    //     }
+    //   }
+    // `, options);
+    //
+    // if (!!result.errors) {
+    //   result.errors.forEach((err) => {
+    //     Log.error(err.message);
+    //   });
+    //   process.exit(1);
+    // }
+    //
+    // const { defaultUrl } = result.data.appPull;
+    //
+    // Log.success('\nDone!\n');
+    //
+    // Log.info(`Updated ${Log.magenta(app)} with image ${Log.magenta(options.image)}\n`);
+    // Log.info('You will receive a notification email as soon as the deployment finishes.\n');
+    // Log.info(`App URL: ${Log.magenta(defaultUrl)}\n`);
   } else {
     // git push deployment
 
@@ -109,8 +140,24 @@ export async function deploy(yargs) {
       process.exit(1);
     }
 
-    Log.info('Your app will be ready as soon as it finishes starting up.\n');
-    Log.info(`App URL: ${Log.magenta(appToDeploy.defaultUrl)}\n`);
+    const result = await gql.fetch(`
+      mutation appDeploy($_id: ID!, $env: JSON) {
+        appDeploy(_id: $_id, env: $env) {
+          _id
+          name
+          defaultUrl
+        }
+      }
+    `, options);
+
+    if (!!result.errors) {
+      result.errors.forEach((err) => {
+        Log.error(err.message);
+      });
+      process.exit(1);
+    }
+
+    Log.info('You will be notified as soon as your app finishes building and deploying.\n');
 
     Log.success('Done!\n');
   }
