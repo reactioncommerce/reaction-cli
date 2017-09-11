@@ -31,6 +31,5 @@ export function whoami(yargs) {
       const token = Config.get('global', 'launchdock.token');
       Log.info(`Auth Token: ${Log.magenta(typeof token === 'string' ? token : '***no token found***')}`);
     }
-  })
-  .catch((e) => Log.error(e));
+  }).catch((e) => Log.error(e));
 }
