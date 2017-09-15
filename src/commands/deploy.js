@@ -140,23 +140,6 @@ export async function deploy(yargs) {
       process.exit(1);
     }
 
-    const result = await gql.fetch(`
-      mutation appDeploy($_id: ID!, $env: JSON) {
-        appDeploy(_id: $_id, env: $env) {
-          _id
-          name
-          defaultUrl
-        }
-      }
-    `, options);
-
-    if (!!result.errors) {
-      result.errors.forEach((err) => {
-        Log.error(err.message);
-      });
-      process.exit(1);
-    }
-
     Log.info('You will be notified as soon as your app finishes building and deploying.\n');
 
     Log.success('Done!\n');
