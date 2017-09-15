@@ -135,13 +135,21 @@ export async function deploy(yargs) {
       process.exit(1);
     }
 
-    if (exec(`git push launchdock-${app}`).code !== 0) {
+    Log.info('\nPushing updates to be built...\n');
+
+    const result = exec(`git push launchdock-${app}`, { silent: true });
+
+    if (result.code !== 0) {
       Log.error('Deployment failed');
       process.exit(1);
     }
 
-    Log.info('You will be notified as soon as your app finishes building and deploying.\n');
+    if (result.stderr.includes('Everything up-to-date')) {
+      Log.info('No committed changes to deploy.\n');
+      process.exit(0);
+    }
 
+    Log.info('You will be notified as soon as your app finishes building and deploying.\n');
     Log.success('Done!\n');
   }
 }
