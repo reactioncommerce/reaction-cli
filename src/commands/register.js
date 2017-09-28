@@ -8,23 +8,44 @@ export function register(yargs) {
   inquirer.prompt([{
     type: 'input',
     name: 'inviteToken',
-    message: 'Invite Token:'
+    message: 'Invite Token:',
+    validate(val) {
+      return !!val.length || 'An invite token is required!';
+    }
   }, {
     type: 'input',
     name: 'name',
-    message: 'Full name:'
+    message: 'Full name:',
+    validate(val) {
+      return !!val.length || 'Full name is required!';
+    }
   }, {
     type: 'input',
     name: 'username',
-    message: 'Username:'
+    message: 'Username:',
+    validate(val) {
+      if (!val) {
+        return 'Username is required!';
+      }
+      if (!val.match('^[a-zA-Z0-9_.-]*$')) {
+        return 'Username may only contain letters, digits, "_", "-" and "."\n>> It also cannot start with "-" or end in "."';
+      }
+      return true;
+    }
   }, {
     type: 'password',
     name: 'password',
-    message: 'Password:'
+    message: 'Password:',
+    validate(val) {
+      return val.length > 7 || 'Password must be at least 8 characters!';
+    }
   }, {
     type: 'password',
     name: 'passwordAgain',
-    message: 'Password again:'
+    message: 'Password again:',
+    validate(val, previousAnswers) {
+      return val === previousAnswers.password || 'Password does not match!';
+    }
   }]).then((answers) => {
     const { inviteToken, username, password, name } = answers;
 
