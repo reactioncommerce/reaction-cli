@@ -10,8 +10,6 @@ export function setRegistryEnv(file) {
     process.exit(1);
   }
 
-  // console.log(registryData);
-
   process.env.REACTION_REGISTRY = registryData;
 
   return JSON.parse(registryData);
