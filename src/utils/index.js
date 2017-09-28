@@ -12,6 +12,7 @@ export { default as Log } from './logger';
 export * from './node_modules';
 export { default as loadPlugins } from './plugin-loader';
 export * from './registry';
+export * from './strings';
 export { default as loadStyles } from './style-loader';
 export { default as getVersions } from './versions';
 export * from './yarn_check';
