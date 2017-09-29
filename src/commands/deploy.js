@@ -34,7 +34,7 @@ export async function deploy(yargs) {
   if (!appToDeploy) {
     const msg = 'App not found. Run \'reaction apps list\' to see your active apps';
     Log.error(msg);
-    throw new Error(msg);
+    process.exit(1);
   }
 
   const values = {};
