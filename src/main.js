@@ -14,6 +14,7 @@ import {
   init,
   keys,
   login,
+  logout,
   open,
   plugins,
   pull,
@@ -139,6 +140,8 @@ initialize(() => {
     .command('register', 'Register an account with Reaction', (options) => register(options))
 
     .command('login', 'Login to Reaction', (options) => login(options))
+
+    .command('logout', 'Logout of Reaction', (options) => logout(options))
 
     .command('whoami', 'Check which account you are logged in as', (options) => whoami(options))
 
