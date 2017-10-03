@@ -14,6 +14,9 @@ export default async function appCreate({ name, env, remote }) {
         git {
           ssh_url_to_repo
         }
+        group {
+          namespace
+        }
       }
     }
   `, { name, env });
@@ -30,8 +33,9 @@ export default async function appCreate({ name, env, remote }) {
     Log.info(`To deploy this repo, run: ${Log.magenta(`reaction deploy --app ${name}`)}\n`);
 
     const gitRemote = result.data.appCreate.git.ssh_url_to_repo;
+    const namespace = result.data.appCreate.group.namespace;
 
-    if (exec(`git remote add launchdock-${name} ${gitRemote}`).code !== 0) {
+    if (exec(`git remote add ${namespace}-${name} ${gitRemote}`).code !== 0) {
       Log.error('Failed to create git remote');
       process.exit(1);
     }
