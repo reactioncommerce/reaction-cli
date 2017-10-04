@@ -5,7 +5,7 @@ import domainUnset from './unset';
 const helpMessage = `
 Usage:
 
-  reaction domains [command] <options>
+  reaction domain [command] <options>
 
     Commands:
       set       Set the custom domain name for an app deployment
