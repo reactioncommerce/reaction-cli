@@ -104,9 +104,9 @@ export async function apps(yargs) {
         head: [
           blue('App ID'),
           blue('Name'),
-          blue('Image'),
           blue('Default URL'),
-          blue('Domains'),
+          blue('Custom Domain'),
+          blue('Group'),
           blue('Created By')
         ]
       });
@@ -118,6 +118,10 @@ export async function apps(yargs) {
         _.forEach(_.omit(app, ['git']), (val, key) => {
           if (key === 'domains' && Array.isArray(val) && val.length > 1) {
             row.push(magenta(val.length > 1 ? val.join('\n') : val));
+          } else if (key === 'domain') {
+            row.push(magenta(val ? `https://${val}` : ''));
+          } else if (key === 'group') {
+            row.push(magenta(val.name));
           } else if (key === 'user') {
             row.push(magenta(val.username));
           } else {

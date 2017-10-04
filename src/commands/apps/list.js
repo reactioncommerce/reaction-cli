@@ -8,11 +8,14 @@ export default async function appsList() {
       apps {
         _id
         name
-        image
         defaultUrl
-        domains
+        domain
         git {
           ssh_url_to_repo
+        }
+        group {
+          name
+          namespace
         }
         user {
           username
