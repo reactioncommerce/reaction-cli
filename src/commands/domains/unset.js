@@ -3,7 +3,7 @@ import appsList from '../apps/list';
 import { Config, GraphQL, Log } from '../../utils';
 
 
-export default async function domainAdd({ name, domain }) {
+export default async function domainUnset({ name }) {
 
   const apps = Config.get('global', 'launchdock.apps', []);
   const app = _.filter(apps, (a) => a.name === name)[0];
@@ -15,13 +15,12 @@ export default async function domainAdd({ name, domain }) {
   const gql = new GraphQL();
 
   const result = await gql.fetch(`
-    mutation domainAdd($appId: ID! $domain: String!) {
-      domainAdd(appId: $appId, domain: $domain) {
+    mutation domainUnset($appId: ID!) {
+      domainUnset(appId: $appId) {
         name
-        domains
       }
     }
-  `, { appId: app._id, domain });
+  `, { appId: app._id });
 
   if (!!result.errors) {
     result.errors.forEach((err) => {
@@ -30,9 +29,9 @@ export default async function domainAdd({ name, domain }) {
     process.exit(1);
   }
 
-  Log.info(`\nAdded new domain ${Log.magenta(domain)} to app ${Log.magenta(name)}\n`);
+  Log.info(`\nRemoved the custom domain name from app ${Log.magenta(result.data.domainUnset.name)}\n`);
 
   await appsList();
 
-  return result.data.domainAdd;
+  return result.data.domainUnset;
 }

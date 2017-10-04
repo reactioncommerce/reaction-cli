@@ -1,6 +1,6 @@
 import { Log } from '../../utils';
-import domainAdd from './add';
-import domainDelete from './delete';
+import domainSet from './set';
+import domainUnset from './unset';
 
 const helpMessage = `
 Usage:
@@ -8,8 +8,8 @@ Usage:
   reaction domains [command] <options>
 
     Commands:
-      add       Add a new custom domain for an app deployment
-      delete    Remove a custom domain for an app deployment
+      set       Set the custom domain name for an app deployment
+      unset     Remove the custom domain name for an app deployment
 
     Options:
       --app, -a      The name of the app to update [Required]
@@ -27,17 +27,22 @@ export async function domains(yargs) {
 
   const { app, domain } = yargs.argv;
 
-  if (!app || !domain) {
-    return Log.default(helpMessage);
+  if (!app) {
+    Log.default(helpMessage);
+    process.exit(1);
   }
 
   // add
-  if (subCommands[1] === 'add') {
-    return domainAdd({ name: app, domain });
+  if (subCommands[1] === 'set') {
+    if (!domain) {
+      Log.default(helpMessage);
+      process.exit(1);
+    }
+    return domainSet({ name: app, domain });
   }
 
   // delete
-  if (subCommands[1] === 'delete') {
-    return domainDelete({ name: app, domain });
+  if (subCommands[1] === 'unset') {
+    return domainUnset({ name: app });
   }
 }
