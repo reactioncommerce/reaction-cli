@@ -30,7 +30,10 @@ export default async function domainSet({ name, domain }) {
     process.exit(1);
   }
 
+  const ingress = Config.get('cli', 'launchdock.ingress');
+
   Log.info(`\nAdded new domain ${Log.magenta(domain)} to app ${Log.magenta(name)}\n`);
+  Log.info(`Make sure your domain name is pointed at:  ${Log.magenta(ingress)}\n`);
 
   await appsList();
 
