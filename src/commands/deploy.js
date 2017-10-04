@@ -111,7 +111,7 @@ export async function deploy(yargs) {
       Log.error('\nNot in a Reaction app directory.\n');
       Log.info(`To create a new local project, run: ${Log.magenta('reaction init')}\n`);
       Log.info('Or to create a deployment with a prebuilt Docker image, use the --image flag\n');
-      Log.info(`Example: ${Log.magenta(`reaction apps create --name ${app} --image myorg/myapp:latest`)}\n`);
+      Log.info(`Example: ${Log.magenta(`reaction apps create --name ${appToDeploy.name} --image myorg/myapp:latest`)}\n`);
     };
 
     let packageFile;
@@ -137,7 +137,7 @@ export async function deploy(yargs) {
 
     Log.info('\nPushing updates to be built...\n');
 
-    const result = exec(`git push launchdock-${app}`, { silent: true });
+    const result = exec(`git push ${appToDeploy.group.namespace}-${app}`, { silent: true });
 
     if (result.code !== 0) {
       Log.error('Deployment failed');
