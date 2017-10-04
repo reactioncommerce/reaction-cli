@@ -29,11 +29,14 @@ $ reaction --help
 
   Commands:
     init        Create a new Reaction app (will create a new folder)
+    config      Get/set config values
     run         Start Reaction in development mode
     debug       Start Reaction in debug mode
     test [unit] Run integration or unit tests
     pull        Pull Reaction updates from Github and reinstall NPM packages
     update, up  Update Atmosphere and NPM packages
+    plugins     Manage your Reaction plugins
+    styles      Manage your Reaction styles (css, less, stylus, scss)
     reset       Reset the database and (optionally) delete build files
     build       Build a production Docker image
 
