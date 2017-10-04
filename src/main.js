@@ -9,7 +9,7 @@ import {
   build,
   config,
   deploy,
-  domain,
+  domains,
   env,
   init,
   keys,
