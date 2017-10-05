@@ -4,10 +4,10 @@ export default async function envSet({ _id, values }) {
   const gql = new GraphQL();
 
   const result = await gql.fetch(`
-    mutation configSet($_id: ID!, $values: JSON!) {
-      configSet(_id: $_id values: $values) {
-        values
-        app
+    mutation envSet($_id: ID!, $values: JSON!) {
+      envSet(_id: $_id values: $values) {
+        _id
+        env
       }
     }
   `, { _id, values });
@@ -19,5 +19,5 @@ export default async function envSet({ _id, values }) {
     process.exit(1);
   }
 
-  return result.data.configSet.values;
+  return result.data.envSet.values;
 }
