@@ -3,7 +3,7 @@
 import 'babel-polyfill';
 import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
-import { checkDeps, getVersions, initialize, Log } from './utils';
+import { checkDeps, getVersions, initialize, track, Log } from './utils';
 import {
   apps,
   build,
@@ -45,133 +45,135 @@ if (process.env.REACTION_CLI_DEBUG === 'true') {
 const pkg = require('../package.json');
 updateNotifier({ pkg }).notify();
 
-initialize(() => {
-  const args = yargs.usage('$0 <command> [options]')
+initialize();
 
-    .version(() => {
-      const versions = getVersions();
+const args = yargs.usage('$0 <command> [options]')
 
-      Log.info(`\nNode: ${Log.magenta(versions.node)}`);
-      Log.info(`NPM: ${Log.magenta(versions.npm)}`);
+  .version(() => {
+    const versions = getVersions();
 
-      if (versions.meteorNode) {
-        Log.info(`Meteor Node: ${Log.magenta(versions.meteorNode)}`);
+    Log.info(`\nNode: ${Log.magenta(versions.node)}`);
+    Log.info(`NPM: ${Log.magenta(versions.npm)}`);
+
+    if (versions.meteorNode) {
+      Log.info(`Meteor Node: ${Log.magenta(versions.meteorNode)}`);
+    }
+
+    if (versions.meteorNode) {
+      Log.info(`Meteor NPM: ${Log.magenta(versions.meteorNpm)}`);
+    }
+
+    if (versions.yarn) {
+      Log.info(`Yarn: ${Log.magenta(versions.yarn)}`);
+    }
+
+    Log.info(`Reaction CLI: ${Log.magenta(pkg.version)}`);
+
+    if (versions.reaction) {
+      Log.info(`Reaction: ${Log.magenta(versions.reaction)}`);
+
+      if (versions.reactionBranch) {
+        Log.info(`Reaction branch: ${Log.magenta(versions.reactionBranch)}`);
       }
+    }
 
-      if (versions.meteorNode) {
-        Log.info(`Meteor NPM: ${Log.magenta(versions.meteorNpm)}`);
-      }
+    if (versions.docker) {
+      Log.info(`Docker: ${Log.magenta(versions.docker)}`);
+    }
 
-      if (versions.yarn) {
-        Log.info(`Yarn: ${Log.magenta(versions.yarn)}`);
-      }
+    return '';
+  })
+  .alias('v', 'version')
+  .describe('v', 'Show the current version of Reaction CLI')
 
-      Log.info(`Reaction CLI: ${Log.magenta(pkg.version)}`);
+  .command('init', 'Create a new Reaction app (will create a new folder)', () => {
+    return yargs.option('b', {
+      alias: 'branch',
+      describe: 'The branch to clone from Github [default: master]',
+      default: 'master'
+    });
+  }, (argv) => checkDeps(['git', 'meteor'], () => init(argv)))
 
-      if (versions.reaction) {
-        Log.info(`Reaction: ${Log.magenta(versions.reaction)}`);
+  .command('config', 'Get/set config values', (options) => {
+    config(options);
+  })
 
-        if (versions.reactionBranch) {
-          Log.info(`Reaction branch: ${Log.magenta(versions.reactionBranch)}`);
-        }
-      }
+  .command('run', 'Start Reaction in development mode', (options) => {
+    checkDeps(['app', 'meteor'], () => run(options));
+  })
 
-      if (versions.docker) {
-        Log.info(`Docker: ${Log.magenta(versions.docker)}`);
-      }
+  .command('debug', 'Start Reaction in debug mode', (options) => {
+    checkDeps(['app', 'meteor'], () => run(options));
+  })
 
-      return '';
-    })
-    .alias('v', 'version')
-    .describe('v', 'Show the current version of Reaction CLI')
+  .command('test', 'Run integration or unit tests', (options) => {
+    checkDeps(['app', 'meteor'], () => test(options));
+  })
 
-    .command('init', 'Create a new Reaction app (will create a new folder)', () => {
-      return yargs.option('b', {
-        alias: 'branch',
-        describe: 'The branch to clone from Github [default: master]',
-        default: 'master'
-      });
-    }, (argv) => checkDeps(['git', 'meteor'], () => init(argv)))
+  .command('pull', 'Pull Reaction updates from Github and install NPM packages', (options) => {
+    checkDeps(['app', 'meteor'], () => pull(options));
+  })
 
-    .command('config', 'Get/set config values', (options) => {
-      config(options);
-    })
+  .command('update', 'Update Atmosphere and NPM packages', (options) => {
+    checkDeps(['app', 'meteor'], () => update(options));
+  })
 
-    .command('run', 'Start Reaction in development mode', (options) => {
-      checkDeps(['app', 'meteor'], () => run(options));
-    })
+  .command('up', 'Update Atmosphere and NPM packages', (options) => {
+    checkDeps(['app', 'meteor'], () => update(options));
+  })
 
-    .command('debug', 'Start Reaction in debug mode', (options) => {
-      checkDeps(['app', 'meteor'], () => run(options));
-    })
+  .command('reset', 'Reset the database and (optionally) delete build files', (options) => {
+    checkDeps(['app', 'meteor'], () => reset(options));
+  })
 
-    .command('test', 'Run integration or unit tests', (options) => {
-      checkDeps(['app', 'meteor'], () => test(options));
-    })
+  .command('plugins', 'Manage your Reaction plugins', (options) => {
+    checkDeps(['app'], () => plugins(options));
+  })
 
-    .command('pull', 'Pull Reaction updates from Github and install NPM packages', (options) => {
-      checkDeps(['app', 'meteor'], () => pull(options));
-    })
+  .command('styles', 'Manage your Reaction styles (css, less, stylus, scss)', (options) => {
+    checkDeps(['app'], () => styles(options));
+  })
 
-    .command('update', 'Update Atmosphere and NPM packages', (options) => {
-      checkDeps(['app', 'meteor'], () => update(options));
-    })
+  .command('build', 'Build a production Docker image', (options) => {
+    checkDeps(['app'], () => build(options));
+  })
 
-    .command('up', 'Update Atmosphere and NPM packages', (options) => {
-      checkDeps(['app', 'meteor'], () => update(options));
-    })
+  .command('register', 'Register an account with Reaction', (options) => register(options))
 
-    .command('reset', 'Reset the database and (optionally) delete build files', (options) => {
-      checkDeps(['app', 'meteor'], () => reset(options));
-    })
+  .command('login', 'Login to Reaction', (options) => login(options))
 
-    .command('plugins', 'Manage your Reaction plugins', (options) => {
-      checkDeps(['app'], () => plugins(options));
-    })
+  .command('logout', 'Logout of Reaction', (options) => logout(options))
 
-    .command('styles', 'Manage your Reaction styles (css, less, stylus, scss)', (options) => {
-      checkDeps(['app'], () => styles(options));
-    })
+  .command('whoami', 'Check which account you are logged in as', (options) => whoami(options))
 
-    .command('build', 'Build a production Docker image', (options) => {
-      checkDeps(['app'], () => build(options));
-    })
+  .command('keys', 'Manage your SSH keys', (options) => keys(options))
 
-    .command('register', 'Register an account with Reaction', (options) => register(options))
+  .command('apps', 'Manage your apps deployments', (options) => apps(options))
 
-    .command('login', 'Login to Reaction', (options) => login(options))
+  .command('deploy', 'Deploy an app', (options) => deploy(options))
 
-    .command('logout', 'Logout of Reaction', (options) => logout(options))
+  .command('env', 'Manage environment variables for an app deployment', (options) => env(options))
 
-    .command('whoami', 'Check which account you are logged in as', (options) => whoami(options))
+  .command('domain', 'Set/unset a custom domain name for an app', (options) => domains(options))
 
-    .command('keys', 'Manage your SSH keys', (options) => keys(options))
+  .command('open', 'Open an app deployment in your browser', (options) => open(options))
 
-    .command('apps', 'Manage your apps deployments', (options) => apps(options))
+  .alias('a', 'app')
+  .alias('d', 'domain')
+  .alias('e', 'env')
+  .alias('n', 'name')
+  .alias('i', 'image')
+  .alias('s', 'settings')
+  .alias('r', 'registry')
 
-    .command('deploy', 'Deploy an app', (options) => deploy(options))
+  .help('h')
+  .alias('h', 'help')
+  .showHelpOnFail(false)
+  .argv;
 
-    .command('env', 'Manage environment variables for an app deployment', (options) => env(options))
+// Default to 'reaction run' if no subcommand is specified
+if (!args._.length && !args.h && !args.help) {
+  checkDeps(['app', 'meteor'], () => run(yargs));
+}
 
-    .command('domain', 'Set/unset a custom domain name for an app', (options) => domains(options))
-
-    .command('open', 'Open an app deployment in your browser', (options) => open(options))
-
-    .alias('a', 'app')
-    .alias('d', 'domain')
-    .alias('e', 'env')
-    .alias('n', 'name')
-    .alias('i', 'image')
-    .alias('s', 'settings')
-    .alias('r', 'registry')
-
-    .help('h')
-    .alias('h', 'help')
-    .showHelpOnFail(false)
-    .argv;
-
-  // Default to 'reaction run' if no subcommand is specified
-  if (!args._.length && !args.h && !args.help) {
-    checkDeps(['app', 'meteor'], () => run(yargs));
-  }
-});
+track();
