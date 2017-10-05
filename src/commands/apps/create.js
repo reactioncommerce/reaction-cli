@@ -6,7 +6,7 @@ export default async function appCreate({ name, env, remote }) {
   const gql = new GraphQL();
 
   const result = await gql.fetch(`
-    mutation appCreate($name: String!, $env: JSON ) {
+    mutation appCreate($name: String!, $env: JSON) {
       appCreate(name: $name, env: $env) {
         _id
         name
@@ -34,10 +34,14 @@ export default async function appCreate({ name, env, remote }) {
 
     const gitRemote = result.data.appCreate.git.ssh_url_to_repo;
     const namespace = result.data.appCreate.group.namespace;
+    const remoteName = `${namespace}-${name}`;
+    const remoteAddCommand = `git remote add ${remoteName} ${gitRemote}`;
 
-    if (exec(`git remote add ${namespace}-${name} ${gitRemote}`).code !== 0) {
-      Log.error('Failed to create git remote');
-      process.exit(1);
+    if (exec(remoteAddCommand, { silent: true }).code !== 0) {
+      if (exec(`git remote set-url ${remoteName} ${gitRemote}`, { silent: true }).code !== 0) {
+        Log.warn('Failed to add or update the git remote in your repo.');
+        Log.warn(`Please try adding it manually with: ${Log.magenta(remoteAddCommand)}`);
+      }
     }
   } else {
     Log.error('Sorry, deploying a prebuilt image is not available right now. Please contact support for more info.');

@@ -7,8 +7,11 @@ export default async function appDelete({ name }) {
   const app = _.filter(apps, (a) => a.name === name)[0];
 
   if (!app) {
-    return Log.error('\nApp deployment not found');
+    Log.warn('\nApp deployment not found');
+    process.exit(1);
   }
+
+  exec(`git remote remove ${app.group.namespace}-${name}`, { silent: true });
 
   const gql = new GraphQL();
 
@@ -22,14 +25,12 @@ export default async function appDelete({ name }) {
 
   if (!!res.errors) {
     res.errors.forEach((err) => {
-      Log.error(err.message);
+      Log.error(`Failure deleting app deployment: ${err.message}`);
     });
     process.exit(1);
   }
 
-  exec(`git remote remove launchdock-${name}`, { silent: true });
-
   Config.set('global', 'launchdock.apps', _.reject(apps, (a) => a.name === name));
 
-  Log.success(`\nApp '${name}' successfully deleted.\n`);
+  Log.success(`\nApp deployment '${name}' successfully deleted.\n`);
 }
