@@ -29,7 +29,6 @@ $ reaction --help
 
   Commands:
     init        Create a new Reaction app (will create a new folder)
-    config      Get/set config values
     run         Start Reaction in development mode
     debug       Start Reaction in debug mode
     test [unit] Run integration or unit tests
