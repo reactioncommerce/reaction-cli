@@ -137,7 +137,8 @@ export async function deploy(yargs) {
 
     Log.info('\nPushing updates to be built...\n');
 
-    const result = exec(`git push ${appToDeploy.group.namespace}-${app}`);
+    const branch = exec('git rev-parse --abbrev-ref HEAD', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
+    const result = exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`);
 
     if (result.code !== 0) {
       Log.error('Deployment failed');
