@@ -66,7 +66,6 @@ export async function deploy(yargs) {
     options.env = values;
   }
 
-  const gql = new GraphQL();
 
   if (image || appToDeploy.image) {
     // docker pull deployment
@@ -110,8 +109,6 @@ export async function deploy(yargs) {
     const notInReactionDir = () => {
       Log.error('\nNot in a Reaction app directory.\n');
       Log.info(`To create a new local project, run: ${Log.magenta('reaction init')}\n`);
-      Log.info('Or to create a deployment with a prebuilt Docker image, use the --image flag\n');
-      Log.info(`Example: ${Log.magenta(`reaction apps create --name ${appToDeploy.name} --image myorg/myapp:latest`)}\n`);
     };
 
     let packageFile;
