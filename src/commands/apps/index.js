@@ -5,6 +5,7 @@ import { Config, Log, getStringFromFile, slugify } from '../../utils';
 import appsList from './list';
 import appCreate from './create';
 import appDelete from './delete';
+import appClone from './clone';
 
 const helpMessage = `
 Usage:
@@ -15,6 +16,7 @@ Usage:
       list      List your app deployments
       create    Create a new app deployment on Launchdock
       delete    Remove an existing app deployment from Launchdock
+      clone     Git clone an existing app deployment from Launchdock
 `;
 
 export async function apps(yargs) {
@@ -22,7 +24,7 @@ export async function apps(yargs) {
 
   const subCommands = yargs.argv._;
   const args = _.omit(yargs.argv, ['_', '$0']);
-  const { name, remote } = args;
+  const { name, remote, path } = args;
 
   if (!subCommands[1]) {
     return Log.default(helpMessage);
@@ -146,5 +148,24 @@ export async function apps(yargs) {
     }
 
     return appDelete({ name });
+  }
+
+  // clone
+  if (subCommands[1] === 'clone') {
+    const keys = Config.get('global', 'launchdock.keys', []);
+
+    if (!keys.length) {
+      Log.error('\nAn SSH public key is required to clone a deployments\n');
+      Log.info(`To add a key to your account: ${Log.magenta('reaction keys add /path/to/key.pub')}\n`);
+      const keypairHelpUrl = 'https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/';
+      Log.info(`More info about creating a key pair: ${Log.magenta(keypairHelpUrl)}\n`);
+      process.exit(1);
+    }
+
+    if (!name) {
+      return Log.error('App name required');
+    }
+
+    return appClone({ name, path });
   }
 }
