@@ -43,7 +43,7 @@ if (process.env.REACTION_CLI_DEBUG === 'true') {
 
 // Notify about reaction-cli updates
 const pkg = require('../package.json');
-updateNotifier({ pkg }).notify();
+updateNotifier({ pkg }).notify({ isGlobal: true });
 
 initialize();
 
