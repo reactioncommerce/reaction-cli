@@ -102,12 +102,3 @@ export function getStringFromFile(file) {
     process.exit(1);
   }
 }
-
-
-/**
- * Get the path to the current user's home directory
- * @return {String} path to user's home dir
- */
-export function getUserHome() {
-  return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
-}
