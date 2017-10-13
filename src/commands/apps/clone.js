@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { exec } from 'shelljs';
-import { Config, Log } from '../../utils';
+import { Config, Log, setGitSSHKeyEnv } from '../../utils';
 import listApps from './list';
 
 export default async function appClone({ name, path }) {
@@ -13,6 +13,8 @@ export default async function appClone({ name, path }) {
     Log.warn('\nApp deployment not found');
     process.exit(1);
   }
+
+  setGitSSHKeyEnv();
 
   exec(`git clone ${app.git.ssh_url_to_repo} ${path || ''}`);
 

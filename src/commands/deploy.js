@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
 import { exec } from 'shelljs';
-import { Config, GraphQL, Log, getStringFromFile } from '../utils';
+import { Config, Log, getStringFromFile, setGitSSHKeyEnv } from '../utils';
 
 const helpMessage = `
 Usage:
@@ -133,7 +133,7 @@ export async function deploy(yargs) {
     }
 
     Log.info('\nPushing updates to be built...\n');
-
+    setGitSSHKeyEnv();
     const branch = exec('git rev-parse --abbrev-ref HEAD', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
     const result = exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`);
 

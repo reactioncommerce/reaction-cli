@@ -2,18 +2,27 @@ import fs from 'fs';
 import { Config, GraphQL, Log, exists } from '../../utils';
 
 
-export default async function keyCreate(publicKeyPath) {
-  if (!exists(publicKeyPath)) {
-    return Log.error(`Public key not found at ${publicKeyPath}`);
-  }
+export default async function keyCreate({ publicKeyPath, publicKey, title }) {
+  let keyFile;
 
-  let publicKey;
-  try {
-    publicKey = fs.readFileSync(publicKeyPath, 'utf8');
-  } catch (e) {
-    Log.error('Error reading public key');
+  if (publicKeyPath) {
+    if (!exists(publicKeyPath)) {
+      Log.error(`Public key not found at ${publicKeyPath}`);
+      process.exit(1);
+    }
+
+    try {
+      keyFile = fs.readFileSync(publicKeyPath, 'utf8');
+    } catch (e) {
+      Log.error('Error reading public key');
+      process.exit(1);
+    }
+  } else if (!publicKey) {
+    Log.error('A public key is required');
     process.exit(1);
   }
+
+  const key = keyFile || publicKey;
 
   const gql = new GraphQL();
 
@@ -25,7 +34,7 @@ export default async function keyCreate(publicKeyPath) {
         key
       }
     }
-  `, { title: publicKeyPath.replace(/^.*?([^\\\/]*)$/, '$1'), key: publicKey });
+  `, { title, key });
 
   if (!!result.errors) {
     result.errors.forEach((err) => {
@@ -34,7 +43,9 @@ export default async function keyCreate(publicKeyPath) {
     process.exit(1);
   }
 
-  Log.info(`Added new public key: ${Log.magenta(result.data.keyCreate.title)}`);
+  if (publicKeyPath) {
+    Log.info(`\nAdded new SSH public key: ${Log.magenta(result.data.keyCreate.title)}\n`);
+  }
 
   const updatedKeys = await gql.fetch(`
     query {

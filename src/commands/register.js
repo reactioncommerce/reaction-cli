@@ -1,5 +1,6 @@
 import inquirer from 'inquirer';
-import { Config, GraphQL, Log } from '../utils';
+import { Config, GraphQL, Log, generateKeyPair } from '../utils';
+import keyCreate from './keys/add';
 
 
 export function register(yargs) {
@@ -62,7 +63,7 @@ export function register(yargs) {
 
         const { _id, email } = res.data.inviteAccept;
 
-        gql.login({ username, password }).then((result) => {
+        gql.login({ username, password }).then(async (result) => {
           if (!!result.errors) {
             result.errors.forEach((err) => {
               Log.error(err.message);
@@ -73,6 +74,10 @@ export function register(yargs) {
           const { token, tokenExpires } = result.data.loginWithPassword;
 
           Config.set('global', 'launchdock', { _id, name, username, email, token, tokenExpires });
+
+          const keyPair = generateKeyPair({ email });
+
+          await keyCreate({ publicKey: keyPair.publicKey, title: keyPair.title });
 
           Log.success(`\nLogged in as ${username}`);
         });
