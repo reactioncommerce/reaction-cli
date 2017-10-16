@@ -39,8 +39,8 @@ export function generateKeyPair({ email }) {
   fs.writeFileSync(publicKeyFile, publicKey);
   fs.writeFileSync(privateKeyFile, privateKey);
 
-  fs.chmodSync(publicKeyFile, 400);
-  fs.chmodSync(privateKeyFile, 400);
+  fs.chmodSync(publicKeyFile, '400');
+  fs.chmodSync(privateKeyFile, '400');
 
   Log.debug(`Generated new SSH key pair: ${title}`);
 
@@ -54,7 +54,7 @@ export function generateKeyPair({ email }) {
 
 /**
  * Check if the user has a registered SSH key in ~/.reaction/keys/
- * If so, set the GIT_SSH_COMMAND environment variable to use the private key's itentity
+ * If so, set the GIT_SSH_COMMAND environment variable to use the private key's identity
  * https://superuser.com/a/912281
  * @return {String|null} returns the path to the chosen private key or null if none found
  */
