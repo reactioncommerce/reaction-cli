@@ -1,7 +1,10 @@
 import fs from 'fs-extra';
+import path from 'path';
 import _ from 'lodash';
+import fetch from 'node-fetch';
+import inquirer from 'inquirer';
 import { exec } from 'shelljs';
-import { Config, Log, getStringFromFile, setGitSSHKeyEnv } from '../utils';
+import { Config, Log, getStringFromFile, setGitSSHKeyEnv, isEmptyOrMissing } from '../utils';
 
 const helpMessage = `
 Usage:
@@ -122,6 +125,44 @@ export async function deploy(yargs) {
     if (packageFile.name !== 'reaction') {
       notInReactionDir();
       process.exit(1);
+    }
+
+    // If we don't have a Reaction CI config file,
+    // prompt the user to download it from Github
+    // and commit it to their repo
+    const configFilePath = '.reaction/ci/config.yml';
+
+    if (isEmptyOrMissing(configFilePath)) {
+      Log.warn(`\nRequired Reaction CI configuration file not found at: ${configFilePath}\n`);
+
+      const { download } = await inquirer.prompt([{
+        type: 'confirm',
+        name: 'download',
+        message: '\nWould you like to download the latest from Github and commit it to your repo?',
+        default: true
+      }]);
+
+      if (download) {
+        try {
+          const res = await fetch(`https://api.github.com/repos/reactioncommerce/reaction/contents/${configFilePath}`);
+          const json = await res.json();
+
+          const configFile = new Buffer(json.content, 'base64').toString('utf8');
+
+          fs.writeFileSync(path.resolve(configFilePath), configFile);
+        } catch(e) {
+          Log.debug(e);
+          Log.error('Failed to create Reaction CI config file. Please contact support.');
+          process.exit(1);
+        }
+
+        exec(`git add ${configFilePath} && git commit -m "Add Reaction CI config file"`);
+
+        Log.success('\nReaction CI config file created!\n');
+      } else {
+        Log.error(`\nReaction CI configuration is required. Please add one at: ${configFilePath}\n`);
+        process.exit(1);
+      }
     }
 
     const keys = Config.get('global', 'launchdock.keys', []);
