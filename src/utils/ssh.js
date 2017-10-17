@@ -8,6 +8,8 @@ import _ from 'lodash';
 import * as Config from './config';
 import { exists } from './fs';
 import Log from './logger';
+import keysList from '../commands/keys/list';
+import keyCreate from '../commands/keys/add';
 
 /**
  * Generate an SSH key pair and save them at ~/.reaction/keys/
@@ -71,4 +73,28 @@ export function setGitSSHKeyEnv() {
   }
 
   return null;
+}
+
+
+/**
+ * Check if the user has a registered SSH key in ~/.reaction/keys/
+ * @return {undefined} returns nothing
+ */
+export async function ensureSSHKeysExist() {
+  const keys = await keysList();
+  const homeDir = os.homedir();
+
+  let hasKey = false;
+
+  keys.forEach((k) => {
+    if (exists(`${homeDir}/.reaction/keys/${k.title}`)) {
+      hasKey = true;
+    }
+  });
+
+  if (keys.length === 0 || !hasKey) {
+    const email = Config.get('global', 'launchdock.email');
+    const keyPair = generateKeyPair({ email });
+    await keyCreate({ publicKey: keyPair.publicKey, title: keyPair.title });
+  }
 }

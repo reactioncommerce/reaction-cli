@@ -4,7 +4,7 @@ import _ from 'lodash';
 import fetch from 'node-fetch';
 import inquirer from 'inquirer';
 import { exec } from 'shelljs';
-import { Config, Log, getStringFromFile, setGitSSHKeyEnv, isEmptyOrMissing } from '../utils';
+import { Config, Log, getStringFromFile, ensureSSHKeysExist, setGitSSHKeyEnv, isEmptyOrMissing } from '../utils';
 
 const helpMessage = `
 Usage:
@@ -165,13 +165,7 @@ export async function deploy(yargs) {
       }
     }
 
-    const keys = Config.get('global', 'launchdock.keys', []);
-
-    if (!keys.length) {
-      Log.error('\nAn SSH public key is required to do custom deployments\n');
-      Log.info(`To publish a new key: ${Log.magenta('reaction keys add /path/to/key.pub')}\n`);
-      process.exit(1);
-    }
+    await ensureSSHKeysExist();
 
     Log.info('\nPushing updates to be built...\n');
     setGitSSHKeyEnv();

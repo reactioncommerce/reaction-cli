@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
 import Table from 'cli-table2';
-import { Config, Log, getStringFromFile, slugify } from '../../utils';
+import { Config, Log, getStringFromFile, slugify, ensureSSHKeysExist } from '../../utils';
 import appsList from './list';
 import appCreate from './create';
 import appDelete from './delete';
@@ -60,15 +60,7 @@ export async function apps(yargs) {
         process.exit(1);
       }
 
-      const keys = Config.get('global', 'launchdock.keys', []);
-
-      if (!keys.length) {
-        Log.error('\nAn SSH public key is required to do custom deployments\n');
-        Log.info(`To add a key to your account: ${Log.magenta('reaction keys add /path/to/key.pub')}\n`);
-        const keypairHelpUrl = 'https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/';
-        Log.info(`More info about creating a key pair: ${Log.magenta(keypairHelpUrl)}\n`);
-        process.exit(1);
-      }
+      await ensureSSHKeysExist();
     }
 
     const env = {};
@@ -152,19 +144,11 @@ export async function apps(yargs) {
 
   // clone
   if (subCommands[1] === 'clone') {
-    const keys = Config.get('global', 'launchdock.keys', []);
-
-    if (!keys.length) {
-      Log.error('\nAn SSH public key is required to clone a deployments\n');
-      Log.info(`To add a key to your account: ${Log.magenta('reaction keys add /path/to/key.pub')}\n`);
-      const keypairHelpUrl = 'https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/';
-      Log.info(`More info about creating a key pair: ${Log.magenta(keypairHelpUrl)}\n`);
-      process.exit(1);
-    }
-
     if (!name) {
       return Log.error('App name required');
     }
+
+    await ensureSSHKeysExist();
 
     return appClone({ name, path });
   }
