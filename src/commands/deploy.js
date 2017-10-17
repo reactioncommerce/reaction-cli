@@ -170,19 +170,52 @@ export async function deploy(yargs) {
     Log.info('\nPushing updates to be built...\n');
     setGitSSHKeyEnv();
     const branch = exec('git rev-parse --abbrev-ref HEAD', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
-    const result = exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`);
 
-    if (result.code !== 0) {
-      Log.error('Deployment failed');
-      process.exit(1);
+    if (branch !== 'master') {
+      Log.warn('You are not on the master branch. A deployment will NOT happen.');
+
+      const { push } = await inquirer.prompt([{
+        type: 'confirm',
+        name: 'push',
+        message: '\nWould you like to push the branch up anyway?\n',
+        default: false
+      }]);
+
+      if (push) {
+        const result = exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`);
+
+        if (result.code !== 0) {
+          Log.error('Deployment failed');
+          process.exit(1);
+        }
+
+        if (result.stderr.includes('Everything up-to-date')) {
+          Log.info('No committed changes to deploy.\n');
+          process.exit(0);
+        }
+
+        Log.info('\nYour branch has been pushed, but this was not the master branch, so nothing will be deployed.\n');
+        Log.success('Done!\n');
+      } else {
+        Log.error('Not pushing code. Exiting.');
+        process.exit(1);
+      }
+    } else {
+      const result = exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`);
+
+      if (result.code !== 0) {
+        Log.error('Deployment failed');
+        process.exit(1);
+      }
+
+      if (result.stderr.includes('Everything up-to-date')) {
+        Log.info('No committed changes to deploy.\n');
+        process.exit(0);
+      }
+
+      Log.info('\nYou will be notified as soon as your app finishes building and deploying.\n');
+      Log.success('Done!\n');
     }
 
-    if (result.stderr.includes('Everything up-to-date')) {
-      Log.info('No committed changes to deploy.\n');
-      process.exit(0);
-    }
-
-    Log.info('You will be notified as soon as your app finishes building and deploying.\n');
-    Log.success('Done!\n');
   }
 }
