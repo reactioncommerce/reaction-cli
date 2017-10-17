@@ -16,7 +16,9 @@ export default async function appClone({ name, path }) {
 
   setGitSSHKeyEnv();
 
-  exec(`git clone ${app.git.ssh_url_to_repo} ${path || ''}`);
+  if (exec(`git clone ${app.git.ssh_url_to_repo} ${path || ''}`).code !== 0) {
+    Log.error('Failed to clone app');
+  }
 
   const namespace = app.group.namespace;
   const remoteName = `${namespace}-${name}`;
