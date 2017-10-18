@@ -55,8 +55,6 @@ export async function apps(yargs) {
         notInReactionDir();
         process.exit(1);
       }
-
-      await ensureSSHKeysExist();
     }
 
     const env = {};
