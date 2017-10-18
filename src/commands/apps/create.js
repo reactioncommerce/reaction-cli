@@ -3,6 +3,12 @@ import { GraphQL, Log } from '../../utils';
 import listApps from './list';
 
 export default async function appCreate({ name, env, remote }) {
+
+  if (!name.match('^[a-z0-9_-]*$')) {
+    Log.error('\nApp names may only contain lower case letters, digits, "_", and "-"\n');
+    process.exit(1);
+  }
+
   const gql = new GraphQL();
 
   const result = await gql.fetch(`

@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
 import Table from 'cli-table2';
-import { Config, Log, getStringFromFile, slugify, ensureSSHKeysExist } from '../../utils';
+import { Config, Log, getStringFromFile, ensureSSHKeysExist } from '../../utils';
 import appsList from './list';
 import appCreate from './create';
 import appDelete from './delete';
@@ -84,7 +84,7 @@ export async function apps(yargs) {
       env.REACTION_REGISTRY = getStringFromFile(args.registry);
     }
 
-    return appCreate({ name: slugify(name), env, remote });
+    return appCreate({ name: name.toLowerCase(), env, remote });
   }
 
   // list
