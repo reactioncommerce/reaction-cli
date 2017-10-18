@@ -41,10 +41,6 @@ export async function apps(yargs) {
       const notInReactionDir = () => {
         Log.error('\nNot in a Reaction app directory.\n');
         Log.info(`To create a new local project, run: ${Log.magenta('reaction init')}\n`);
-        Log.info('Or to create a deployment from a prebuilt Docker image, use the --no-remote flag\n');
-        Log.info('Example:');
-        Log.info(` ${Log.magenta(`reaction apps create --name ${name} --no-remote`)}\n`);
-        Log.info(` ${Log.magenta(`reaction deploy --app ${name} --image reactioncommerce/reaction:latest`)}\n`);
       };
 
       let packageFile;
@@ -129,7 +125,7 @@ export async function apps(yargs) {
       Log.info('');
     } else {
       Log.info('\nNo apps found.\n');
-      Log.info(`Run ${Log.magenta('reaction apps create <appname>')} to create one.\n`);
+      Log.info(`Run ${Log.magenta('reaction apps create --name <appname>')} to create one.\n`);
     }
   }
 
