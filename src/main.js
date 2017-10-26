@@ -144,19 +144,33 @@ const args = yargs.usage('$0 <command> [options]')
 
   .command('logout', 'Logout of Reaction', (options) => logout(options))
 
-  .command('whoami', 'Check which account you are logged in as', (options) => whoami(options))
+  .command('whoami', 'Check which account you are logged in as', (options) => {
+    checkDeps(['platform'], () => whoami(options));
+  })
 
-  .command('keys', 'Manage your SSH keys', (options) => keys(options))
+  .command('keys', 'Manage your SSH keys', (options) => {
+    checkDeps(['platform'], () => keys(options));
+  })
 
-  .command('apps', 'Manage your apps deployments', (options) => apps(options))
+  .command('apps', 'Manage your apps deployments', (options) => {
+    checkDeps(['platform'], () => apps(options));
+  })
 
-  .command('deploy', 'Deploy an app', (options) => deploy(options))
+  .command('deploy', 'Deploy an app', (options) => {
+    checkDeps(['platform'], () => deploy(options));
+  })
 
-  .command('env', 'Manage environment variables for an app deployment', (options) => env(options))
+  .command('env', 'Manage environment variables for an app deployment', (options) => {
+    checkDeps(['platform'], () => env(options));
+  })
 
-  .command('domain', 'Set/unset a custom domain name for an app', (options) => domains(options))
+  .command('domain', 'Set/unset a custom domain name for an app', (options) => {
+    checkDeps(['platform'], () => domains(options));
+  })
 
-  .command('open', 'Open an app deployment in your browser', (options) => open(options))
+  .command('open', 'Open an app deployment in your browser', (options) => {
+    checkDeps(['platform'], () => open(options));
+  })
 
   .alias('a', 'app')
   .alias('d', 'domain')

@@ -1,12 +1,12 @@
 import inquirer from 'inquirer';
-import { exec, which } from 'shelljs';
+import { sync as cmdExists } from 'command-exists';
+import { exec } from 'shelljs';
 import Log from './logger';
 
 export default function (callback) {
-  const meteorInstalled = !!which('meteor');
   const { blue } = Log;
 
-  if (!meteorInstalled) {
+  if (!cmdExists('meteor')) {
     Log.warn('\nOops! You don\'t have Meteor installed yet! \n');
 
     if (process.platform === 'win32') {

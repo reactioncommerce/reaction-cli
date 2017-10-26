@@ -1,7 +1,7 @@
-import { which } from 'shelljs';
-import includes from 'lodash/includes';
+import { sync as cmdExists } from 'command-exists';
 import checkIfInReactionDir from './check_app';
 import checkMeteor from './check_meteor';
+import * as Config from './config';
 import Log from './logger';
 
 
@@ -16,12 +16,18 @@ More info...
 http://getrxn.io/2installRC
 `;
 
+const platformWarning = `
+This command requires being logged into the managed platform.
+
+If you have an account, please log in and try this command again.
+If you you don't have an account, please see the link below to learn more.
+
+${Log.magenta('http://getrxn.io/reaction-platform')}
+`;
 
 export default function (checks = [], callback) {
-  if (includes(checks, 'git')) {
-    const gitIsInstalled = !!which('git');
-
-    if (!gitIsInstalled) {
+  if (checks.includes('git')) {
+    if (!cmdExists('git')) {
       Log.warn(gitWarning);
       process.exit(1);
     }
@@ -30,14 +36,22 @@ export default function (checks = [], callback) {
     }
   }
 
-  if (includes(checks, 'app')) {
+  if (checks.includes('app')) {
     checkIfInReactionDir();
     if (checks.length === 1) {
       callback();
     }
   }
 
-  if (includes(checks, 'meteor')) {
+  if (checks.includes('meteor')) {
     checkMeteor(callback);
+  }
+
+  if (checks.includes('platform')) {
+    if (!Config.get('global', 'launchdock.username')) {
+      Log.info(platformWarning);
+      process.exit(1);
+    }
+    callback();
   }
 }

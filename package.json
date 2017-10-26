@@ -53,6 +53,7 @@
     "bluebird": "^3.5.1",
     "chalk": "^2.2.0",
     "cli-table2": "^0.2.0",
+    "command-exists": "^1.2.2",
     "fs-extra": "^4.0.2",
     "inquirer": "^3.3.0",
     "keypair": "^1.0.1",
