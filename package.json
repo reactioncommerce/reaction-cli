@@ -1,6 +1,6 @@
 {
   "name": "reaction-cli",
-  "version": "0.19.0",
+  "version": "0.19.1",
   "description": "A command line tool for Reaction Commerce",
   "main": "./dist/main.js",
   "scripts": {
@@ -51,7 +51,7 @@
     "analytics-node": "^3.1.1",
     "babel-polyfill": "^6.26.0",
     "bluebird": "^3.5.1",
-    "chalk": "^2.2.0",
+    "chalk": "^2.3.0",
     "cli-table2": "^0.2.0",
     "command-exists": "^1.2.2",
     "fs-extra": "^4.0.2",
