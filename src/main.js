@@ -5,6 +5,7 @@ import yargs from 'yargs';
 import updateNotifier from 'update-notifier';
 import { checkDeps, getVersions, initialize, track, Log } from './utils';
 import {
+  account,
   apps,
   build,
   config,
@@ -147,6 +148,8 @@ const args = yargs.usage('$0 <command> [options]')
   .command('whoami', 'Check which account you are logged in as', (options) => {
     checkDeps(['platform'], () => whoami(options));
   })
+
+  .command('account', 'Manage your Reaction Platform account', (options) => account(options))
 
   .command('keys', 'Manage your SSH keys', (options) => {
     checkDeps(['platform'], () => keys(options));

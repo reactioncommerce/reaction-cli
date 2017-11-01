@@ -97,6 +97,45 @@ export class GraphQL {
   }
 
 
+  forgotPassword({ email }) {
+    if (!email) {
+      Log.error('\Old password and new password required');
+      process.exit(1);
+    }
+
+    return this.fetch(`
+      mutation userForgotPassword($email: String!, $cli: Boolean) {
+        userForgotPassword(email: $email, cli: $cli) {
+          success
+        }
+      }
+    `, { email, cli: true });
+  }
+
+
+  resetPassword({ token, password }) {
+    if (!token) {
+      Log.error('\Must provide a reset token to change a password. Did you mean "forgot-password"?');
+      process.exit(1);
+    }
+
+    if (!password) {
+      Log.error('\Old password and new password required');
+      process.exit(1);
+    }
+
+    return this.fetch(`
+      mutation resetPassword($newPassword: HashedPassword!, $token: String!) {
+        resetPassword(newPassword: $newPassword, token: $token) {
+          id
+          token
+          tokenExpires
+        }
+      }
+    `, { token, newPassword: hashPassword(password) });
+  }
+
+
   whoami() {
     return this.fetch(`
       query {

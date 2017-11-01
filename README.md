@@ -41,6 +41,7 @@ $ reaction --help
     register    * Register an account with Reaction
     login       * Login to Reaction
     logout      * Logout of Reaction
+    account     * Manage your Reaction Platform account
     apps        * Manage your app deployments
     deploy      * Deploy an app
     domains     * Add a custom domain name to a deployment
