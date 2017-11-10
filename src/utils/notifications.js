@@ -11,11 +11,11 @@ const hostingPlatformNotification = `
 export function processNotifications() {
   const installedSince = Config.get('id', 'since');
   const timeSinceInstall = Date.now() - installedSince;
-  const fourWeeks = 4 * 7 * 24 * 60 * 1000;
+  const twoWeeks = 2 * 7 * 24 * 60 * 1000;
 
   const hasBeenNotified = Config.get('id', 'notifications.hosting');
 
-  if (timeSinceInstall > fourWeeks && !hasBeenNotified) {
+  if (timeSinceInstall > twoWeeks && !hasBeenNotified) {
     Log.info(hostingPlatformNotification);
     Config.set('id', 'notifications.hosting', true);
   }
