@@ -52,10 +52,16 @@ export function initGlobalConfig() {
 
   if (isEmptyOrMissing(idFile)) {
     try {
-      fs.writeJSONSync(idFile, { id: uuid.v1() });
+      fs.writeJSONSync(idFile, { id: uuid.v1(), since: Date.now() });
     } catch (error) {
       Log.error('Error creating Reaction CLI configs');
       process.exit(1);
+    }
+  } else {
+    const idFileContent = fs.readJsonSync(idFile);
+
+    if (!idFileContent.since) {
+      fs.writeJsonSync(idFile, { ...idFileContent, since: Date.now() });
     }
   }
 
