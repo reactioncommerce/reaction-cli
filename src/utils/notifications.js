@@ -4,7 +4,7 @@ import Log from './logger';
 const hostingPlatformNotification = `
 ********************************************************************************
   ${Log.bold('Need help with deployment?')}
-  Learn more about the Reaction Platform: ${Log.magenta('http://getrxn.io/reaction-platform')}
+  Learn more about the Reaction Platform: ${Log.magenta('http://getrxn.io/managed-platform')}
 ********************************************************************************
 `;
 
