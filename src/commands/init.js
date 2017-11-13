@@ -1,4 +1,4 @@
-import { exec } from 'shelljs';
+import { execSync as exec } from 'child_process';
 import { exists, Log, initInstallModules } from '../utils';
 
 export function init(argv) {
@@ -14,9 +14,11 @@ export function init(argv) {
     process.exit(1);
   }
 
-  Log.info(`\nCloning the ${branch} branch of Reaction from Github...`);
+  Log.info(`\nCloning the ${branch} branch of Reaction from Github...\n`);
 
-  if (exec(`git clone -b ${branch} ${repoUrl} ${dirName}`).code !== 0) {
+  try {
+    exec(`git clone -b ${branch} ${repoUrl} ${dirName}`, { stdio: 'inherit' });
+  } catch (err) {
     Log.error('\nError: Unable to clone from Github. Exiting.');
     process.exit(1);
   }

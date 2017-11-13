@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { exec } from 'shelljs';
+import { exec } from 'child_process';
 import inquirer from 'inquirer';
 import { Config, GraphQL, Log } from '../../utils';
 
@@ -12,7 +12,11 @@ export default function appDelete({ name }) {
     process.exit(1);
   }
 
-  exec(`git remote remove ${app.group.namespace}-${name}`, { silent: true });
+  exec(`git remote remove ${app.group.namespace}-${name}`, { stdio: 'ignore' }, (err) => {
+    if (err) {
+      Log.debug(`Error deleting git remote: ${app.group.namespace}-${name}`);
+    }
+  });
 
   inquirer.prompt([{
     type: 'confirm',

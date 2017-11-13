@@ -1,4 +1,4 @@
-import { exec } from 'shelljs';
+import { exec } from 'child-process-promise';
 import { GraphQL, Log } from '../../utils';
 import listApps from './list';
 
@@ -43,10 +43,15 @@ export default async function appCreate({ name, env, remote }) {
     const remoteName = `${namespace}-${name}`;
     const remoteAddCommand = `git remote add ${remoteName} ${gitRemote}`;
 
-    if (exec(remoteAddCommand, { silent: true }).code !== 0) {
-      if (exec(`git remote set-url ${remoteName} ${gitRemote}`, { silent: true }).code !== 0) {
+    try {
+      await exec(remoteAddCommand);
+    } catch (error) {
+      try {
+        await exec(`git remote set-url ${remoteName} ${gitRemote}`);
+      } catch (err) {
         Log.warn('Failed to add or update the git remote in your repo.');
         Log.warn(`Please try adding it manually with: ${Log.magenta(remoteAddCommand)}`);
+        process.exit(1);
       }
     }
   } else {

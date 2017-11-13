@@ -1,9 +1,9 @@
 import fs from 'fs-extra';
 import path from 'path';
+import { exec, execSync } from 'child_process';
 import _ from 'lodash';
 import fetch from 'node-fetch';
 import inquirer from 'inquirer';
-import { exec } from 'shelljs';
 import { Config, Log, getStringFromFile, ensureSSHKeysExist, setGitSSHKeyEnv, isEmptyOrMissing } from '../utils';
 
 const helpMessage = `
@@ -156,7 +156,12 @@ export async function deploy(yargs) {
           process.exit(1);
         }
 
-        exec(`git add ${configFilePath} && git commit -m "Add Reaction CI config file"`);
+        try {
+          exec(`git add ${configFilePath} && git commit -m "Add Reaction CI config file"`, { stdio: 'inherit' });
+        } catch (err) {
+          Log.error('\nFailed to commit new config file to your repo\n');
+          process.exit(1);
+        }
 
         Log.success('\nReaction CI config file created!\n');
       } else {
@@ -168,8 +173,16 @@ export async function deploy(yargs) {
     await ensureSSHKeysExist();
 
     Log.info('\nPushing updates to be built...\n');
+
     setGitSSHKeyEnv();
-    const branch = exec('git rev-parse --abbrev-ref HEAD', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
+
+    let branch;
+    try {
+      branch = execSync('git rev-parse --abbrev-ref HEAD').toString().replace(/\r?\n|\r/g, '');
+    } catch (err) {
+      Log.error('\nFailed to get current branch. Exiting.');
+      process.exit(1);
+    }
 
     if (branch !== 'master') {
       Log.warn('You are not on the master branch. A deployment will NOT happen.');
@@ -182,39 +195,41 @@ export async function deploy(yargs) {
       }]);
 
       if (push) {
-        const result = exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`);
+        exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`, (err, stdout, stderr) => {
+          if (err) {
+            Log.error('\nDeployment failed');
+            process.exit(1);
+          }
 
-        if (result.code !== 0) {
-          Log.error('Deployment failed');
-          process.exit(1);
-        }
+          if (stderr.includes('Everything up-to-date')) {
+            Log.info('\nNo committed changes to deploy.\n');
+          } else {
+            Log.info('\nYour branch has been pushed, but this was not the master branch, so nothing will be deployed.\n');
+          }
 
-        if (result.stderr.includes('Everything up-to-date')) {
-          Log.info('No committed changes to deploy.\n');
+          Log.success('Done!\n');
           process.exit(0);
-        }
-
-        Log.info('\nYour branch has been pushed, but this was not the master branch, so nothing will be deployed.\n');
-        Log.success('Done!\n');
+        });
       } else {
         Log.error('Not pushing code. Exiting.');
         process.exit(1);
       }
     } else {
-      const result = exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`);
+      exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`, (err, stdout, stderr) => {
+        if (err) {
+          Log.error('\nDeployment failed');
+          process.exit(1);
+        }
 
-      if (result.code !== 0) {
-        Log.error('Deployment failed');
-        process.exit(1);
-      }
+        if (stderr.includes('Everything up-to-date')) {
+          Log.info('No committed changes to deploy.\n');
+        } else {
+          Log.info('You will be notified as soon as your app finishes building and deploying.\n');
+        }
 
-      if (result.stderr.includes('Everything up-to-date')) {
-        Log.info('No committed changes to deploy.\n');
+        Log.success('Done!\n');
         process.exit(0);
-      }
-
-      Log.info('\nYou will be notified as soon as your app finishes building and deploying.\n');
-      Log.success('Done!\n');
+      });
     }
 
   }

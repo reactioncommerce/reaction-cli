@@ -1,9 +1,9 @@
 import inquirer from 'inquirer';
-import { exec } from 'shelljs';
 import { Config } from './';
 
+// TODO: deprecate all of the Yarn stuff
 export function hasYarn() {
-  return /[0-9]+(\.[0-9]+)*/.test(exec('meteor yarn version', { silent: true }).stdout.replace(/\r?\n|\r/g, ''));
+  return false;
 }
 
 export function hasNpm() {

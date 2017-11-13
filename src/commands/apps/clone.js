@@ -1,5 +1,5 @@
+import { execSync as exec } from 'child_process';
 import _ from 'lodash';
-import { exec } from 'shelljs';
 import { Config, Log, setGitSSHKeyEnv } from '../../utils';
 import listApps from './list';
 
@@ -16,18 +16,25 @@ export default async function appClone({ name, path }) {
 
   setGitSSHKeyEnv();
 
-  if (exec(`git clone ${app.git.ssh_url_to_repo} ${path || ''}`).code !== 0) {
+  Log.info('\nCloning app from the Reaction Platform...\n');
+
+  try {
+    exec(`git clone ${app.git.ssh_url_to_repo} ${path || ''}`, { stdio: 'inherit' });
+  } catch (err) {
     Log.error('Failed to clone app');
+    process.exit(1);
   }
 
   const namespace = app.group.namespace;
   const remoteName = `${namespace}-${name}`;
   const remoteAddCommand = `git remote add ${remoteName} ${app.git.ssh_url_to_repo}`;
 
-  if (exec(`cd ${path || name} && ${remoteAddCommand}`, { silent: true }).code !== 0) {
+  try {
+    exec(`cd ${path || name} && ${remoteAddCommand}`, { stdio: 'ignore' });
+  } catch (err) {
     Log.error(`Failed to update git remote url. Try adding it manually with: ${Log.magenta(`${remoteAddCommand}`)}`);
     process.exit(1);
-  } else {
-    Log.info(`\nSuccess! App has been cloned into directory: ${Log.magenta(path || name)}\n`);
   }
+
+  Log.info(`\nSuccess! App has been cloned into directory: ${Log.magenta(path || name)}\n`);
 }

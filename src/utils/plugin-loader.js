@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
+import { execSync as exec } from 'child_process';
 import _ from 'lodash';
-import { exec } from 'shelljs';
 import Log from './logger';
 import { exists, getDirectories } from './fs';
 
@@ -94,7 +94,9 @@ function getImportPaths(baseDirPath) {
     if (exists(packageDotJson)) {
       Log.info(`Installing dependencies for ${plugin}...\n`);
 
-      if (exec(`cd ${baseDirPath}${plugin} && meteor npm i`).code !== 0) {
+      try {
+        exec(`cd ${baseDirPath}${plugin} && meteor npm i`, { stdio: 'inherit' });
+      } catch (err) {
         Log.error(`Failed to install npm dependencies for plugin: ${plugin}`);
         process.exit(1);
       }

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { exec } from 'shelljs';
+import { execSync as exec } from 'child_process';
 import { Log, exists, loadPlugins, loadStyles, checkForReactionUpdate, setRegistryEnv } from '../utils';
 
 export async function run(yargs) {
@@ -64,5 +64,10 @@ export async function run(yargs) {
   Log.info('Setting up style imports...\n');
   loadStyles();
 
-  exec(cmd, { maxBuffer: 1024 * 1000 });
+  try {
+    exec(cmd, { stdio: 'inherit' });
+  } catch (err) {
+    Log.error('\nError: App failed to start');
+    process.exit(1);
+  }
 }

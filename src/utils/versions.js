@@ -1,7 +1,6 @@
 import fs from 'fs';
 import os from 'os';
-import { exec } from 'shelljs';
-
+import { execSync as exec } from 'child_process';
 
 export default function () {
   const versions = {};
@@ -9,9 +8,9 @@ export default function () {
   const osType = os.platform();
 
   if (osType === 'darwin') {
-    const release = exec('sw_vers -productVersion', { silent: true }).stdout;
+    const release = exec('sw_vers -productVersion').toString().replace(/\r?\n|\r/g, '');
     versions.os = 'macOS';
-    versions.osVersion = release.replace(/\r?\n|\r/g, '');
+    versions.osVersion = release;
   } else if (osType === 'win32') {
     versions.os = 'Windows';
     versions.osVersion = os.release();
@@ -24,20 +23,20 @@ export default function () {
   versions.node = process.version.substring(1);
 
   // get NPM version
-  versions.npm = exec('npm -v', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
+  versions.npm = exec('npm -v').toString().replace(/\r?\n|\r/g, '');
 
   // get Meteor's Node version
-  versions.meteorNode = exec('meteor node -v', { silent: true }).stdout.replace(/\r?\n|\r|v/g, '');
+  versions.meteorNode = exec('meteor node -v').toString().replace(/\r?\n|\r|v/g, '');
 
   // get Meteor's NPM version
-  versions.meteorNpm = exec('meteor npm -v', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
+  versions.meteorNpm = exec('meteor npm -v').toString().replace(/\r?\n|\r/g, '');
 
   // get Docker version
-  const dockerVer = exec('docker -v', { silent: true }).stdout.replace(/Docker version /g, '');
+  const dockerVer = exec('docker -v').toString().replace(/Docker version /g, '');
   versions.docker = dockerVer ? dockerVer.substring(0, dockerVer.indexOf(',')) : null;
 
   // get Reaction git branch name
-  const reactionBranch = exec('git rev-parse --abbrev-ref HEAD', { silent: true }).stdout.replace(/\r?\n|\r/g, '');
+  const reactionBranch = exec('git rev-parse --abbrev-ref HEAD').toString().replace(/\r?\n|\r/g, '');
   versions.reactionBranch = reactionBranch.indexOf('fatal') === -1 ? reactionBranch : null;
 
   // get reaction-cli version

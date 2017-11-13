@@ -1,7 +1,7 @@
 import os from 'os';
+import { execSync as exec } from 'child_process';
 import _ from 'lodash';
 import chalk from 'chalk';
-import { exec } from 'shelljs';
 import { Log, loadPlugins, loadStyles } from '../utils';
 
 export function test(yargs) {
@@ -47,8 +47,10 @@ export function test(yargs) {
 
   Log.info(chalk.green(' ' + cmd + '\n'));
 
-  if (exec(cmd).code !== 0) {
-    Log.error('Tests failed.');
+  try {
+    exec(cmd, { stdio: 'inherit' });
+  } catch (err) {
+    Log.error('\nTests failed.');
     process.exit(1);
   }
 }
