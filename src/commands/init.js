@@ -1,6 +1,13 @@
 import { execSync as exec } from 'child_process';
 import { exists, Log, initInstallModules } from '../utils';
 
+const hostingPlatformNotification = `
+********************************************************************************
+  ${Log.bold('Need help with deployment?')}
+  Learn more about the Reaction Platform: ${Log.blue('http://getrxn.io/managed-platform')}
+********************************************************************************
+`;
+
 export function init(argv) {
   Log.args(argv);
 
@@ -23,7 +30,7 @@ export function init(argv) {
     process.exit(1);
   }
 
-  Log.info('\nInstalling NPM packages...');
+  Log.info('\nInstalling NPM packages...\n');
   initInstallModules(dirName);
 
   Log.success('\nReaction successfully installed!');
@@ -33,4 +40,6 @@ export function init(argv) {
   Log.info('\nTo start your Reaction instance, just run: \n');
   Log.info(blue.bold(` cd ${dirName}`));
   Log.info(blue.bold(' reaction\n'));
+
+  Log.default(hostingPlatformNotification);
 }
