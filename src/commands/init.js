@@ -13,7 +13,7 @@ export function init(argv) {
 
   const repoUrl = 'https://github.com/reactioncommerce/reaction';
   const dirName = argv._[1] || 'reaction';
-  const branch = argv.branch;
+  const { branch, tag } = argv;
 
   if (exists(dirName)) {
     Log.warn(`\nDirectory '${dirName}' already exists.`);
@@ -28,6 +28,17 @@ export function init(argv) {
   } catch (err) {
     Log.error('\nError: Unable to clone from Github. Exiting.');
     process.exit(1);
+  }
+
+  if (tag) {
+    Log.info(`\nChecking out tag ${tag}...\n`);
+
+    try {
+      exec(`cd ${dirName} && git checkout tags/${tag} -b ${tag}`, { stdio: 'inherit' });
+    } catch (err) {
+      Log.error('\nError: Failed to checkout tag. Are you sure it exists?');
+      process.exit(1);
+    }
   }
 
   Log.info('\nInstalling NPM packages...\n');
