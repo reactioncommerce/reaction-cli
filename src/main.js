@@ -16,6 +16,7 @@ import {
   keys,
   login,
   logout,
+  logs,
   open,
   plugins,
   pull,
@@ -169,6 +170,10 @@ const args = yargs.usage('$0 <command> [options]')
 
   .command('domain', 'Set/unset a custom domain name for an app', (options) => {
     checkDeps(['platform'], () => domains(options));
+  })
+
+  .command('logs', 'Get container logs for an app', (options) => {
+    checkDeps(['platform'], () => logs(options));
   })
 
   .command('open', 'Open an app deployment in your browser', (options) => {
