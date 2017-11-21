@@ -217,6 +217,7 @@ export async function deploy(yargs) {
     } else {
       exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`, (err, stdout, stderr) => {
         if (err) {
+          Log.default(stderr);
           Log.error('\nDeployment failed');
           process.exit(1);
         }
