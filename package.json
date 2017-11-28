@@ -1,6 +1,6 @@
 {
   "name": "reaction-cli",
-  "version": "0.23.1",
+  "version": "0.23.2",
   "description": "A command line tool for Reaction Commerce",
   "main": "./dist/main.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "babel-preset-env": "1.6.1",
     "babel-preset-stage-2": "6.24.1",
     "babel-root-slash-import": "3.1.0",
-    "eslint": "4.11.0",
+    "eslint": "4.12.0",
     "eslint-plugin-babel": "4.1.2",
     "watch": "1.0.2"
   },
