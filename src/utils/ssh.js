@@ -69,6 +69,7 @@ export function setGitSSHKeyEnv() {
     const keyPath = path.resolve(`${homeDir}/.reaction/keys/${key.title}`);
     process.env.GIT_SSH_COMMAND = `ssh -i ${keyPath}`;
     Log.debug(`Setting SSH key identity to: ${keyPath}`);
+    Log.debug(`export GIT_SSH_COMMAND=${process.env.GIT_SSH_COMMAND}`);
     return keyPath;
   }
 
