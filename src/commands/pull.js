@@ -25,7 +25,7 @@ export async function pull(yargs) {
       process.exit(1);
     }
 
-    Log.info(`\nPulling the latest updates from the ${branch} brach of ${app}...\n`);
+    Log.info(`\nPulling the latest updates from the ${branch} branch of ${app}...\n`);
 
     await ensureSSHKeysExist();
     setGitSSHKeyEnv();
