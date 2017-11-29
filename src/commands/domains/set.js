@@ -7,7 +7,6 @@ import { Config, GraphQL, Log } from '../../utils';
 const resolveCname = Promise.promisify(dns.resolveCname);
 
 export default async function domainSet({ name, domain }) {
-
   const apps = Config.get('global', 'launchdock.apps', []);
   const app = _.filter(apps, (a) => a.name === name)[0];
 
@@ -21,7 +20,13 @@ export default async function domainSet({ name, domain }) {
   try {
     cNames = await resolveCname(domain);
   } catch(err) {
-    Log.error('Failed to check your domain. Please contact support.');
+    Log.error('\n' + err.toString());
+    Log.warn(`\nFailed to verify domain: ${Log.blue(domain)}`);
+    if (err.toString().includes('queryCname ENOTFOUND')) {
+      Log.warn(`Please ensure it is spelled correctly and that its DNS is pointed at: ${Log.blue(ingress)}`);
+      process.exit(1);
+    }
+    Log.warn(`\nPlease ensure that its DNS is pointed at: ${Log.blue(ingress)}`);
     process.exit(1);
   }
 
