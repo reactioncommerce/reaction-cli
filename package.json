@@ -1,6 +1,6 @@
 {
   "name": "reaction-cli",
-  "version": "0.24.2",
+  "version": "0.25.0",
   "description": "A command line tool for Reaction Commerce",
   "main": "./dist/main.js",
   "scripts": {
@@ -37,35 +37,35 @@
   "homepage": "https://github.com/reactioncommerce/reaction-cli",
   "devDependencies": {
     "babel-cli": "6.26.0",
-    "babel-eslint": "8.0.2",
+    "babel-eslint": "8.2.1",
     "babel-plugin-lodash": "3.3.2",
     "babel-preset-env": "1.6.1",
     "babel-preset-stage-2": "6.24.1",
     "babel-root-slash-import": "3.1.0",
-    "eslint": "4.12.0",
+    "eslint": "4.15.0",
     "eslint-plugin-babel": "4.1.2",
     "watch": "1.0.2"
   },
   "dependencies": {
-    "analytics-node": "3.1.1",
+    "analytics-node": "3.2.0",
     "babel-polyfill": "6.26.0",
     "bluebird": "3.5.1",
     "chalk": "2.3.0",
     "cli-table2": "0.2.0",
     "command-exists": "1.2.2",
-    "fs-extra": "4.0.2",
+    "fs-extra": "5.0.0",
     "inquirer": "3.3.0",
     "keypair": "1.0.1",
     "latest-semver": "1.0.0",
     "lodash": "4.17.4",
     "node-fetch": "1.7.3",
     "node-forge": "0.7.1",
-    "opn": "5.1.0",
+    "opn": "5.2.0",
     "rimraf": "2.6.2",
-    "semver": "5.4.1",
+    "semver": "5.5.0",
     "update-notifier": "2.3.0",
     "url": "0.11.0",
-    "uuid": "3.1.0",
+    "uuid": "3.2.1",
     "yargs": "8.0.2"
   }
 }
