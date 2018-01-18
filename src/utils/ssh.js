@@ -66,7 +66,12 @@ export function setGitSSHKeyEnv() {
   const key = _.filter(keys, (k) => exists(path.resolve(`${homeDir}/.reaction/keys/${k.title}`)))[0];
 
   if (!!key) {
-    const keyPath = path.resolve(`${homeDir}/.reaction/keys/${key.title}`);
+    let keyPath = path.resolve(`${homeDir}/.reaction/keys/${key.title}`);
+    // fix key path for git on Windows
+    // https://github.com/reactioncommerce/reaction-cli/issues/54
+    if (os.platform() === 'win32') {
+      keyPath = keyPath.replace(/\\/g, '/');
+    }
     process.env.GIT_SSH_COMMAND = `ssh -i ${keyPath}`;
     Log.debug(`Setting SSH key identity to: ${keyPath}`);
     Log.debug(`export GIT_SSH_COMMAND=${process.env.GIT_SSH_COMMAND}`);
