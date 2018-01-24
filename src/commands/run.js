@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { execSync as exec } from 'child_process';
-import { Log, exists, loadPlugins, loadStyles, checkForReactionUpdate, setRegistryEnv } from '../utils';
+import { Log, exists, loadPlugins, loadStyles, checkForReactionUpdate, setRegistryEnv, provisionAssets } from '../utils';
 
 export async function run(yargs) {
   Log.args(yargs.argv);
@@ -63,6 +63,9 @@ export async function run(yargs) {
 
   Log.info('Setting up style imports...\n');
   loadStyles();
+
+  Log.info('Provisioning assets...\n');
+  provisionAssets();
 
   try {
     exec(cmd, { stdio: 'inherit' });

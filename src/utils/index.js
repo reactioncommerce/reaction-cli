@@ -19,3 +19,4 @@ export { default as loadStyles } from './style-loader';
 export { track } from './analytics';
 export { default as getVersions } from './versions';
 export * from './yarn_check';
+export { default as provisionAssets } from './asset-provisioner';

@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
 import { execSync as exec } from 'child_process';
-import { exists, Log, loadPlugins, loadStyles } from '../utils';
+import { exists, Log, loadPlugins, loadStyles, provisionAssets } from '../utils';
 
 const helpMessage = `
 Usage:
@@ -30,6 +30,8 @@ export function plugins(yargs) {
     loadPlugins();
     Log.info('\nSetting up style imports...\n');
     loadStyles();
+    Log.info('\nProvisioning assets...\n');
+    provisionAssets();
     return Log.success('Done!\n');
   }
 
