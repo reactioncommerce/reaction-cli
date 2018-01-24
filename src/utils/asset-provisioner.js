@@ -63,8 +63,6 @@ function cleanup(appRoot) {
 }
 
 export default function () {
-  Log.info('Provisioning assets...\n');
-
   const appRoot = path.resolve('.').split('.meteor')[0];
   cleanup(appRoot);
 

@@ -64,6 +64,7 @@ export async function run(yargs) {
   Log.info('Setting up style imports...\n');
   loadStyles();
 
+  Log.info('Provisioning assets...\n');
   provisionAssets();
 
   try {
