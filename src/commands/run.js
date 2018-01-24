@@ -69,6 +69,7 @@ export async function run(yargs) {
   try {
     exec(cmd, { stdio: 'inherit' });
   } catch (err) {
+    Log.default(err);
     Log.error('\nError: App failed to start');
     process.exit(1);
   }
