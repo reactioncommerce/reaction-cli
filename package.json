@@ -1,13 +1,12 @@
 {
   "name": "reaction-cli",
-  "version": "0.26.3",
+  "version": "0.26.4",
   "description": "A command line tool for Reaction Commerce",
   "main": "./dist/main.js",
   "scripts": {
     "build": "rimraf ./dist && babel src --out-dir ./dist",
     "lint": "eslint ./src",
     "lintfix": "eslint ./src --fix",
-    "prepublish": "npm run build",
     "test": "echo 'No tests!'",
     "watch": "watch 'npm link' src"
   },
