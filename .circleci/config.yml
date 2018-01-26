@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: npm i
-      - run: echo -e "$NPM_USER\n$NPM_PASS\n$NPM_EMAIL" | npm login
+      - run: echo "$NPMRC" > ~/.npmrc
       - run: npm publish
 
 workflows:
