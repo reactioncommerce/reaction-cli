@@ -18,8 +18,9 @@ export async function track() {
     const argv = _.forEach(yargs.argv, (val) => !!val);
     const versions = getVersions();
     const properties = { command, geo, ...argv, ...versions };
-    const analytics = new Analytics(segmentKey, { flushAt: 2, flushAfter: 20 });
+    const analytics = new Analytics(segmentKey, { flushAt: 2 });
     analytics.identify({ userId, traits: { ...versions, geo } });
     analytics.track({ event: 'command', userId, properties });
+    analytics.flush();
   }
 }
