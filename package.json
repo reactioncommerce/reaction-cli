@@ -1,6 +1,6 @@
 {
   "name": "reaction-cli",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "description": "A command line tool for Reaction Commerce",
   "main": "./dist/main.js",
   "scripts": {
@@ -36,12 +36,12 @@
   "homepage": "https://github.com/reactioncommerce/reaction-cli",
   "devDependencies": {
     "babel-cli": "6.26.0",
-    "babel-eslint": "8.2.1",
+    "babel-eslint": "8.2.2",
     "babel-plugin-lodash": "3.3.2",
     "babel-preset-env": "1.6.1",
     "babel-preset-stage-2": "6.24.1",
     "babel-root-slash-import": "3.1.0",
-    "eslint": "4.17.0",
+    "eslint": "4.18.1",
     "eslint-plugin-babel": "4.1.2",
     "watch": "1.0.2"
   },
@@ -49,7 +49,7 @@
     "analytics-node": "3.2.0",
     "babel-polyfill": "6.26.0",
     "bluebird": "3.5.1",
-    "chalk": "2.3.0",
+    "chalk": "2.3.1",
     "cli-table2": "0.2.0",
     "command-exists": "1.2.2",
     "fs-extra": "5.0.0",
@@ -57,7 +57,7 @@
     "keypair": "1.0.1",
     "latest-semver": "1.0.0",
     "lodash": "4.17.5",
-    "node-fetch": "1.7.3",
+    "node-fetch": "2.0.0",
     "node-forge": "0.7.1",
     "opn": "5.2.0",
     "rimraf": "2.6.2",
