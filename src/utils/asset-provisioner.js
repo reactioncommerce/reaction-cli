@@ -53,7 +53,7 @@ function copyAssets(appRoot, assetDirs) {
  */
 function cleanup(appRoot) {
   for (const folder of ['private', 'public']) {
-    const files = `${appRoot}/${folder}/plugins/*`;
+    const files = `${appRoot}/${folder}/plugins/!(README.md)`;
     try {
       rimraf.sync(files);
     } catch(error) {
