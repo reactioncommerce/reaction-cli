@@ -10,7 +10,6 @@ export * from './graphql';
 export { default as initialize } from './initialize';
 export { default as Log } from './logger';
 export * from './node_modules';
-export * from './notifications';
 export { default as loadPlugins } from './plugin-loader';
 export * from './registry';
 export * from './ssh';
