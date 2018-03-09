@@ -24,6 +24,11 @@ export async function run(yargs) {
   if (!!commands.length && commands[0] === 'debug') {
     cmd += ' debug';
   }
+  
+  if (args.settings) {
+    Log.info(`\nUsing settings file at ${Log.magenta(args.settings)}\n`);
+    cmd += ` --settings ${args.settings}`;
+  }
 
   _.forEach(_.omit(args, ['settings', 's', 'registry', 'r', 'raw-logs', 'rawLogs']), (val, key) => {
     if (val) {
