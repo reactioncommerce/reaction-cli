@@ -24,19 +24,10 @@ export async function run(yargs) {
   if (!!commands.length && commands[0] === 'debug') {
     cmd += ' debug';
   }
-
-  const devSettings = 'settings/dev.settings.json';
-  const prodSettings = 'settings/settings.json';
-
+  
   if (args.settings) {
     Log.info(`\nUsing settings file at ${Log.magenta(args.settings)}\n`);
     cmd += ` --settings ${args.settings}`;
-  } else if (exists(prodSettings)) {
-    Log.info(`\nUsing settings file at ${Log.magenta(prodSettings)}\n`);
-    cmd += ` --settings ${prodSettings}`;
-  } else if (exists(devSettings)) {
-    Log.info(`\nUsing settings file at ${Log.magenta(devSettings)}\n`);
-    cmd += ` --settings ${devSettings}`;
   }
 
   _.forEach(_.omit(args, ['settings', 's', 'registry', 'r', 'raw-logs', 'rawLogs']), (val, key) => {
