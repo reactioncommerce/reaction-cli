@@ -1,9 +1,8 @@
 import os from 'os';
-import path from 'path';
 import { execSync as exec } from 'child_process';
 import _ from 'lodash';
 import chalk from 'chalk';
-import { Log, loadPlugins, loadStyles } from '../utils';
+import { Log, loadPlugins, loadStyles, getJSONFromFile } from '../utils';
 
 function runTestsManually(yargs) {
   let cmd = 'meteor test';
@@ -65,8 +64,7 @@ export function test(yargs) {
   Log.info('Setting up style imports...\n');
   loadStyles();
 
-  const appRoot = path.resolve('.').split('.meteor')[0];
-  const { scripts } = require(path.join(appRoot, './package.json')) || {};
+  const { scripts } = getJSONFromFile('./package.json');
 
   // We want to run the "test" NPM script if it exists, but in versions of Reaction
   // prior to this change, "test" WAS present with the value "jest". So if it's present
