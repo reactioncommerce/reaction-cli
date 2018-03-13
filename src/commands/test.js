@@ -71,7 +71,7 @@ export function test(yargs) {
   // with that exact value, then we'll keep the original behavior. After some time,
   // this logic can be removed and simply blindly pass through to `npm test` after
   // doing initial setup.
-  if (scripts && typeof scripts.test === 'string' && scripts.test !== 'jest') {
+  if (scripts && scripts.test && scripts.test !== 'jest') {
     runNpmTestCommand();
   } else {
     // Backwards compatibility
