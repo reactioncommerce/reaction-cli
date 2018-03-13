@@ -1,22 +1,14 @@
 import os from 'os';
+import path from 'path';
 import { execSync as exec } from 'child_process';
 import _ from 'lodash';
 import chalk from 'chalk';
 import { Log, loadPlugins, loadStyles } from '../utils';
 
-export function test(yargs) {
-  Log.args(yargs.argv);
-
-  const args = _.omit(yargs.argv, ['_', '$0']);
-
-  Log.info('Setting up plugin imports...\n');
-  loadPlugins();
-
-  Log.info('Setting up style imports...\n');
-  loadStyles();
-
+function runTestsManually(yargs) {
   let cmd = 'meteor test';
 
+  const args = _.omit(yargs.argv, ['_', '$0']);
   const subCommands = yargs.argv._;
   const testArgs = _.pickBy(_.omit(args, '$0'), (val) => val !== false);
   const hasArgs = Object.keys(testArgs).length > 0;
@@ -52,5 +44,39 @@ export function test(yargs) {
   } catch (err) {
     Log.error('\nTests failed.');
     process.exit(1);
+  }
+}
+
+function runNpmTestCommand() {
+  try {
+    exec('npm test', { stdio: 'inherit' });
+  } catch (err) {
+    Log.error('\nTests failed.');
+    process.exit(1);
+  }
+}
+
+export function test(yargs) {
+  Log.args(yargs.argv);
+
+  Log.info('Setting up plugin imports...\n');
+  loadPlugins();
+
+  Log.info('Setting up style imports...\n');
+  loadStyles();
+
+  const appRoot = path.resolve('.').split('.meteor')[0];
+  const { scripts } = require(path.join(appRoot, './package.json')) || {};
+
+  // We want to run the "test" NPM script if it exists, but in versions of Reaction
+  // prior to this change, "test" WAS present with the value "jest". So if it's present
+  // with that exact value, then we'll keep the original behavior. After some time,
+  // this logic can be removed and simply blindly pass through to `npm test` after
+  // doing initial setup.
+  if (scripts && typeof scripts.test === 'string' && scripts.test !== 'jest') {
+    runNpmTestCommand();
+  } else {
+    // Backwards compatibility
+    runTestsManually(yargs);
   }
 }
