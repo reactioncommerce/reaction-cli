@@ -12,7 +12,7 @@ function runTestsManually(yargs) {
   const subCommands = yargs.argv._;
   const testArgs = _.pickBy(_.omit(args, '$0'), (val) => val !== false);
   const hasArgs = Object.keys(testArgs).length > 0;
-  const onlyHasPort = Object.keys(testArgs).length === 1 && !!testArgs.p || !!testArgs.port;
+  const onlyHasPort = Object.keys(testArgs).length === 1 && !!testArgs.port;
 
   if (hasArgs && !onlyHasPort) {
     _.forEach(testArgs, (val, key) => {
