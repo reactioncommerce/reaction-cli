@@ -42,14 +42,14 @@ var pkg = require('../package.json');
     var versions = (0, _utils.getVersions)();
 
     if (versions['create-reaction-app']) {
-      _utils.Log.info('create-reaction-app: ' + _utils.Log.magenta(versions['create-reaction-app']));
+      _utils.Log.info('\ncreate-reaction-app: ' + _utils.Log.magenta(versions['create-reaction-app']));
 
       if (versions.reactionBranch) {
         _utils.Log.info('create-reaction-app branch: ' + _utils.Log.magenta(versions.reactionBranch));
       }
     }
 
-    _utils.Log.info('\nNode: ' + _utils.Log.magenta(versions.node));
+    _utils.Log.info('Node: ' + _utils.Log.magenta(versions.node));
     _utils.Log.info('NPM: ' + _utils.Log.magenta(versions.npm));
 
     if (versions.meteorNode) {

@@ -51,14 +51,14 @@ initialize(() => {
       const versions = getVersions();
 
       if (versions['create-reaction-app']) {
-        Log.info(`create-reaction-app: ${Log.magenta(versions['create-reaction-app'])}`);
+        Log.info(`\ncreate-reaction-app: ${Log.magenta(versions['create-reaction-app'])}`);
 
         if (versions.reactionBranch) {
           Log.info(`create-reaction-app branch: ${Log.magenta(versions.reactionBranch)}`);
         }
       }
 
-      Log.info(`\nNode: ${Log.magenta(versions.node)}`);
+      Log.info(`Node: ${Log.magenta(versions.node)}`);
       Log.info(`NPM: ${Log.magenta(versions.npm)}`);
 
       if (versions.meteorNode) {
