@@ -56,5 +56,19 @@ export default function () {
     versions.reaction = null;
   }
 
+  // get create-reaction-app version
+  try {
+    const packageFile = fs.readFileSync('./package.json', 'utf8');
+
+    const f = JSON.parse(packageFile);
+
+    if (f.name === 'create-reaction-app') {
+      versions['create-reaction-app'] = f.version;
+    }
+  } catch(e) {
+    versions['create-reaction-app'] = null;
+  }
+
+
   return versions;
 }

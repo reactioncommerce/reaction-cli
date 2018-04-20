@@ -57,6 +57,19 @@ exports.default = function () {
     versions.reaction = null;
   }
 
+  // get create-reaction-app version
+  try {
+    var _packageFile = _fs2.default.readFileSync('./package.json', 'utf8');
+
+    var _f = JSON.parse(_packageFile);
+
+    if (_f.name === 'create-reaction-app') {
+      versions['create-reaction-app'] = _f.version;
+    }
+  } catch (e) {
+    versions['create-reaction-app'] = null;
+  }
+
   return versions;
 };
 
