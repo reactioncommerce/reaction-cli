@@ -41,6 +41,14 @@ var pkg = require('../package.json');
   var args = _yargs2.default.usage('$0 <command> [options]').version(function () {
     var versions = (0, _utils.getVersions)();
 
+    if (versions['create-reaction-app']) {
+      _utils.Log.info('create-reaction-app: ' + _utils.Log.magenta(versions['create-reaction-app']));
+
+      if (versions.reactionBranch) {
+        _utils.Log.info('create-reaction-app branch: ' + _utils.Log.magenta(versions.reactionBranch));
+      }
+    }
+
     _utils.Log.info('\nNode: ' + _utils.Log.magenta(versions.node));
     _utils.Log.info('NPM: ' + _utils.Log.magenta(versions.npm));
 
