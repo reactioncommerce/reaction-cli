@@ -147,7 +147,7 @@ var deploy = exports.deploy = function () {
                 process.exit(1);
               }
 
-              if (packageFile.name !== 'reaction') {
+              if (packageFile.name !== 'create-reaction-app') {
                 notInReactionDir();
                 process.exit(1);
               }
