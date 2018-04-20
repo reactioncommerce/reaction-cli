@@ -24,6 +24,7 @@ exports.default = function () {
 
   var f = JSON.parse(packageFile);
 
+  _logger2.default.warn('f.name ' + f.name);
   if (f.name !== 'reaction' || f.name !== 'create-reaction-app') {
     _logger2.default.error('Not in a create-reaction-app or base Reaction app. Exiting...');
     process.exit(1);
