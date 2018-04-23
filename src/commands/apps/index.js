@@ -53,7 +53,7 @@ export async function apps(yargs) {
         process.exit(1);
       }
 
-      if (packageFile.name !== 'reaction') {
+      if (packageFile.name !== 'create-reaction-app') {
         notInReactionDir();
         process.exit(1);
       }
