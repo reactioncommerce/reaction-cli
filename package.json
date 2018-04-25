@@ -15,7 +15,7 @@
     "node": ">=4.0.0"
   },
   "bin": {
-    "reaction": "./dist/main.js",
+    "create-reaction-app": "./dist/main.js",
     "rc": "./dist/main.js"
   },
   "repository": {
