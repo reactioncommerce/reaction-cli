@@ -32,7 +32,7 @@ var loggers = {
   },
   args: function args(_args) {
     if (process.env.REACTION_CLI_DEBUG === 'true') {
-      console.log(_chalk2.default.yellow('\n[Reaction CLI Debug]\n\n'), _args, '\n');
+      console.log(_chalk2.default.yellow('\n[Create-reaction-app CLI Debug]\n\n'), _args, '\n');
     }
   },
   default: function _default(msg) {

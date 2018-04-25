@@ -26,9 +26,9 @@ process.on('unhandledRejection', function (err) {
 
 if (process.env.REACTION_CLI_DEBUG === 'true') {
   /* eslint-disable no-console */
-  console.time('Reaction CLI runtime');
+  console.time('create-reaction-app CLI runtime');
   process.on('exit', function () {
-    return console.timeEnd('Reaction CLI runtime');
+    return console.timeEnd('create-reaction-app CLI runtime');
   });
   /* eslint-enable no-console */
 }
@@ -64,7 +64,7 @@ var pkg = require('../package.json');
       _utils.Log.info('Yarn: ' + _utils.Log.magenta(versions.yarn));
     }
 
-    _utils.Log.info('Reaction CLI: ' + _utils.Log.magenta(pkg.version));
+    _utils.Log.info('Create-reaction-app CLI: ' + _utils.Log.magenta(pkg.version));
 
     if (versions.reaction) {
       _utils.Log.info('Reaction: ' + _utils.Log.magenta(versions.reaction));
@@ -79,7 +79,7 @@ var pkg = require('../package.json');
     }
 
     return '';
-  }).alias('v', 'version').describe('v', 'Show the current version of Reaction CLI').command('init', 'Create a new Reaction app (will create a new folder)', function () {
+  }).alias('v', 'version').describe('v', 'Show the current version of Create-reaction-app CLI').command('init', 'Create a new Reaction app (will create a new folder)', function () {
     return _yargs2.default.option('b', {
       alias: 'branch',
       describe: 'The branch to clone from Github [default: master]',

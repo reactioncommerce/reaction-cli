@@ -35,8 +35,8 @@ process.on('unhandledRejection', (err) => {
 
 if (process.env.REACTION_CLI_DEBUG === 'true') {
   /* eslint-disable no-console */
-  console.time('Reaction CLI runtime');
-  process.on('exit', () => console.timeEnd('Reaction CLI runtime'));
+  console.time('create-reaction-app CLI runtime');
+  process.on('exit', () => console.timeEnd('create-reaction-app CLI runtime'));
   /* eslint-enable no-console */
 }
 
@@ -73,7 +73,7 @@ initialize(() => {
         Log.info(`Yarn: ${Log.magenta(versions.yarn)}`);
       }
 
-      Log.info(`Reaction CLI: ${Log.magenta(pkg.version)}`);
+      Log.info(`Create-reaction-app CLI: ${Log.magenta(pkg.version)}`);
 
       if (versions.reaction) {
         Log.info(`Reaction: ${Log.magenta(versions.reaction)}`);
@@ -90,7 +90,7 @@ initialize(() => {
       return '';
     })
     .alias('v', 'version')
-    .describe('v', 'Show the current version of Reaction CLI')
+    .describe('v', 'Show the current version of Create-reaction-app CLI')
 
     .command('init', 'Create a new Reaction app (will create a new folder)', () => {
       return yargs.option('b', {
