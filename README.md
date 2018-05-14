@@ -1,23 +1,15 @@
-# reaction-cli
+# reaction-cli for create-reaction-app
 
-A command line tool for [Reaction Commerce](https://reactioncommerce.com)
-
-[![bitHound Overall Score](https://www.bithound.io/github/reactioncommerce/reaction-cli/badges/score.svg)](https://www.bithound.io/github/reactioncommerce/reaction-cli)
-[![bitHound Dependencies](https://www.bithound.io/github/reactioncommerce/reaction-cli/badges/dependencies.svg)](https://www.bithound.io/github/reactioncommerce/reaction-cli/master/dependencies/npm)
-[![bitHound Dev Dependencies](https://www.bithound.io/github/reactioncommerce/reaction-cli/badges/devDependencies.svg)](https://www.bithound.io/github/reactioncommerce/reaction-cli/master/dependencies/npm)
-
-[![CircleCI](https://circleci.com/gh/reactioncommerce/reaction-cli.svg?style=svg)](https://circleci.com/gh/reactioncommerce/reaction-cli)
+A command line tool for [create-reaction-app](https://github.com/jussivesa/create-reaction-app)
 
 ## Install
 
-Before you can use Reaction or `reaction-cli`, you'll need to make sure you [install the base requirements for your operating system](https://docs.reactioncommerce.com/reaction-docs/master/requirements).
+Before you can use Reaction or `reaction-cli`, you'll need to make sure you [install the base requirements of Reaction Commerce for your operating system](https://docs.reactioncommerce.com/reaction-docs/master/requirements).
 
 After that, you can now install `reaction-cli` with...
 
 ```sh
-npm install -g reaction-cli
-# or
-yarn global add reaction-cli
+npm install -g git:https://github.com/jussivesa/reaction-cli
 ```
 
 ## Usage
@@ -62,7 +54,7 @@ Note: Commands marked with `*` require being logged into the managed platform. L
 **Install**
 
 ```sh
-git clone https://github.com/reactioncommerce/reaction-cli.git
+git clone https://github.com/jussivesa/reaction-cli.git
 
 cd reaction-cli
 

@@ -22,8 +22,9 @@ export default function () {
 
   const f = JSON.parse(packageFile);
 
-  if (f.name !== 'reaction') {
-    Log.error('Not in a Reaction app. Exiting...');
+  Log.warn('App name (form package.json) ' + f.name);
+  if (f.name !== 'create-reaction-app') {
+    Log.error('Not in a create-reaction-app. Exiting...');
     process.exit(1);
   }
 

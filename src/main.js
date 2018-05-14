@@ -38,8 +38,8 @@ process.on('unhandledRejection', (err) => {
 
 if (process.env.REACTION_CLI_DEBUG === 'true') {
   /* eslint-disable no-console */
-  console.time('Reaction CLI runtime');
-  process.on('exit', () => console.timeEnd('Reaction CLI runtime'));
+  console.time('create-reaction-app CLI runtime');
+  process.on('exit', () => console.timeEnd('create-reaction-app CLI runtime'));
   /* eslint-enable no-console */
 }
 
@@ -51,8 +51,17 @@ initialize();
 
 const args = yargs.usage('$0 <command> [options]')
 
-  .version(() => {
-    const versions = getVersions();
+      if (versions['create-reaction-app']) {
+        Log.info(`\ncreate-reaction-app: ${Log.magenta(versions['create-reaction-app'])}`);
+
+        if (versions.reactionBranch) {
+          Log.info(`create-reaction-app branch: ${Log.magenta(versions.reactionBranch)}`);
+        }
+      }
+
+      Log.info(`Node: ${Log.magenta(versions.node)}`);
+      Log.info(`NPM: ${Log.magenta(versions.npm)}`);
+
 
     Log.info(`\nNode: ${Log.magenta(versions.node)}`);
     Log.info(`NPM: ${Log.magenta(versions.npm)}`);
@@ -65,10 +74,11 @@ const args = yargs.usage('$0 <command> [options]')
       Log.info(`Meteor NPM: ${Log.magenta(versions.meteorNpm)}`);
     }
 
+      Log.info(`Create-reaction-app CLI: ${Log.magenta(pkg.version)}`);
+
     if (versions.yarn) {
       Log.info(`Yarn: ${Log.magenta(versions.yarn)}`);
     }
-
     Log.info(`Reaction CLI: ${Log.magenta(pkg.version)}`);
 
     if (versions.reaction) {
@@ -78,6 +88,11 @@ const args = yargs.usage('$0 <command> [options]')
         Log.info(`Reaction branch: ${Log.magenta(versions.reactionBranch)}`);
       }
     }
+
+      return '';
+    })
+    .alias('v', 'version')
+    .describe('v', 'Show the current version of Create-reaction-app CLI')
 
     if (versions.docker) {
       Log.info(`Docker: ${Log.magenta(versions.docker)}`);
