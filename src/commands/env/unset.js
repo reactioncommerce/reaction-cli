@@ -4,10 +4,10 @@ export default async function envUnset({ _id, values }) {
   const gql = new GraphQL();
 
   const result = await gql.fetch(`
-    mutation configUnset($_id: ID!, $values: [String]!) {
-      configUnset(_id: $_id values: $values) {
-        values
-        app
+    mutation envUnset($_id: ID!, $values: [String]!) {
+      envUnset(_id: $_id values: $values) {
+        _id
+        env
       }
     }
   `, { _id, values });
@@ -19,5 +19,5 @@ export default async function envUnset({ _id, values }) {
     process.exit(1);
   }
 
-  return result.data.configUnset.values;
+  return result.data.envUnset.env;
 }

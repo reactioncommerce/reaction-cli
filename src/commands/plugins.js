@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import path from 'path';
-import { exec } from 'shelljs';
-import { exists, Log, loadPlugins, loadStyles } from '../utils';
+import { execSync as exec } from 'child_process';
+import { exists, Log, loadPlugins, loadStyles, provisionAssets } from '../utils';
 
 const helpMessage = `
 Usage:
@@ -30,6 +30,8 @@ export function plugins(yargs) {
     loadPlugins();
     Log.info('\nSetting up style imports...\n');
     loadStyles();
+    Log.info('\nProvisioning assets...\n');
+    provisionAssets();
     return Log.success('Done!\n');
   }
 
@@ -62,9 +64,9 @@ export function plugins(yargs) {
       process.exit(1);
     }
 
-    const { code } = exec(`cd ${pluginPath} && npm init -y`, { silent: true });
-
-    if (code !== 0) {
+    try {
+      exec(`cd ${pluginPath} && npm init -y`, { stdio: 'ignore' });
+    } catch (err) {
       Log.error(`Failed to create a package.json at ${packageDotJson}`);
       process.exit(1);
     }

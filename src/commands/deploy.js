@@ -1,7 +1,10 @@
 import fs from 'fs-extra';
+import path from 'path';
+import { exec, execSync } from 'child_process';
 import _ from 'lodash';
-import { exec } from 'shelljs';
-import { Config, GraphQL, Log, getStringFromFile } from '../utils';
+import fetch from 'node-fetch';
+import inquirer from 'inquirer';
+import { Config, Log, getStringFromFile, ensureSSHKeysExist, setGitSSHKeyEnv, isEmptyOrMissing } from '../utils';
 
 const helpMessage = `
 Usage:
@@ -34,7 +37,7 @@ export async function deploy(yargs) {
   if (!appToDeploy) {
     const msg = 'App not found. Run \'reaction apps list\' to see your active apps';
     Log.error(msg);
-    throw new Error(msg);
+    process.exit(1);
   }
 
   const values = {};
@@ -66,7 +69,6 @@ export async function deploy(yargs) {
     options.env = values;
   }
 
-  const gql = new GraphQL();
 
   if (image || appToDeploy.image) {
     // docker pull deployment
@@ -110,8 +112,6 @@ export async function deploy(yargs) {
     const notInReactionDir = () => {
       Log.error('\nNot in a Reaction app directory.\n');
       Log.info(`To create a new local project, run: ${Log.magenta('reaction init')}\n`);
-      Log.info('Or to create a deployment with a prebuilt Docker image, use the --image flag\n');
-      Log.info(`Example: ${Log.magenta(`reaction apps create --name ${app} --image myorg/myapp:latest`)}\n`);
     };
 
     let packageFile;
@@ -127,29 +127,111 @@ export async function deploy(yargs) {
       process.exit(1);
     }
 
-    const keys = Config.get('global', 'launchdock.keys', []);
+    // If we don't have a Reaction CI config file,
+    // prompt the user to download it from Github
+    // and commit it to their repo
+    const configFilePath = '.reaction/ci/config.yml';
 
-    if (!keys.length) {
-      Log.error('\nAn SSH public key is required to do custom deployments\n');
-      Log.info(`To publish a new key: ${Log.magenta('reaction keys add /path/to/key.pub')}\n`);
-      process.exit(1);
+    if (isEmptyOrMissing(configFilePath)) {
+      Log.warn(`\nRequired Reaction CI configuration file not found at: ${configFilePath}\n`);
+
+      const { download } = await inquirer.prompt([{
+        type: 'confirm',
+        name: 'download',
+        message: '\nWould you like to download the latest from Github and commit it to your repo?',
+        default: true
+      }]);
+
+      if (download) {
+        try {
+          const res = await fetch(`https://api.github.com/repos/reactioncommerce/reaction/contents/${configFilePath}`);
+          const json = await res.json();
+
+          const configFile = new Buffer(json.content, 'base64').toString('utf8');
+
+          fs.writeFileSync(path.resolve(configFilePath), configFile);
+        } catch(e) {
+          Log.debug(e);
+          Log.error('Failed to create Reaction CI config file. Please contact support.');
+          process.exit(1);
+        }
+
+        try {
+          exec(`git add ${configFilePath} && git commit -m "Add Reaction CI config file"`, { stdio: 'inherit' });
+        } catch (err) {
+          Log.error('\nFailed to commit new config file to your repo\n');
+          process.exit(1);
+        }
+
+        Log.success('\nReaction CI config file created!\n');
+      } else {
+        Log.error(`\nReaction CI configuration is required. Please add one at: ${configFilePath}\n`);
+        process.exit(1);
+      }
     }
+
+    await ensureSSHKeysExist();
 
     Log.info('\nPushing updates to be built...\n');
 
-    const result = exec(`git push launchdock-${app}`, { silent: true });
+    setGitSSHKeyEnv();
 
-    if (result.code !== 0) {
-      Log.error('Deployment failed');
+    let branch;
+    try {
+      branch = execSync('git rev-parse --abbrev-ref HEAD').toString().replace(/\r?\n|\r/g, '');
+    } catch (err) {
+      Log.error('\nFailed to get current branch. Exiting.');
       process.exit(1);
     }
 
-    if (result.stderr.includes('Everything up-to-date')) {
-      Log.info('No committed changes to deploy.\n');
-      process.exit(0);
+    if (branch !== 'master') {
+      Log.warn('You are not on the master branch. A deployment will NOT happen.');
+
+      const { push } = await inquirer.prompt([{
+        type: 'confirm',
+        name: 'push',
+        message: '\nWould you like to push the branch up anyway?\n',
+        default: false
+      }]);
+
+      if (push) {
+        exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`, (err, stdout, stderr) => {
+          if (err) {
+            Log.error('\nDeployment failed');
+            process.exit(1);
+          }
+
+          if (stderr.includes('Everything up-to-date')) {
+            Log.info('\nNo committed changes to deploy.\n');
+          } else {
+            Log.info('\nYour branch has been pushed, but this was not the master branch, so nothing will be deployed.\n');
+          }
+
+          Log.success('Done!\n');
+          process.exit(0);
+        });
+      } else {
+        Log.error('Not pushing code. Exiting.');
+        process.exit(1);
+      }
+    } else {
+      exec(`git push ${appToDeploy.group.namespace}-${app} ${branch}`, (err, stdout, stderr) => {
+        if (err) {
+          Log.default(stderr);
+          Log.error('\nDeployment failed');
+          process.exit(1);
+        }
+
+        if (stderr.includes('Everything up-to-date')) {
+          Log.info('No committed changes to deploy.\n');
+        } else {
+          Log.info('You will be notified as soon as your app finishes building and deploying.\n');
+        }
+
+        Log.success('Done!\n');
+        process.exit(0);
+      });
     }
 
-    Log.info('You will be notified as soon as your app finishes building and deploying.\n');
-    Log.success('Done!\n');
   }
 }

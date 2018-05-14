@@ -1,7 +1,9 @@
 {
   "launchdock": {
+    "url": "https://api.launchdock.io",
     "graphqlUrl": "https://api.launchdock.io/graphql",
-    "gitUrl": "https://git.launchdock.io"
+    "gitUrl": "https://git.launchdock.io",
+    "ingress": "ingress.launchdock.io"
   },
   "segment": "Eo00NNhMVR52T4Qe7MjeKYr0JEJHtQHx"
 }

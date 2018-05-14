@@ -1,13 +1,15 @@
 import inquirer from 'inquirer';
-import { exec, rm } from 'shelljs';
+import rimraf from 'rimraf';
+import { execSync as exec } from 'child_process';
 import { Log, installModules } from '../utils';
 
 
 function resetMeteor() {
   Log.info('\nResetting the database...');
-  const { code } = exec('meteor reset');
 
-  if (code !== 0) {
+  try {
+    exec('meteor reset', { stdio: 'inherit' });
+  } catch (err) {
     Log.error('Database reset failed');
     process.exit(1);
   }
@@ -17,10 +19,11 @@ function resetMeteor() {
 
 function resetNpm() {
   Log.info('\nDeleting node_modules...');
-  rm('-rf', 'node_modules');
-  Log.info('\nReinstalling node_modules...');
-  installModules();
-  Log.success('Done!\n');
+  rimraf('node_modules', () => {
+    Log.info('\nReinstalling node_modules...');
+    installModules();
+    Log.success('Done!\n');
+  });
 }
 
 export function reset(yargs) {

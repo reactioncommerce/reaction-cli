@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { exec } from 'shelljs';
-import { Log, exists, loadPlugins, loadStyles, checkForReactionUpdate, setRegistryEnv } from '../utils';
+import { execSync as exec } from 'child_process';
+import { Log, exists, loadPlugins, loadStyles, checkForReactionUpdate, setRegistryEnv, provisionAssets } from '../utils';
 
 export async function run(yargs) {
   Log.args(yargs.argv);
@@ -24,19 +24,10 @@ export async function run(yargs) {
   if (!!commands.length && commands[0] === 'debug') {
     cmd += ' debug';
   }
-
-  const devSettings = 'settings/dev.settings.json';
-  const prodSettings = 'settings/settings.json';
-
+  
   if (args.settings) {
     Log.info(`\nUsing settings file at ${Log.magenta(args.settings)}\n`);
     cmd += ` --settings ${args.settings}`;
-  } else if (exists(prodSettings)) {
-    Log.info(`\nUsing settings file at ${Log.magenta(prodSettings)}\n`);
-    cmd += ` --settings ${prodSettings}`;
-  } else if (exists(devSettings)) {
-    Log.info(`\nUsing settings file at ${Log.magenta(devSettings)}\n`);
-    cmd += ` --settings ${devSettings}`;
   }
 
   _.forEach(_.omit(args, ['settings', 's', 'registry', 'r', 'raw-logs', 'rawLogs']), (val, key) => {
@@ -64,5 +55,14 @@ export async function run(yargs) {
   Log.info('Setting up style imports...\n');
   loadStyles();
 
-  exec(cmd, { maxBuffer: 1024 * 1000 });
+  Log.info('Provisioning assets...\n');
+  provisionAssets();
+
+  try {
+    exec(cmd, { stdio: 'inherit' });
+  } catch (err) {
+    Log.default(err);
+    Log.error('\nError: App failed to start');
+    process.exit(1);
+  }
 }

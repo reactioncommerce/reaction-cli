@@ -1,26 +1,17 @@
 import os from 'os';
+import { execSync as exec } from 'child_process';
 import _ from 'lodash';
 import chalk from 'chalk';
-import { exec } from 'shelljs';
-import { Log, loadPlugins, loadStyles } from '../utils';
+import { Log, loadPlugins, loadStyles, getJSONFromFile } from '../utils';
 
-export function test(yargs) {
-  Log.args(yargs.argv);
-
-  const args = _.omit(yargs.argv, ['_', '$0']);
-
-  Log.info('Setting up plugin imports...\n');
-  loadPlugins();
-
-  Log.info('Setting up style imports...\n');
-  loadStyles();
-
+function runTestsManually(yargs) {
   let cmd = 'meteor test';
 
+  const args = _.omit(yargs.argv, ['_', '$0']);
   const subCommands = yargs.argv._;
-  const testArgs = _.pickBy(_.omit(args, '$0'), (val) => val !== false);
+  const testArgs = _.pickBy(args, (val) => val !== false);
   const hasArgs = Object.keys(testArgs).length > 0;
-  const onlyHasPort = Object.keys(testArgs).length === 1 && !!testArgs.p || !!testArgs.port;
+  const onlyHasPort = Object.keys(testArgs).length === 1 && !!testArgs.port;
 
   if (hasArgs && !onlyHasPort) {
     _.forEach(testArgs, (val, key) => {
@@ -47,8 +38,43 @@ export function test(yargs) {
 
   Log.info(chalk.green(' ' + cmd + '\n'));
 
-  if (exec(cmd).code !== 0) {
-    Log.error('Tests failed.');
+  try {
+    exec(cmd, { stdio: 'inherit' });
+  } catch (err) {
+    Log.error('\nTests failed.');
     process.exit(1);
+  }
+}
+
+function runNpmTestCommand() {
+  try {
+    exec('npm test', { stdio: 'inherit' });
+  } catch (err) {
+    Log.error('\nTests failed.');
+    process.exit(1);
+  }
+}
+
+export function test(yargs) {
+  Log.args(yargs.argv);
+
+  Log.info('Setting up plugin imports...\n');
+  loadPlugins();
+
+  Log.info('Setting up style imports...\n');
+  loadStyles();
+
+  const { scripts } = getJSONFromFile('./package.json');
+
+  // We want to run the "test" NPM script if it exists, but in versions of Reaction
+  // prior to this change, "test" WAS present with the value "jest". So if it's present
+  // with that exact value, then we'll keep the original behavior. After some time,
+  // this logic can be removed and simply blindly pass through to `npm test` after
+  // doing initial setup.
+  if (scripts && scripts.test && scripts.test !== 'jest') {
+    runNpmTestCommand();
+  } else {
+    // Backwards compatibility
+    runTestsManually(yargs);
   }
 }

@@ -1,8 +1,9 @@
 import fs from 'fs-extra';
 import path from 'path';
+import os from 'os';
 import uuid from 'uuid';
 import _ from 'lodash';
-import { getUserHome, exists, isEmptyOrMissing } from './fs';
+import { exists, isEmptyOrMissing } from './fs';
 import checkIfInReactionDir from './check_app';
 import Log from './logger';
 
@@ -10,7 +11,7 @@ import Log from './logger';
 /**
  * Default Configs
  */
-const userHome = getUserHome();
+const userHome = os.homedir();
 const globalConfigDir = path.resolve(`${userHome}/.reaction`);
 const localConfigDir = path.resolve('.reaction/');
 const idFile = path.resolve(`${userHome}/.reaction/.id`);
@@ -51,10 +52,16 @@ export function initGlobalConfig() {
 
   if (isEmptyOrMissing(idFile)) {
     try {
-      fs.writeJSONSync(idFile, { id: uuid.v1() });
+      fs.writeJSONSync(idFile, { id: uuid.v1(), since: Date.now() });
     } catch (error) {
       Log.error('Error creating Reaction CLI configs');
       process.exit(1);
+    }
+  } else {
+    const idFileContent = fs.readJsonSync(idFile);
+
+    if (!idFileContent.since) {
+      fs.writeJsonSync(idFile, { ...idFileContent, since: Date.now() });
     }
   }
 
@@ -111,7 +118,7 @@ export function getUserId() {
   try {
     return fs.readJSONSync(idFile).id;
   } catch (error) {
-    Log.error(`Error reading Reaction config file: ${Log.magenta(config)}`);
+    Log.error(`Error reading Reaction config file: ${Log.magenta(idFile)}`);
     process.exit(1);
   }
 }

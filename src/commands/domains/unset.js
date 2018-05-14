@@ -3,7 +3,7 @@ import appsList from '../apps/list';
 import { Config, GraphQL, Log } from '../../utils';
 
 
-export default async function domainRemove({ name, domain }) {
+export default async function domainUnset({ name }) {
 
   const apps = Config.get('global', 'launchdock.apps', []);
   const app = _.filter(apps, (a) => a.name === name)[0];
@@ -15,17 +15,12 @@ export default async function domainRemove({ name, domain }) {
   const gql = new GraphQL();
 
   const result = await gql.fetch(`
-    mutation domainRemove($appId: ID! $domain: String!) {
-      domainRemove(appId: $appId, domain: $domain) {
-        _id
+    mutation domainUnset($appId: ID!) {
+      domainUnset(appId: $appId) {
         name
-        image
-        domains
-        deploymentId
-        defaultUrl
       }
     }
-  `, { appId: app._id, domain });
+  `, { appId: app._id });
 
   if (!!result.errors) {
     result.errors.forEach((err) => {
@@ -34,9 +29,9 @@ export default async function domainRemove({ name, domain }) {
     process.exit(1);
   }
 
-  Log.info(`\nRemoved domain ${Log.magenta(domain)} from app ${Log.magenta(result.data.domainRemove.name)}\n`);
+  Log.info(`\nRemoved the custom domain name from app ${Log.magenta(result.data.domainUnset.name)}\n`);
 
   await appsList();
 
-  return result.data.domainRemove;
+  return result.data.domainUnset;
 }

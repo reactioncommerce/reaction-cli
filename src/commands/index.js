@@ -1,3 +1,4 @@
+export * from './account';
 export * from './apps';
 export * from './build';
 export * from './config';
@@ -7,6 +8,8 @@ export * from './env';
 export * from './init';
 export * from './keys';
 export * from './login';
+export * from './logout';
+export * from './logs';
 export * from './pull';
 export * from './open';
 export * from './plugins';

@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import Log from './logger';
 
@@ -101,13 +101,4 @@ export function getStringFromFile(file) {
     Log.error(error, `Error reading file: ${Log.magenta(file)}`);
     process.exit(1);
   }
-}
-
-
-/**
- * Get the path to the current user's home directory
- * @return {String} path to user's home dir
- */
-export function getUserHome() {
-  return process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'];
 }

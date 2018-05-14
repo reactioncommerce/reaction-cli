@@ -1,4 +1,4 @@
-import { exec } from 'shelljs';
+import { execSync as exec } from 'child_process';
 import { exists, Log, initInstallModules } from '../utils';
 
 export function init(argv) {
@@ -6,7 +6,7 @@ export function init(argv) {
 
   const repoUrl = 'https://github.com/reactioncommerce/reaction';
   const dirName = argv._[1] || 'reaction';
-  const branch = argv.branch;
+  const { branch, tag } = argv;
 
   if (exists(dirName)) {
     Log.warn(`\nDirectory '${dirName}' already exists.`);
@@ -14,14 +14,27 @@ export function init(argv) {
     process.exit(1);
   }
 
-  Log.info(`\nCloning the ${branch} branch of Reaction from Github...`);
+  Log.info(`\nCloning the ${branch} branch of Reaction from Github...\n`);
 
-  if (exec(`git clone -b ${branch} ${repoUrl} ${dirName}`).code !== 0) {
+  try {
+    exec(`git clone -b ${branch} ${repoUrl} ${dirName}`, { stdio: 'inherit' });
+  } catch (err) {
     Log.error('\nError: Unable to clone from Github. Exiting.');
     process.exit(1);
   }
 
-  Log.info('\nInstalling NPM packages...');
+  if (tag) {
+    Log.info(`\nChecking out tag ${tag}...\n`);
+
+    try {
+      exec(`cd ${dirName} && git checkout tags/${tag} -b ${tag}`, { stdio: 'inherit' });
+    } catch (err) {
+      Log.error('\nError: Failed to checkout tag. Are you sure it exists?');
+      process.exit(1);
+    }
+  }
+
+  Log.info('\nInstalling NPM packages...\n');
   initInstallModules(dirName);
 
   Log.success('\nReaction successfully installed!');

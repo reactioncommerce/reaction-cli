@@ -85,6 +85,7 @@
     "dot-notation": [2, { // http://eslint.org/docs/rules/dot-notation
       "allowKeywords": true
     }],
+    "no-undef": 2,
     "eqeqeq": 2, // http://eslint.org/docs/rules/eqeqeq
     "guard-for-in": 2, // http://eslint.org/docs/rules/guard-for-in
     "no-caller": 2, // http://eslint.org/docs/rules/no-caller

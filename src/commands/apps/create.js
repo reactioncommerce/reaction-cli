@@ -1,18 +1,27 @@
-import { exec } from 'shelljs';
+import { exec } from 'child_process';
 import { GraphQL, Log } from '../../utils';
 import listApps from './list';
 
 export default async function appCreate({ name, env, remote }) {
+
+  if (!name.match('^[a-z0-9_-]*$')) {
+    Log.error('\nApp names may only contain lower case letters, digits, "_", and "-"\n');
+    process.exit(1);
+  }
+
   const gql = new GraphQL();
 
   const result = await gql.fetch(`
-    mutation appCreate($name: String!, $env: JSON ) {
+    mutation appCreate($name: String!, $env: JSON) {
       appCreate(name: $name, env: $env) {
         _id
         name
         defaultUrl
         git {
           ssh_url_to_repo
+        }
+        group {
+          namespace
         }
       }
     }
@@ -30,10 +39,20 @@ export default async function appCreate({ name, env, remote }) {
     Log.info(`To deploy this repo, run: ${Log.magenta(`reaction deploy --app ${name}`)}\n`);
 
     const gitRemote = result.data.appCreate.git.ssh_url_to_repo;
+    const namespace = result.data.appCreate.group.namespace;
+    const remoteName = `${namespace}-${name}`;
+    const remoteAddCommand = `git remote add ${remoteName} ${gitRemote}`;
 
-    if (exec(`git remote add launchdock-${name} ${gitRemote}`).code !== 0) {
-      Log.error('Failed to create git remote');
-      process.exit(1);
+    try {
+      exec(remoteAddCommand, { stdio: 'ignore' });
+    } catch (error) {
+      try {
+        exec(`git remote set-url ${remoteName} ${gitRemote}`, { stdio: 'ignore' });
+      } catch (err) {
+        Log.warn('Failed to add or update the git remote in your repo.');
+        Log.warn(`Please try adding it manually with: ${Log.magenta(remoteAddCommand)}`);
+        process.exit(1);
+      }
     }
   } else {
     Log.error('Sorry, deploying a prebuilt image is not available right now. Please contact support for more info.');

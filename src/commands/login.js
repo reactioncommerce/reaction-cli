@@ -1,7 +1,9 @@
+import os from 'os';
 import inquirer from 'inquirer';
-import { Config, GraphQL, Log } from '../utils';
+import { Config, GraphQL, Log, generateKeyPair, exists } from '../utils';
 import appsList from './apps/list';
 import keysList from './keys/list';
+import keyCreate from './keys/add';
 
 
 const helpMessage = `
@@ -32,7 +34,22 @@ function doLogin(user, pass) {
       Config.set('global', 'launchdock', { _id, username: user, email, token, tokenExpires });
 
       await appsList();
-      await keysList();
+
+      const keys = await keysList();
+      const homeDir = os.homedir();
+
+      let hasKey = false;
+
+      keys.forEach((k) => {
+        if (exists(`${homeDir}/.reaction/keys/${k.title}`)) {
+          hasKey = true;
+        }
+      });
+
+      if (keys.length === 0 || !hasKey) {
+        const keyPair = generateKeyPair({ email });
+        await keyCreate({ publicKey: keyPair.publicKey, title: keyPair.title });
+      }
 
       Log.success(`\nLogged in as ${user}\n`);
     })
