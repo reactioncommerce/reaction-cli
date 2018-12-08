@@ -30,7 +30,7 @@ export async function run(yargs) {
     cmd += ` --settings ${args.settings}`;
   }
 
-  _.forEach(_.omit(args, ['settings', 's', 'registry', 'r', 'raw-logs', 'rawLogs']), (val, key) => {
+  _.forEach(_.omit(args, ['settings', 's', 'registry', 'r', 'raw-logs', 'rawLogs', 'inspect-brk', 'inspectBrk']), (val, key) => {
     if (val) {
       const dash = key.length > 1 ? '--' : '-';
       if (val === true) {
@@ -43,6 +43,12 @@ export async function run(yargs) {
 
   if (args.registry) {
     setRegistryEnv(args.registry);
+  }
+
+  if (typeof args['inspect-brk'] === 'string' || typeof args.inspectBrk === 'string') {
+    cmd += ` --inspect-brk=${args['inspect-brk'] ? args['inspect-brk'] : args.inspectBrk}`;
+  } else if (args['inspect-brk'] === true || args.inspectBrk === true) {
+    cmd += ` --inspect-brk`;
   }
 
   cmd += ' --raw-logs';
