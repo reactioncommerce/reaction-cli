@@ -83,6 +83,24 @@ yarn run watch
 
 Keep in mind that if you previously installed `reaction-cli` from npm, you will need to uninstall it before that command will work.  This is because it runs `npm link` every time and that adds a symlink to the executable that goes in the same place as the npm install (which will throw an error).
 
+**Testing a pull request locally**
+
+If there's a pull request with a branch you want to manually test, follow these steps.
+
+- Clone the fork
+  - `git clone git@github.com:some-user/reaction-cli.git`
+  - `cd reaction-cli`
+- Check out their feature branch if necessary
+  - `git checkout some-branch`
+- Prepare the build
+  - `npm install`
+  - `npm run build`
+  - `chmod 755 dist/main.js`
+- Test in docker
+  - `cd` into your local `reaction` directory
+  - `docker-compose run --rm --volume ~/reaction-cli/dist/main.js:/usr/local/bin/reaction --publish 9229:9229 --publish 3000:3000 reaction`
+    - Adjust your path to the `reaction-cli` working directory as needed to match your local filesystem
+
 **Releasing**
 
 - checkout a branch for your release
