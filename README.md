@@ -53,6 +53,10 @@ $ reaction --help
   Options:
     -v, --version  Show app and CLI version numbers
     -h, --help     Show reaction-cli help
+    --inspect      Enable remote debugger
+                   --inspect=0.0.0.0:9229 to specify ip:port
+    --inspect-brk  Enable remote debugger and pause immediately
+                   --inspect-brk=0.0.0.0:9229 to specify ip:port
 ```
 
 Note: Commands marked with `*` require being logged into the managed platform. Learn more: https://reactioncommerce.com/features#get-a-demo
