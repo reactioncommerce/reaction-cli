@@ -83,6 +83,15 @@ yarn run watch
 
 Keep in mind that if you previously installed `reaction-cli` from npm, you will need to uninstall it before that command will work.  This is because it runs `npm link` every time and that adds a symlink to the executable that goes in the same place as the npm install (which will throw an error).
 
+**Releasing**
+
+- checkout a branch for your release
+- Run `npm version` with the appropriate semver release level
+  - This will also create a tag, and circleci will publish to npm based on that tag
+- commit the new version
+- Push your branch to github and open a pull request
+- After your PR is merged, circleci should publish to npm
+
 ## Tracking
 
 This app reports anonymous, aggregate usage data to help us improve and debug Reaction Commerce. View our [Privacy Policy](https://reactioncommerce.com/legal/privacy).
