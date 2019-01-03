@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import _ from 'lodash';
-import Table from 'cli-table2';
-import { Config, Log, getStringFromFile, ensureSSHKeysExist } from '../../utils';
+import Table from 'cli-table3';
+import { Log, getStringFromFile, ensureSSHKeysExist } from '../../utils';
 import appsList from './list';
 import appCreate from './create';
 import appDelete from './delete';

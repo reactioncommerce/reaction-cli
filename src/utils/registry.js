@@ -1,3 +1,4 @@
+import { Log } from '.';
 import fs from 'fs';
 
 export function setRegistryEnv(file) {

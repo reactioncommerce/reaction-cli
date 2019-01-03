@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { execSync as exec } from 'child_process';
-import { Log, exists, loadPlugins, loadStyles, checkForReactionUpdate, setRegistryEnv, provisionAssets } from '../utils';
+import { Log, loadPlugins, loadStyles, checkForReactionUpdate, setRegistryEnv, provisionAssets } from '../utils';
 
 export async function run(yargs) {
   Log.args(yargs.argv);
@@ -24,7 +24,7 @@ export async function run(yargs) {
   if (!!commands.length && commands[0] === 'debug') {
     cmd += ' debug';
   }
-  
+
   if (args.settings) {
     Log.info(`\nUsing settings file at ${Log.magenta(args.settings)}\n`);
     cmd += ` --settings ${args.settings}`;
