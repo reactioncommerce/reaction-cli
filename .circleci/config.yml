@@ -16,6 +16,7 @@ workflows:
   deploy_to_npm:
     jobs:
       - deploy:
+          context: reaction-publish-semantic-release
           filters:
             # only run deploy on tags with format: v1.2.3
             tags:
