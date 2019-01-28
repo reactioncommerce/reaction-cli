@@ -99,7 +99,7 @@ WORKDIR $APP_SOURCE_DIR
 COPY --chown=node . $APP_SOURCE_DIR
 
 RUN set -ex; \
-    cd package && yarn install \
+    yarn install \
       --frozen-lockfile \
       --ignore-scripts \
       --no-cache;
