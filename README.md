@@ -1,5 +1,12 @@
 # reaction-cli
 
+## Deprecated as of Reaction 2.0
+
+In Reaction 2.0 we no longer use the `reaction-cli` npm package. Key bits of this project have been incorporated directly back into the [reactioncommerce/reaction](https://github.com/reactioncommerce/reaction) repository.
+
+We don't anticipate further updates to this package. Please file new feature requests in the [Reaction Feature Requests](https://github.com/reactioncommerce/reaction-feature-requests) repository.
+
+## Overview
 A command line tool for [Reaction Commerce](https://reactioncommerce.com)
 
 [![bitHound Overall Score](https://www.bithound.io/github/reactioncommerce/reaction-cli/badges/score.svg)](https://www.bithound.io/github/reactioncommerce/reaction-cli)
